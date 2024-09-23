@@ -1,6 +1,6 @@
 import HttpClient from '../HttpClient'
 export const postAction = (url: string, body: any) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     HttpClient.post({
       url: url,
       data: body,
@@ -15,7 +15,7 @@ export const postAction = (url: string, body: any) => {
   })
 }
 export const postEmptyAction = (url: string, body: any) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     HttpClient.postEmpty({
       url: url,
       data: body,
@@ -30,7 +30,7 @@ export const postEmptyAction = (url: string, body: any) => {
   })
 }
 export const putAction = (url: string, body: any) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     HttpClient.put({
       url: url,
       data: body,
@@ -46,7 +46,7 @@ export const putAction = (url: string, body: any) => {
 }
 
 export const getAction = (url: string) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     HttpClient.get({
       url,
     })
@@ -61,7 +61,7 @@ export const getAction = (url: string) => {
 }
 
 export const deleteAction = (url: string) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     HttpClient.delete({
       url,
     })

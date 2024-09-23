@@ -4,7 +4,7 @@ const instancia = axios.create()
 /* instancia.CancelToken = axios.CancelToken
 instancia.isCancel = axios.isCancel */
 export const getAction = (url: string) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     instancia
       .get(url)
       .then((response) => {
@@ -17,7 +17,7 @@ export const getAction = (url: string) => {
   })
 }
 export const postAction = (url: string, body: any) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     instancia
       .post(
         url,
@@ -33,7 +33,7 @@ export const postAction = (url: string, body: any) => {
   })
 }
 export const putAction = (axiosRequestConfig: AxiosRequestConfig) => {
-  return new Promise((resolve, eject) => {
+  return new Promise((resolve) => {
     instancia
       .put(axiosRequestConfig.url!, axiosRequestConfig.data)
       .then((response) => {

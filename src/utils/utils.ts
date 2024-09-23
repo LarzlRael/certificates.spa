@@ -8,8 +8,8 @@ export const validateStatus = (status: any) => {
 }
 
 export function processDrag(list: any[]) {
-  let aux: { id: string; content: any }[] = []
-  /* if (validateArray(list)) {
+ /*  let aux: { id: string; content: any }[] = []
+  if (validateArray(list)) {
     list
       .sort((a, b) => a[order] - b[order])
       .forEach((element: any) => {
