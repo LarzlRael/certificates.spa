@@ -1,18 +1,25 @@
 import HttpClient from '../HttpClient'
-export const postAction = (url: string, body: any) => {
-  return new Promise((resolve) => {
-    HttpClient.post({
+export const postAction = async (
+  url: string,
+  body: any,
+): Promise<{ status: number; data?: any }> => {
+  try {
+    const response = await HttpClient.post({
       url: url,
       data: body,
     })
-      .then((response) => {
-        resolve(response)
-      })
-      .catch((error) => {
-        console.log(error)
-        resolve(error.response)
-      })
-  })
+
+    return {
+      status: response.status, // Suponiendo que `response` tiene una propiedad `status`
+      data: response.data, // Suponiendo que `response` tiene una propiedad `data`
+    }
+  } catch (error: any) {
+    // Manejo de errores, puedes ajustar esto según tus necesidades
+    return {
+      status: error.response?.status || 500, // Retorna el status del error o 500 si no hay respuesta
+      data: error.response?.data || null, // Retorna los datos del error o null
+    }
+  }
 }
 export const postEmptyAction = (url: string, body: any) => {
   return new Promise((resolve) => {
