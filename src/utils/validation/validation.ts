@@ -1,4 +1,4 @@
-export const validateArray = (dataArray: any[]): boolean => {
+export const isArrayValid = (dataArray: any[]): boolean => {
   return Array.isArray(dataArray) && dataArray.length > 0;
 };
 

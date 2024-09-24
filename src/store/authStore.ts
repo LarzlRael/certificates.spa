@@ -39,7 +39,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       window.localStorage.setItem('token', get().user?.accessToken ?? '')
     }
   },
-  logout: () => null,
+  logout: () => {
+    window.localStorage.removeItem('token')
+    set(() => ({
+      authStatus: AuthStatus.UNAUTHENTICATED,
+      user: null,
+    }))
+  },
   refreshToken: async () => {
     const getUserLogging = await getAuthAction<UserAuth>('auth/renew-token')
 
@@ -55,6 +61,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       user: getUserLogging.data,
       authStatus: AuthStatus.AUTHENTICATED,
     }))
-    window.localStorage.setItem('token', get().user?.accessToken ?? '')
+    window.localStorage.setItem('token', get().user!.accessToken )
   },
 }))

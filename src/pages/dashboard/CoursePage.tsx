@@ -1,16 +1,22 @@
 import useAxios from '@/hooks/useAxios'
+import { useNavigate } from 'react-router-dom'
+
+import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+
 import { CoursesDetailModel } from './interfaces/course.interface'
-import { useNavigate, useNavigation } from 'react-router-dom'
+import { CourseCard } from '@/custom_components/cards/CourseCard'
 
 export const CoursePage = () => {
   const navigate = useNavigate()
-  const { response, loading, reload } = useAxios<CoursesDetailModel[]>({
+  const { data, isLoading, reload } = useAxiosQueryAuth<CoursesDetailModel[]>({
     url: '/course',
   })
   return (
-    <div>
-      {loading && <h1>Loading...</h1>}
-      {response?.map((course) => {
+    <div 
+    /* className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" */
+    >
+      {isLoading && <h1>Loading...</h1>}
+      {data?.map((course) => {
         return (
           /* add card style with twilwing */
           <div
@@ -21,7 +27,8 @@ export const CoursePage = () => {
               navigate(`/dashboard/cursos/${course.id}`)
             }}
           >
-            <h1>{course.courseName}</h1>
+            <CourseCard {...course} />
+            {/* <h1>{course.courseName}</h1>
             <p>{course.courseDescription}</p>
             <p>{course.coursePrice}</p>
             <p>{course.duration}</p>
@@ -47,7 +54,8 @@ export const CoursePage = () => {
                   </p>
                 </div>
               )
-            })}
+            })} */}
+            <CourseCard />
           </div>
         )
       })}
