@@ -51,21 +51,20 @@ export const putAction = (url: string, body: any) => {
       })
   })
 }
+export const getAuthAction = async <T>(url: string): Promise<{ status: number; data?: T }> => {
+  try {
+    const response = await HttpClient.get({ url });
+    return { status: response.status, data: response.data as T };
+  } catch (error: any) {
+    const status = error.response?.status || 500;
+    const data = error.response?.data || { message: 'An unknown error occurred' };
+    console.error('Error fetching data:', error);
 
-export const getAction = (url: string) => {
-  return new Promise((resolve) => {
-    HttpClient.get({
-      url,
-    })
-      .then((response) => {
-        resolve(response)
-      })
-      .catch((error) => {
-        console.log(error.response)
-        resolve(error.response)
-      })
-  })
-}
+    return { status, data: data as T };
+  }
+};
+
+
 
 export const deleteAction = (url: string) => {
   return new Promise((resolve) => {

@@ -1,12 +1,15 @@
 import { UserAuth } from '@/interfaces/auth.interface'
-import { getAction, postAction } from '@/provider/action/ActionAuthorization'
+import {
+  getAuthAction,
+  postAction,
+} from '@/provider/action/ActionAuthorization'
 import { validateStatus } from '@/utils/utils'
 import { create } from 'zustand'
 
-enum AuthStatus {
-  AUTHENTICATED,
-  UNAUTHENTICATED,
-  CHECKING,
+export enum AuthStatus {
+  AUTHENTICATED = 'AUTHENTICATED',
+  UNAUTHENTICATED = 'UNAUTHENTICATED',
+  CHECKING = 'CHECKING',
 }
 
 interface AuthState {
@@ -38,14 +41,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
   logout: () => null,
   refreshToken: async () => {
-    /* const getUserLogging = await getAction('auth/renew-token')
-    console.log(getUserLogging)
-    if (validateStatus(getUserLogging!.status)) {
-      console.log('login')
+    const getUserLogging = await getAuthAction<UserAuth>('auth/renew-token')
+
+    if (!validateStatus(getUserLogging!.status)) {
       set(() => ({
-        user: getUserLogging.data,
+        authStatus: AuthStatus.UNAUTHENTICATED,
+        user: null,
       }))
-      console.log(get().user)
-    } */
+      return
+    }
+
+    set(() => ({
+      user: getUserLogging.data,
+      authStatus: AuthStatus.AUTHENTICATED,
+    }))
+    window.localStorage.setItem('token', get().user?.accessToken ?? '')
   },
 }))
