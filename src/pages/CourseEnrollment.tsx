@@ -1,44 +1,36 @@
-import { useParams } from 'react-router-dom'
-import useAxios from '../hooks/useAxios'
+import { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+
+import { convertToSlug } from '@/utils/text-utils'
+import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+import { CourseEnrollInterface } from './dashboard/interfaces/course-enroll.interface'
 
 export const CourseEnrollment = () => {
-  //get param idCourse
-  const params = useParams()
-  const { response, loading } = useAxios<any>({
+  const params = useParams<{ idCourse: string; courseName?: string }>()
+  const navigate = useNavigate()
+
+  const { data, isLoading } = useAxiosQueryAuth<CourseEnrollInterface>({
     url: `/course/course-detail/${params.idCourse}`,
     method: 'GET',
   })
-  const { response: form, loading: loadingForm } = useAxios<any>({
-    url: `/course/fields-course-by-id/${params.idCourse}`,
-    method: 'GET',
-  })
+
+  // Usamos useEffect para redirigir una vez que obtengamos el nombre del curso
+  useEffect(() => {
+    if (data && data.courseName && !params.courseName) {
+      // Redirige a la nueva URL que contiene el courseName y el idCourse
+      const newUrl = `/inscripcion/${convertToSlug(data.courseName)}/${params.idCourse}`
+      navigate(newUrl, { replace: true }) // Reemplaza para no guardar la URL anterior en el historial
+    }
+  }, [data, params, navigate])
+
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <h1>Cargando...</h1>
       ) : (
         <div>
-          <h1>{response?.courseName}</h1>
-          <p>{response?.courseDescription}</p>
-          <h2>Formulario de inscripción</h2>
-          {loadingForm ? (
-            <h1>Cargando...</h1>
-          ) : (
-            <form>
-              {form.form?.fields?.map((field: any) => (
-                <div key={field.id}>
-                  <label htmlFor={field.name}>{field.label}</label>
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    required={field.required}
-                  />
-                </div>
-              ))}
-              <button type="submit">Enviar</button>
-            </form>
-          )}
+          <h1>{data?.courseName}</h1>
+          <p>{data?.courseDescription}</p>
         </div>
       )}
     </div>

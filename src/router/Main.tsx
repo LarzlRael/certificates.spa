@@ -10,7 +10,7 @@ import {
   CourseEnrollment,
   EnrollmentByCourse,
 } from '@/pages/dashboard'
-import DashboardLayout from '@/custom_components/layout'
+import DashboardLayout from '@/custom_components/layout/DashboardLayout'
 import { PrivateRoutes } from './PrivateRoutes'
 
 /* Make the router  */
@@ -23,6 +23,7 @@ export const Main = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/olvide-mi-contraseña" element={<ForgotPasswordPage />} />
         <Route path="/inscripcion/:idCourse" element={<CourseEnrollment />} />
+        <Route path="/inscripcion/:courseName/:idCourse" element={<CourseEnrollment />} />
 
         <Route
           path="dashboard"

@@ -1,3 +1,4 @@
+import { googleLogout } from '@react-oauth/google';
 import { UserAuth } from '@/interfaces/auth.interface'
 import {
   getAuthAction,
@@ -41,6 +42,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
   logout: () => {
     window.localStorage.removeItem('token')
+    googleLogout();
     set(() => ({
       authStatus: AuthStatus.UNAUTHENTICATED,
       user: null,

@@ -13,15 +13,19 @@ interface PasswordFieldProps {
   isLoading: boolean
   label: string
   fieldName: string
+  placeholder?: string
+  isPasswordField?: boolean
 }
 
-export const PasswordField = ({
+export const FormCustomField = ({
   control,
   isLoading,
   label,
   fieldName,
+  placeholder,
+  isPasswordField = false,
 }: PasswordFieldProps) => {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(!isPasswordField)
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -42,20 +46,23 @@ export const PasswordField = ({
                 disabled={isLoading}
                 className="block w-full pr-10 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-left"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Ingrese su contraseña"
+                placeholder={placeholder}
                 {...field}
               />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 flex items-center pr-3"
-                onClick={togglePasswordVisibility}
-              >
-                {!showPassword ? (
-                  <FaRegEyeSlash className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <FaRegEye className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
+
+              {isPasswordField && (
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  onClick={togglePasswordVisibility}
+                >
+                  {!showPassword ? (
+                    <FaRegEyeSlash className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <FaRegEye className="h-5 w-5 text-gray-500" />
+                  )}
+                </button>
+              )}
             </div>
           </FormControl>
           <FormMessage />

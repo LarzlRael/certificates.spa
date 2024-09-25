@@ -1,23 +1,36 @@
 import { Link, Outlet } from 'react-router-dom'
-import { webName } from '../constants/web-constants'
-
+import { webName } from '../../constants/web-constants'
+import { AuthStatus, useAuthStore } from '@/store/authStore'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 interface LinkButton {
   name: string
   href: string
   onClick?: () => void
 }
-const links: LinkButton[] = [
-  { name: 'cursos', href: 'cursos' },
-  { name: 'estudiantes', href: 'estudiantes' },
-  { name: 'notificaciones', href: 'notificaciones' },
-  {
-    name: 'cerrar sesion',
-    href: 'cerrar',
-    onClick: () => console.log('cerrar sesion'),
-  },
-]
 
 export default function DashboardLayout() {
+  const { logout } = useAuthStore()
+  const { authStatus } = useAuthStore()
+  const navigate = useNavigate()
+  const links: LinkButton[] = [
+    { name: 'Cursos', href: 'cursos' },
+    { name: 'Estudiantes', href: 'estudiantes' },
+    { name: 'Notificaciones', href: 'notificaciones' },
+    {
+      name: 'Cerrar sesion',
+      href: 'Cerrar',
+      onClick: logout,
+    },
+  ]
+  useEffect(() => {
+    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+      logout()
+      navigate('/login')
+    }
+  }, [authStatus])
+
+  
   return (
     <>
       <nav className="bg-white border-b border-gray-200 fixed z-30 w-full">

@@ -15,6 +15,9 @@ export interface UserStudent {
   firstName:       null | string;
   lastName:        null | string;
   profileImageUrl: null | string;
+  email:           null | string;
+  address:         null | string;
+  createdAt:       string;
 }
 
 // Converts JSON strings to/from your types

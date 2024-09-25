@@ -2,6 +2,9 @@ import { Button } from '@/components/ui/button'
 import { UserStudent } from '@/pages/dashboard/interfaces/students.interface'
 import { ColumnDef, SortDirection } from '@tanstack/react-table'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
+import { Checkbox } from '@/components/ui/checkbox'
+import { isValidString } from '@/utils/validation/validation'
+import { formatDate } from '@/utils/dates'
 
 const SortedIcon = ({ isSorted }: { isSorted: SortDirection | false }) => {
   if (isSorted === 'asc') {
@@ -15,8 +18,43 @@ const SortedIcon = ({ isSorted }: { isSorted: SortDirection | false }) => {
 
 export const columns: ColumnDef<UserStudent>[] = [
   {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'id',
     header: 'ID',
+  },
+  {
+    accessorKey: 'profileImageUrl',
+    header: 'Imagen',
+    cell: (row) => {
+      const imageUrl = row.getValue('profileImageUrl')
+
+      return isValidString(imageUrl) ? (
+        <img src={imageUrl} alt="profile" className="h-10 w-10 rounded-full" />
+      ) : (
+        <label>NN</label>
+      )
+    },
   },
   {
     accessorKey: 'email',
@@ -34,7 +72,7 @@ export const columns: ColumnDef<UserStudent>[] = [
   },
   {
     accessorKey: 'username',
-    
+
     header: ({ column }) => {
       return (
         <Button
@@ -76,18 +114,25 @@ export const columns: ColumnDef<UserStudent>[] = [
     },
   },
   {
-    accessorKey: 'phone',
-    header: 'Teléfono',
-  },
-  {
-    accessorKey: 'profileImageUrl',
-    header: 'Imagen de perfil',
+    accessorKey: 'createdAt',
+    header: 'Creado en',
     cell: (row) => {
-      const imageUrl = row.getValue('profileImageUrl')
-      return (
-        <img src={imageUrl} alt="profile" className="h-10 w-10 rounded-full" />
+      const getDate = row.getValue('createdAt')
+
+      return isValidString(getDate) ? (
+        <label>{formatDate(getDate)}</label>
+      ) : (
+        <label>NN</label>
       )
     },
+  },
+  {
+    accessorKey: 'address',
+    header: 'Dirección',
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Teléfono',
   },
 ]
 

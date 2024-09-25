@@ -24,8 +24,8 @@ import { UserAuth } from '@/interfaces/auth.interface'
 import {
   LabelClickable,
   LabelTitleSubTitleClickable,
-} from '@/custom-components/display-text'
-import { PasswordField } from '@/custom_components/forms/FormCustomField'
+} from '@/custom_components/display-text'
+import { FormCustomField } from '@/custom_components/forms/FormCustomField'
 
 const formSchema = z
   .object({
@@ -127,59 +127,36 @@ export const RegisterPage = () => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
+            <FormCustomField
+              isLoading={isLoading}
               control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                    Username
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      disabled={isLoading}
-                      placeholder="Usuario"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              fieldName="username"
+              label="Nombre de usuario"
+              placeholder="Nombre de usuario"
             />
-            <FormField
+            <FormCustomField
+              isLoading={isLoading}
               control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                    Correo electrónico
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      disabled={isLoading}
-                      placeholder="Correo electrónico"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              fieldName="email"
+              label="Correo electronico"
+              placeholder="Correo electronico"
             />
-            <PasswordField
+
+            <FormCustomField
               isLoading={isLoading}
               control={form.control}
               fieldName="password"
               label="contraseña"
+              isPasswordField
+              placeholder="Contraseña"
             />
-            <PasswordField
+            <FormCustomField
               isLoading={isLoading}
               control={form.control}
               fieldName="confirmPassword"
+              isPasswordField
               label="Confirmar contraseña"
+              placeholder="Repetir contraseña"
             />
 
             {/* <FormField
@@ -206,7 +183,7 @@ export const RegisterPage = () => {
             /> */}
 
             <Button
-              className="flex w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+              className="flex w-full justify-center rounded-full bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600
               "
               disabled={isLoading}
               type="submit"
