@@ -1,8 +1,7 @@
-import useAxios from '@/hooks/useAxios'
-import React from 'react'
+import { DataTable } from '@/custom_components/data-table/DataTable'
 import { Student } from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
-
+import { columns } from '@/custom_components/data-table/Columns'
 
 export const StudentsPage = () => {
   const { data, loading, error, reload } = useAxiosQueryAuth<Student[]>({
@@ -11,8 +10,15 @@ export const StudentsPage = () => {
   })
   return (
     <div>
-      {loading && <h1>Loading...</h1>}
-      {JSON.stringify(data)}
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <DataTable
+          columns={columns}
+          
+          data={data?.map((student) => student.user) || []}
+        />
+      )}
     </div>
   )
 }

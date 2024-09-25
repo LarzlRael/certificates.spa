@@ -6,10 +6,10 @@
 
 export interface Student {
   id:   number;
-  user: User;
+  user: UserStudent;
 }
 
-export interface User {
+export interface UserStudent {
   id:              number;
   username:        null | string;
   firstName:       null | string;
