@@ -19,3 +19,18 @@ export function convertD(dateConv: Date | string, formatDate: string) {
   }
   return null
 }
+
+export function getDifferenceBetweenDates(startDate: Date, endDate: Date) {
+  const momentDate1 = moment(startDate)
+  const momentDate2 = moment(endDate)
+
+  const daysDifference = momentDate2.diff(momentDate1, 'days')
+  const monthsDifference = momentDate2.diff(momentDate1, 'months')
+
+  return {
+    startDate,
+    endDate,
+    days: Math.abs(daysDifference),    // Aseguramos que siempre sea positivo
+    months: Math.abs(monthsDifference), // Diferencia absoluta
+  }
+}

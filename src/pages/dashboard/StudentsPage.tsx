@@ -1,14 +1,29 @@
+import { useState, useEffect } from 'react'
 import { DataTable } from '@/custom_components/data-table/DataTable'
-import { Student } from './interfaces/students.interface'
+import { Student, UserStudent } from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useThemeStore } from '@/store/themeStore'
 
 export const StudentsPage = () => {
   const { data, isLoading, error, reload } = useAxiosQueryAuth<Student[]>({
     url: `/students/find-students`,
     method: 'GET',
   })
+  const { changeInformationInfo } = useThemeStore()
+  const [selectedStudent, setSelectedStudent] = useState<UserStudent>(null)
+
+  useEffect(() => {
+    if (selectedStudent != null) {
+      changeInformationInfo(
+        <div>
+          <h1>{selectedStudent.username}</h1>
+          <p>{selectedStudent.email}</p>
+        </div>,
+      )
+    }
+  }, [selectedStudent])
   return (
     <div>
       {isLoading ? (
@@ -18,7 +33,7 @@ export const StudentsPage = () => {
           columns={columns}
           data={data?.map((student) => student.user) || []}
           handleInfo={(rowData) => {
-            console.log(rowData)
+            setSelectedStudent(rowData)
           }}
         />
       )}

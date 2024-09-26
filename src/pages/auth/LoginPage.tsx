@@ -3,16 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthStatus, useAuthStore } from '@/store/authStore'
@@ -26,6 +17,7 @@ import {
   LabelTitleSubTitleClickable,
 } from '@/custom_components/display-text'
 import { FormCustomField } from '@/custom_components/forms/FormCustomField'
+import { useMutationQuery } from '@/hooks/useMutationQuery'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -33,6 +25,12 @@ const formSchema = z.object({
   }),
   password: z.string().min(3),
 })
+
+interface UserAuthStatus {
+  status: number
+  data: UserAuth | null | undefined
+}
+
 export const LoginPage = () => {
   const navigate = useNavigate()
   const { refreshToken } = useAuthStore()
@@ -47,6 +45,7 @@ export const LoginPage = () => {
       password: '',
     },
   })
+
   const responseMessage = async (response) => {
     console.log(response)
     /* response.credential is the google key to send to server */
@@ -67,31 +66,54 @@ export const LoginPage = () => {
     console.log(error)
   }
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // ✅ This will be type-safe and validated.
-
-    setIsLoading(true)
-
-    const getUserLogging = await postAction<UserAuth>('auth/signin', {
+  
+  async function postUserLogin(
+    values: z.infer<typeof formSchema>,
+  ): Promise<UserAuthStatus> {
+    const dataResult = await postAction<UserAuth>('auth/signin', {
       username: values.username,
       password: values.password,
     })
-    setIsLoading(false)
-    if (validateStatus(getUserLogging!.status)) {
-      window.localStorage.setItem('token', getUserLogging!.data!.accessToken)
-      await refreshToken()
-      toast.success('Login success', { duration: 2500, position: 'top-right' })
-      return
+    return {
+      status: dataResult.status,
+      data: dataResult.data,
     }
-    toast.error('Usuario o contraseña invalidos', {
-      duration: 2500,
-      position: 'bottom-center',
-    })
   }
+
+  const { mutateAsync: loginUser, isPending } = useMutationQuery<
+    UserAuthStatus,
+    z.infer<typeof formSchema>
+  >({
+    mutationFn: postUserLogin,
+    onSuccess: async (getUserLogging) => {
+      if (validateStatus(getUserLogging.status)) {
+        window.localStorage.setItem('token', getUserLogging.data.accessToken)
+        await refreshToken()
+        toast.success('Login success', {
+          duration: 2500,
+          position: 'top-right',
+        })
+        return;
+      }
+
+      toast.error('Usuario o contraseña invalidos', {
+        duration: 2500,
+        position: 'bottom-center',
+      })
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(`Error al iniciar sesión: ${error.message}`, {
+        duration: 2500,
+        position: 'bottom-center',
+      })
+    },
+  })
+
   useEffect(() => {
     console.log(authStatus)
     if (authStatus == AuthStatus.AUTHENTICATED) {
-      navigate('/dashboard')
+      navigate('/panel-administrativo')
     }
   }, [authStatus])
 
@@ -115,16 +137,16 @@ export const LoginPage = () => {
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(loginUser)} className="space-y-8">
             <FormCustomField
-              isLoading={isLoading}
+              isLoading={isPending}
               control={form.control}
               fieldName="username"
               label="Nombre de usuario"
               placeholder="Usuario"
             />
             <FormCustomField
-              isLoading={isLoading}
+              isLoading={isPending}
               isPasswordField
               control={form.control}
               fieldName="password"
@@ -139,7 +161,7 @@ export const LoginPage = () => {
             </div>
             <Button
               className="flex w-full justify-center rounded-full bg-primary px-3 py-6 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
-              disabled={isLoading}
+              disabled={isPending}
               type="submit"
             >
               Submit

@@ -5,5 +5,7 @@ export { CourseEnrollment } from "../CourseEnrollment";
 
 export { NotificationsPage } from "./NotificationPage";
 export { StudentsPage } from "./StudentsPage";
+export { CreateCoursePage } from "./CreateCoursePage";
+
 
 

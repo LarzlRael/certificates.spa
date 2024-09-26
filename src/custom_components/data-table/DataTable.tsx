@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -68,12 +68,14 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
-
-  const handleRowClick = (rowData: TData) => {
-    setSelectedRowData(rowData)
+  useEffect(() => {
     if (handleInfo) {
       handleInfo(selectedRowData) // Llamar a la función pasada como prop
     }
+  }, [selectedRowData])
+  const handleRowClick = (rowData: TData) => {
+    setSelectedRowData(rowData)
+    
   }
 
   return (

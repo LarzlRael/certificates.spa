@@ -18,7 +18,9 @@ export const CourseEnrollment = () => {
   useEffect(() => {
     if (data && data.courseName && !params.courseName) {
       // Redirige a la nueva URL que contiene el courseName y el idCourse
-      const newUrl = `/inscripcion/${convertToSlug(data.courseName)}/${params.idCourse}`
+      const newUrl = `/inscripcion/${convertToSlug(data.courseName)}/${
+        params.idCourse
+      }`
       navigate(newUrl, { replace: true }) // Reemplaza para no guardar la URL anterior en el historial
     }
   }, [data, params, navigate])
@@ -31,6 +33,7 @@ export const CourseEnrollment = () => {
         <div>
           <h1>{data?.courseName}</h1>
           <p>{data?.courseDescription}</p>
+          
         </div>
       )}
     </div>
