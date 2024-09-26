@@ -37,3 +37,9 @@ export class Convert {
       return JSON.stringify(value);
   }
 }
+
+export interface DashBoardInitialInterface {
+  users:      string;
+  professors: string;
+  courses:    string;
+}

@@ -1,5 +1,5 @@
 import { CoursesDetailModel } from '@/pages/dashboard/interfaces/course.interface'
-import { isArrayValid } from '@/utils/validation/validation'
+import { isValidArray } from '@/utils/validation/validation'
 import { toCapitalize, toTitleCase } from '@/utils/text-utils'
 export const CourseCard = ({
   courseName,
@@ -36,7 +36,7 @@ export const CourseCard = ({
           <p className="text-gray-700 text-base">{courseDescription}</p>
         </div>
         <div className="flex items-center">
-          {!isArrayValid(professors)
+          {!isValidArray(professors)
             ? null
             : professors.map((professor) => (
                 <>

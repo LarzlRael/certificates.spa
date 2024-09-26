@@ -38,6 +38,7 @@ import {
   DollarSign,
 } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
+import { ExtraInformation } from './ExtraInformation'
 
 const estadisticasGenerales = [
   {
@@ -349,14 +350,15 @@ export const AdminDashboardEducativo2 = () => {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   const menuItems: MenuItems[] = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '' },
+    { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
     { icon: Users, label: 'Estudiantes', path: '/estudiantes' },
     { icon: Book, label: 'Cursos', path: '/cursos' },
     { icon: GraduationCap, label: 'Profesores', path: '/profesores' },
     { icon: FileText, label: 'Informes', path: '/informes' },
     { icon: DollarSign, label: 'Pagos', path: '/pagos' },
-    { icon: Settings, label: 'Configuración', path: '/configuracion' },
+    { icon: Settings, label: 'Configuración', path: '/configuraciones' },
   ]
+  const [selectedLabel, setSelectedLabel] = useState('Panel de Administración')
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -384,6 +386,7 @@ export const AdminDashboardEducativo2 = () => {
                 key={index}
                 to={`${rootPath}${item.path}`}
                 className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setSelectedLabel(item.label)}
               >
                 <item.icon className="mr-2 h-4 w-4" />
                 {item.label}
@@ -399,7 +402,27 @@ export const AdminDashboardEducativo2 = () => {
       </aside>
 
       {/* Contenido principal */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 py-8 px-8 overflow-y-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">{selectedLabel}</h1>
+          <div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
+              className="mr-2"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+            >
+              <Bell className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
         <Outlet />
       </main>
 
@@ -411,7 +434,7 @@ export const AdminDashboardEducativo2 = () => {
       >
         <h2 className="text-xl font-semibold mb-4">Notificaciones</h2>
         <div className="space-y-4">
-          {notificaciones.map((notificacion) => (
+          {/* {notificaciones.map((notificacion) => (
             <Card key={notificacion.id}>
               <CardHeader>
                 <CardTitle className="text-sm">{notificacion.titulo}</CardTitle>
@@ -423,7 +446,8 @@ export const AdminDashboardEducativo2 = () => {
                 <p className="text-sm">{notificacion.contenido}</p>
               </CardContent>
             </Card>
-          ))}
+          ))} */}
+          <ExtraInformation />
         </div>
       </aside>
     </div>

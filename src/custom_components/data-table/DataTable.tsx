@@ -75,14 +75,13 @@ export function DataTable<TData, TValue>({
   }, [selectedRowData])
   const handleRowClick = (rowData: TData) => {
     setSelectedRowData(rowData)
-    
   }
 
   return (
-    <div>
+    <div className="bg-white rounded-lg">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Buscar por email"
           value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
           onChange={(event) => {
             table.getColumn('email')?.setFilterValue(event.target.value)
@@ -148,7 +147,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No se encontraron resultados
                 </TableCell>
               </TableRow>
             )}
@@ -157,8 +156,8 @@ export function DataTable<TData, TValue>({
 
         <div>
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} de{' '}
+            {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
@@ -168,7 +167,7 @@ export function DataTable<TData, TValue>({
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              Previous
+              Anterior
             </Button>
             <Button
               variant="outline"
@@ -176,7 +175,7 @@ export function DataTable<TData, TValue>({
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              Next
+              Siguiente
             </Button>
           </div>
           <Select onValueChange={(value) => table.setPageSize(Number(value))}>
@@ -185,7 +184,7 @@ export function DataTable<TData, TValue>({
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Row per pages</SelectLabel>
+                <SelectLabel>Filas por página</SelectLabel>
 
                 {[10, 20, 30, 50].map((value) => (
                   <SelectItem key={value} value={value}>
