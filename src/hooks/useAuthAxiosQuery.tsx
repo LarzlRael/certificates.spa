@@ -38,6 +38,7 @@ const useAxiosQueryAuth = <T = unknown,>(axiosParams: AxiosRequestConfig) => {
     isLoading,
     isFetching,
     reload: refetch,
+    queryKey
   }
 }
 

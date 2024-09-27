@@ -18,6 +18,11 @@ import { Student } from './interfaces/enrollment-by-course-interface'
 import { DashBoardInitialInterface } from './interfaces/course.interface'
 import { Skeleton } from '@/components/ui/skeleton'
 import { InfoCardsSkeleton } from '@/custom_components/cards/Dashboards'
+import { LatestUpdatesInterface } from './interfaces/dashboard.interfaces'
+import {
+  LatestUpdateCards,
+  LatestUpdateListSkeleton,
+} from '@/custom_components/cards/LatestUpdateCard'
 
 const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
   return [
@@ -103,16 +108,26 @@ const notificaciones = [
 export const DashBoardHomePage = () => {
   const navigate = useNavigate()
   const { changeInformationInfo } = useThemeStore()
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<Student[]>({
+  const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
+    Student[]
+  >({
     url: `/students/find-students`,
     method: 'GET',
   })
-
+  console.log(queryKey)
   const {
     data: dataInitialInfo,
     isLoading: isLoadingInitialInfo,
   } = useAxiosQueryAuth<DashBoardInitialInterface>({
     url: `/users/get-dash-board-initial-info`,
+    method: 'GET',
+  })
+
+  const {
+    data: lastUpdated,
+    isLoading: isLoadinglastUpdated,
+  } = useAxiosQueryAuth<LatestUpdatesInterface[]>({
+    url: `/users/get-latest-updates`,
     method: 'GET',
   })
 
@@ -189,19 +204,13 @@ export const DashBoardHomePage = () => {
           <CardHeader>
             <CardTitle>Actividad Reciente</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ul className="space-y-4">
-              {actividadReciente.map((actividad) => (
-                <li key={actividad.id} className="bg-gray-50 p-3 rounded-lg">
-                  <p className="font-medium">{actividad.accion}</p>
-                  <p className="text-sm text-gray-600">{actividad.detalles}</p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {actividad.tiempo}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
+          {isLoadinglastUpdated ? (
+            <LatestUpdateListSkeleton />
+          ) : (
+            isValidArray(lastUpdated) && (
+              <LatestUpdateCards listElements={lastUpdated!} />
+            )
+          )}
         </Card>
       </div>
 
