@@ -1,4 +1,7 @@
-import { CoursesDetailModel } from '@/pages/dashboard/interfaces/course.interface'
+import {
+  CourseInfoInterface,
+  CoursesDetailModel,
+} from '@/pages/dashboard/interfaces/course.interface'
 import { isValidArray } from '@/utils/validation/validation'
 import { toCapitalize, toTitleCase } from '@/utils/text-utils'
 export const CourseCard = ({
@@ -62,5 +65,192 @@ export const CourseCard = ({
         </div>
       </div>
     </>
+  )
+}
+
+'use client'
+
+import { useState } from 'react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
+import {
+  MoreVertical,
+  Search,
+  BookOpen,
+  Users,
+  Clock,
+  Edit,
+  Trash2,
+} from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
+// Simulated course data
+const courses = [
+  {
+    id: 1,
+    title: 'Introducción a la Programación',
+    instructor: 'Dr. Ana García',
+    students: 120,
+    duration: '8 semanas',
+    status: 'Activo',
+  },
+  {
+    id: 2,
+    title: 'Diseño UX/UI Avanzado',
+    instructor: 'Prof. Carlos Rodríguez',
+    students: 85,
+    duration: '6 semanas',
+    status: 'Inactivo',
+  },
+  {
+    id: 3,
+    title: 'Machine Learning Fundamentals',
+    instructor: 'Dra. Laura Martínez',
+    students: 150,
+    duration: '10 semanas',
+    status: 'Activo',
+  },
+  {
+    id: 4,
+    title: 'Desarrollo Web Full Stack',
+    instructor: 'Dr. Javier López',
+    students: 100,
+    duration: '12 semanas',
+    status: 'Próximo',
+  },
+]
+
+interface CourseListProps {
+  courseInfo: CourseInfoInterface[]
+  onClick: (idCourse:number) => void
+}
+
+export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  /* const filteredCourses = courses.filter(
+    (course) =>
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.instructor.toLowerCase().includes(searchTerm.toLowerCase()),
+  ) */
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="flex justify-between items-center mb-6">
+        <div className="relative w-64">
+          <Input
+            type="text"
+            placeholder="Buscar cursos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
+        
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {courseInfo.map((course) => (
+          <Card key={course.id} className="flex flex-col">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {course.courseName}
+              </CardTitle>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Abrir menú</span>
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <Edit className="mr-2 h-4 w-4" />
+                    <span>Editar</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    <span>Eliminar</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center space-x-4 mb-2">
+                {course.professors.map((professor) => (
+                  <div className='flex flex-col space-y-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={professor.user.profileImageUrl} />
+                      <AvatarFallback>
+                        {professor.user.firstName
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {professor.professionalTitle} {professor.user.firstName}{' '}
+                        {professor.user.lastName}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Instructor
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <div className="flex items-center">
+                  <Users className="mr-1 h-4 w-4" />
+                  {course.formCount} estudiantes
+                </div>
+                <div className="flex items-center">
+                  <Clock className="mr-1 h-4 w-4" />
+                  {course.duration}
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Badge
+                variant={
+                  course.status === 'Activo'
+                    ? 'default'
+                    : course.status === 'Inactivo'
+                    ? 'secondary'
+                    : 'outline'
+                }
+              >
+                {course.status}
+              </Badge>
+              <Button 
+              onClick ={()=>onClick(course.id)}
+              variant="outline" size="sm">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Ver Detalles
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </div>
   )
 }

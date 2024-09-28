@@ -3,34 +3,40 @@ import { useNavigate } from 'react-router-dom'
 
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 
-import { CoursesDetailModel } from './interfaces/course.interface'
-import { CourseCard } from '@/custom_components/cards/CourseCard'
+import {
+  CourseInfoInterface,
+  CoursesDetailModel,
+} from './interfaces/course.interface'
+import { CourseCard, CourseList } from '@/custom_components/cards/CourseCard'
+import { Button } from '@/components/ui/button'
 
 export const CoursePage = () => {
   const navigate = useNavigate()
-  const { data, isLoading, reload } = useAxiosQueryAuth<CoursesDetailModel[]>({
-    url: '/course',
+  const { data, isLoading, error, reload } = useAxiosQueryAuth<
+    CourseInfoInterface[]
+  >({
+    url: `/course/course-info`,
+    method: 'GET',
   })
   return (
     <div
     /* className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" */
     >
-      {isLoading && <h1>Loading...</h1>}
-      {data?.map((course) => {
-        return (
-          /* add card style with twilwing */
-          <div
-            key={course.id}
-            className="hover:text-gray-400"
-            onClick={() => {
-              console.log(course)
-              navigate(`/panel-administrativo/cursos/${course.id}`)
-            }}
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          <Button
+            onClick={() => navigate('/panel-administrativo/cursos/crear-curso')}
           >
-            <CourseCard {...course} />
-          </div>
-        )
-      })}
+            Añadir Nuevo Curso
+          </Button>
+          <CourseList
+            courseInfo={data!}
+            onClick={(idCourse) => navigate(`/panel-administrativo/cursos/${idCourse}`)}
+          />
+        </div>
+      )}
     </div>
   )
 }

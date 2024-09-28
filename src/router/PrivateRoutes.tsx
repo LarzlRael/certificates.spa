@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 import { AuthStatus, useAuthStore } from '@/store/authStore'
+import { LoadingWithLogo } from '@/custom_components/loading/LoadingWithLogo'
 
 export const PrivateRoutes = ({ children }: any) => {
   const { authStatus } = useAuthStore()
@@ -15,7 +16,7 @@ export const PrivateRoutes = ({ children }: any) => {
     } */
   }, [authStatus])
 
-  if (authStatus === AuthStatus.CHECKING) return <div>Loading...</div>
+  if (authStatus === AuthStatus.CHECKING) return <LoadingWithLogo />
 
   if (authStatus === AuthStatus.UNAUTHENTICATED)
     return <Navigate to="/ingreso" />

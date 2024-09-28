@@ -6,7 +6,11 @@ import {
 } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
 
-import { LoginPage, RegisterPage, ForgotPasswordPage } from '@/pages/auth/'
+import {
+  LoginPageWithAuth,
+  RegisterPage,
+  ForgotPasswordPage,
+} from '@/pages/auth/'
 
 import {
   DashBoardHomePage,
@@ -24,9 +28,8 @@ import {
 import DashboardLayout from '@/custom_components/layout/DashboardLayout'
 import { PrivateRoutes } from './PrivateRoutes'
 import DashboardConSidebars from '@/custom_components/layout/DashboardLayout2'
-import AdminDashboardEducativo, {
-  AdminDashboardEducativo2,
-} from '@/custom_components/layout/DashboardLayout3'
+
+import { AdminDashboardEducativo2WithAuth } from '@/custom_components/layout/DashboardLayout3'
 
 /* Make the router  */
 export const Main = () => {
@@ -34,7 +37,7 @@ export const Main = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/ingreso" element={<LoginPage />} />
+        <Route path="/ingreso" element={<LoginPageWithAuth />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/olvide-mi-contraseña" element={<ForgotPasswordPage />} />
         <Route path="/inscripcion/:idCourse" element={<CourseEnrollment />} />
@@ -43,13 +46,13 @@ export const Main = () => {
           element={<CourseEnrollment />}
         />
         <Route path="/dash2" element={<DashboardConSidebars />} />
-        <Route path="/dash3" element={<AdminDashboardEducativo />} />
+        {/* <Route path="/dash3" element={<AdminDashboardEducativo />} /> */}
 
         <Route
           path="panel-administrativo"
           element={
             <PrivateRoutes>
-              <AdminDashboardEducativo2 />
+              <AdminDashboardEducativo2WithAuth />
             </PrivateRoutes>
           }
         >
@@ -70,7 +73,10 @@ export const Main = () => {
           <Route path="pagos" element={<PaymentsPage />} />
           <Route path="configuraciones" element={<SettingsPage />} />
           <Route path="notificaciones" element={<NotificationsPage />} />
-          <Route path="perfil-estudiante/:idStudent" element={<ProfileStudentPage />} />
+          <Route
+            path="perfil-estudiante/:idStudent"
+            element={<ProfileStudentPage />}
+          />
 
           <Route path="*" element={<Navigate to="inicio" />} />
         </Route>

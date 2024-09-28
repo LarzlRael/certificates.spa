@@ -43,3 +43,27 @@ export interface DashBoardInitialInterface {
   professors: string;
   courses:    string;
 }
+
+
+export interface CourseInfoInterface {
+  id:              number;
+  courseName:      string;
+  duration:        number;
+  imageUrl:        null | string;
+  virtualPlatform: null | string;
+  professors:      ProfessorCourseInfo[];
+  formCount:       number;
+}
+
+export interface ProfessorCourseInfo {
+  id:                number;
+  professionalTitle: string;
+  expertise:         string;
+  user:              UserProf;
+}
+
+export interface UserProf {
+  firstName:       string;
+  lastName:        string;
+  profileImageUrl: null | string;
+}

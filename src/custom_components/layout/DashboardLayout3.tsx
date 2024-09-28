@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -21,7 +21,6 @@ import { Input } from '@/components/ui/input'
   ResponsiveContainer,
 } from 'recharts' */
 import {
-  Bell,
   Book,
   Calendar,
   ChevronLeft,
@@ -36,9 +35,12 @@ import {
   Users,
   FileText,
   DollarSign,
+  Bell,
 } from 'lucide-react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { ExtraInformation } from './ExtraInformation'
+import { useAuthStore } from '@/store/authStore'
+import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 
 const estadisticasGenerales = [
   {
@@ -119,7 +121,7 @@ const notificaciones = [
   },
 ]
 
-export default function AdminDashboardEducativo() {
+export const AdminDashboardEducativo = () => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
@@ -345,9 +347,12 @@ interface MenuItems {
   path: string
 }
 const rootPath = '/panel-administrativo'
-export const AdminDashboardEducativo2 = () => {
+
+const AdminDashboardEducativo2 = ({ logout, authStatus }: WithAuthProps) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
+
+  const navigate = useNavigate()
 
   const menuItems: MenuItems[] = [
     { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
@@ -357,9 +362,14 @@ export const AdminDashboardEducativo2 = () => {
     { icon: FileText, label: 'Informes', path: '/informes' },
     { icon: DollarSign, label: 'Pagos', path: '/pagos' },
     { icon: Settings, label: 'Configuración', path: '/configuraciones' },
+    { icon: Bell, label: 'Notificaciones', path: '/notificaciones' },
   ]
   const [selectedLabel, setSelectedLabel] = useState('Panel de Administración')
-
+  useEffect(() => {
+    if (authStatus === 'UNAUTHENTICATED') {
+      navigate('/ingreso')
+    }
+  }, [authStatus])
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar izquierdo */}
@@ -395,7 +405,11 @@ export const AdminDashboardEducativo2 = () => {
           </div>
         </nav>
         <div className="absolute bottom-4">
-          <Button variant="ghost" className="w-full justify-start text-red-500">
+          <Button
+            onClick={logout}
+            variant="ghost"
+            className="w-full justify-start text-red-500"
+          >
             <LogOut className="mr-2 h-4 w-4" /> Cerrar sesión
           </Button>
         </div>
@@ -453,3 +467,7 @@ export const AdminDashboardEducativo2 = () => {
     </div>
   )
 }
+/* export const DashboardWithAuth = withAuth(AdminDashboardEducativo2) */
+
+/* export default withAuth(AdminDashboardEducativo2) */
+export const AdminDashboardEducativo2WithAuth = withAuth(AdminDashboardEducativo2)

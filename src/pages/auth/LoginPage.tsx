@@ -18,6 +18,7 @@ import {
 } from '@/custom_components/display-text'
 import { FormCustomField } from '@/custom_components/forms/FormCustomField'
 import { useMutationQuery } from '@/hooks/useMutationQuery'
+import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -31,10 +32,10 @@ interface UserAuthStatus {
   data: UserAuth | null | undefined
 }
 
-export const LoginPage = () => {
+const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
   const navigate = useNavigate()
-  const { refreshToken } = useAuthStore()
-  const authStatus = useAuthStore().authStatus
+  /* const { refreshToken } = useAuthStore()
+  const authStatus = useAuthStore().authStatus */
 
   const [isLoading, setIsLoading] = useState(false)
   // 1 - define the form
@@ -66,7 +67,6 @@ export const LoginPage = () => {
     console.log(error)
   }
 
-  
   async function postUserLogin(
     values: z.infer<typeof formSchema>,
   ): Promise<UserAuthStatus> {
@@ -93,7 +93,7 @@ export const LoginPage = () => {
           duration: 2500,
           position: 'top-right',
         })
-        return;
+        return
       }
 
       toast.error('Usuario o contraseña invalidos', {
@@ -217,3 +217,4 @@ export const LoginPage = () => {
     </>
   )
 }
+export const LoginPageWithAuth = withAuth(LoginPage)

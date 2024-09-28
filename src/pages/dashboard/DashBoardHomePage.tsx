@@ -114,7 +114,7 @@ export const DashBoardHomePage = () => {
     url: `/students/find-students`,
     method: 'GET',
   })
-  console.log(queryKey)
+
   const {
     data: dataInitialInfo,
     isLoading: isLoadingInitialInfo,
@@ -148,7 +148,14 @@ export const DashBoardHomePage = () => {
         {isValidArray(filteredData) ? (
           filteredData.map((student) => (
             <div key={student.user.id}>
-              <UserCardMini {...student} />
+              <UserCardMini
+                onClick={() => {
+                  navigate(
+                    `/panel-administrativo/perfil-estudiante/${student.id}`,
+                  )
+                }}
+                student={student}
+              />
             </div>
           ))
         ) : (
@@ -215,42 +222,60 @@ export const DashBoardHomePage = () => {
       </div>
 
       {/* Acciones rápidas */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Acciones Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Button className="w-full">
-            <User className="mr-2 h-4 w-4" /> Añadir Estudiante
-          </Button>
-          <Button
-            onClick={() => navigate('/panel-administrativo/cursos/crear-curso')}
-            className="w-full"
-          >
-            <Book className="mr-2 h-4 w-4" /> Crear Nuevo Curso
-          </Button>
-          <Button className="w-full">
-            <FileText className="mr-2 h-4 w-4" /> Generar Informe
-          </Button>
-        </div>
-      </section>
 
-      {/* Búsqueda de estudiantes */}
-      {isLoading ? (
-        <div>cargando ...</div>
-      ) : (
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">
-            Búsqueda Rápida de Estudiantes
-          </h2>
-          <div className="flex space-x-4">
-            <Input
-              placeholder="Buscar por nombre o ID..."
-              className="flex-grow"
-              onChange={handOnChangeSearch}
-            />
-            <Button>Buscar</Button>
+      {/* <Card>
+          <CardHeader>
+            <CardTitle>Actividad Reciente</CardTitle>
+          </CardHeader> */}
+      {/* <section className="mb-8"> */}
+      {/* <h2 className="text-2xl font-semibold mb-4"></h2> */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Acciones Rápidas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button className="w-full">
+              <User className="mr-2 h-4 w-4" /> Añadir Estudiante
+            </Button>
+            <Button
+              onClick={() =>
+                navigate('/panel-administrativo/cursos/crear-curso')
+              }
+              className="w-full"
+            >
+              <Book className="mr-2 h-4 w-4" /> Crear Nuevo Curso
+            </Button>
+            <Button className="w-full">
+              <FileText className="mr-2 h-4 w-4" /> Generar Informe
+            </Button>
           </div>
-        </section>
-      )}
+
+          {/* </section> */}
+
+          {/* Búsqueda de estudiantes */}
+          {isLoading ? (
+            <div>cargando ...</div>
+          ) : (
+            <section>
+              <CardHeader>
+                <CardTitle>Búsqueda Rápida de Estudiantes</CardTitle>
+              </CardHeader>
+              {/* <h2 className="text-2xl font-semibold mb-4">
+                Búsqueda Rápida de Estudiantes
+              </h2> */}
+              <div className="flex space-x-4">
+                <Input
+                  placeholder="Buscar por nombre o ID..."
+                  className="flex-grow"
+                  onChange={handOnChangeSearch}
+                />
+                <Button>Buscar</Button>
+              </div>
+            </section>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }

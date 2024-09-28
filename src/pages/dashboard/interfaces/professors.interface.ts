@@ -1,15 +1,9 @@
+import { UserStudent } from "./students.interface";
+
 export interface ProfessorInterface {
   id:                number;
   professionalTitle: string;
   expertise:         string;
-  user:              User;
+  user:              UserStudent;
 }
 
-interface User {
-  id:        number;
-  username:  string;
-  email:     string;
-  firstName: null | string;
-  lastName:  null | string;
-  profileImageUrl:  null | string;
-}

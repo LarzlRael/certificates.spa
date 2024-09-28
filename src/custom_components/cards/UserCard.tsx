@@ -1,13 +1,24 @@
 import { Student } from '@/pages/dashboard/interfaces/students.interface'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 
-export default function UserCardMini({
-  user: { username, firstName, lastName, profileImageUrl: avatarUrl },
-}: Student) {
+interface UserCardMiniProps {
+  student: Student
+  onClick?: () => void
+}
+
+export default function UserCardMini({ onClick, student }: UserCardMiniProps) {
+  const { username, firstName, lastName, profileImageUrl } = student.user
   return (
-    <div className="flex items-center space-x-4 my-3 p-3 bg-white shadow rounded-lg hover:bg-gray-50 transition-colors mb-03 cursor-pointer">
+    <div
+      onClick={onClick}
+      className="flex items-center space-x-4 my-3 p-3 bg-white shadow rounded-lg hover:bg-gray-50 transition-colors mb-03 cursor-pointer"
+    >
       <Avatar className="w-12 h-12 rounded-full">
-        <AvatarImage src={avatarUrl} alt={username} className="rounded-full" />
+        <AvatarImage
+          src={profileImageUrl}
+          alt={username}
+          className="rounded-full"
+        />
         <AvatarFallback className="rounded-full">
           {username?.slice(0, 2).toUpperCase()}
         </AvatarFallback>

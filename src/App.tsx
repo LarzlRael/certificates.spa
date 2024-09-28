@@ -3,11 +3,8 @@ import { useThemeStore } from './store/themeStore'
 import { Main } from './router/Main'
 
 function App() {
-  const darkModeState = useThemeStore((state) => state)
-  /*   const currentAmount = useThemeStore((state) => state.currentAmount)
-  const increase = useThemeStore((state) => state.increment5Amount) */
+  /* const darkModeState = useThemeStore((state) => state) */
 
-  console.log(darkModeState)
   return <Main />
 }
 
