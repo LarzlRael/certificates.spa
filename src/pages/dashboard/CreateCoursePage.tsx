@@ -98,7 +98,7 @@ export const CreateCoursePage = () => {
     <div className="">
       <Card>
         <CardHeader>
-          <CardTitle>Lista de estudiantes</CardTitle>
+          <CardTitle>Crear nuevo curso</CardTitle>
         </CardHeader>
         <CardContent>
           <FormProvider {...form}>

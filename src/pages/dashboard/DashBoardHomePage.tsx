@@ -23,6 +23,9 @@ import {
   LatestUpdateCards,
   LatestUpdateListSkeleton,
 } from '@/custom_components/cards/LatestUpdateCard'
+import { QuickActionSkeleton } from '@/custom_components/loading/QuickActionSkeleton'
+import PieChart from '@/custom_components/charts/PieChart'
+import BarChart from '@/custom_components/charts/Bar'
 
 const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
   return [
@@ -203,6 +206,24 @@ export const DashBoardHomePage = () => {
                   <Bar dataKey="inscripciones" fill="#3b82f6" />
                 </BarChart>
               </ResponsiveContainer> */}
+            {/*  <PieChart
+                data={[
+                  { value: 40, color: '#ff6384' }, // Color rojo
+                  { value: 30, color: '#36a2eb' }, // Color azul
+                  { value: 20, color: '#ffce56' }, // Color amarillo
+                  { value: 10, color: '#4bc0c0' }, // Color verde
+                ]}
+              /> */}
+            <BarChart
+              data={[
+                { label: 'Enero', value: 40, color: '#ff6384' }, // Color rojo
+                { label: 'Febrero', value: 30, color: '#36a2eb' }, // Color azul
+                { label: 'Marzo', value: 20, color: '#ffce56' }, // Color amarillo
+                { label: 'Abril', value: 10, color: '#4bc0c0' }, // Color verde
+                { label: 'Abril', value: 10, color: '#4bc0c0' }, // Color verde
+                { label: 'Abril', value: 100, color: '#4bc0c0' }, // Color verde
+              ]}
+            />
           </CardContent>
         </Card>
 
@@ -229,53 +250,57 @@ export const DashBoardHomePage = () => {
           </CardHeader> */}
       {/* <section className="mb-8"> */}
       {/* <h2 className="text-2xl font-semibold mb-4"></h2> */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Acciones Rápidas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button className="w-full">
-              <User className="mr-2 h-4 w-4" /> Añadir Estudiante
-            </Button>
-            <Button
-              onClick={() =>
-                navigate('/panel-administrativo/cursos/crear-curso')
-              }
-              className="w-full"
-            >
-              <Book className="mr-2 h-4 w-4" /> Crear Nuevo Curso
-            </Button>
-            <Button className="w-full">
-              <FileText className="mr-2 h-4 w-4" /> Generar Informe
-            </Button>
-          </div>
+      {isLoading ? (
+        <QuickActionSkeleton />
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardTitle>Acciones Rápidas</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Button className="w-full">
+                <User className="mr-2 h-4 w-4" /> Añadir Estudiante
+              </Button>
+              <Button
+                onClick={() =>
+                  navigate('/panel-administrativo/cursos/crear-curso')
+                }
+                className="w-full"
+              >
+                <Book className="mr-2 h-4 w-4" /> Crear Nuevo Curso
+              </Button>
+              <Button className="w-full">
+                <FileText className="mr-2 h-4 w-4" /> Generar Informe
+              </Button>
+            </div>
 
-          {/* </section> */}
+            {/* </section> */}
 
-          {/* Búsqueda de estudiantes */}
-          {isLoading ? (
-            <div>cargando ...</div>
-          ) : (
-            <section>
-              <CardHeader>
-                <CardTitle>Búsqueda Rápida de Estudiantes</CardTitle>
-              </CardHeader>
-              {/* <h2 className="text-2xl font-semibold mb-4">
-                Búsqueda Rápida de Estudiantes
-              </h2> */}
-              <div className="flex space-x-4">
-                <Input
-                  placeholder="Buscar por nombre o ID..."
-                  className="flex-grow"
-                  onChange={handOnChangeSearch}
-                />
-                <Button>Buscar</Button>
-              </div>
-            </section>
-          )}
-        </CardContent>
-      </Card>
+            {/* Búsqueda de estudiantes */}
+            {isLoading ? (
+              <div>cargando ...</div>
+            ) : (
+              <section>
+                <CardHeader>
+                  <CardTitle>Búsqueda Rápida de Estudiantes</CardTitle>
+                </CardHeader>
+                {/* <h2 className="text-2xl font-semibold mb-4">
+              Búsqueda Rápida de Estudiantes
+            </h2> */}
+                <div className="flex space-x-4">
+                  <Input
+                    placeholder="Buscar por nombre o ID..."
+                    className="flex-grow"
+                    onChange={handOnChangeSearch}
+                  />
+                  <Button>Buscar</Button>
+                </div>
+              </section>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

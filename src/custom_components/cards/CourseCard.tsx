@@ -139,10 +139,15 @@ const courses = [
 
 interface CourseListProps {
   courseInfo: CourseInfoInterface[]
-  onClick: (idCourse:number) => void
+  onClick: (idCourse: number) => void
+  onEdit: (idCourse: number) => void
 }
 
-export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
+export const CourseList = ({
+  courseInfo,
+  onClick,
+  onEdit,
+}: CourseListProps) => {
   const [searchTerm, setSearchTerm] = useState('')
 
   /* const filteredCourses = courses.filter(
@@ -164,7 +169,6 @@ export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
-        
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courseInfo.map((course) => (
@@ -181,8 +185,12 @@ export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                  <DropdownMenuItem>
+                  <DropdownMenuLabel
+                  
+                  >Acciones</DropdownMenuLabel>
+                  <DropdownMenuItem
+                  onClick={() => onEdit(course.id)}
+                  >
                     <Edit className="mr-2 h-4 w-4" />
                     <span>Editar</span>
                   </DropdownMenuItem>
@@ -196,7 +204,7 @@ export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
             <CardContent>
               <div className="flex items-center space-x-4 mb-2">
                 {course.professors.map((professor) => (
-                  <div className='flex flex-col space-y-2'>
+                  <div className="flex flex-col space-y-2">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={professor.user.profileImageUrl} />
                       <AvatarFallback>
@@ -241,9 +249,11 @@ export const CourseList = ({ courseInfo,onClick }: CourseListProps) => {
               >
                 {course.status}
               </Badge>
-              <Button 
-              onClick ={()=>onClick(course.id)}
-              variant="outline" size="sm">
+              <Button
+                onClick={() => onClick(course.id)}
+                variant="outline"
+                size="sm"
+              >
                 <BookOpen className="mr-2 h-4 w-4" />
                 Ver Detalles
               </Button>

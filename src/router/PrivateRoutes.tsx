@@ -14,7 +14,7 @@ export const PrivateRoutes = ({ children }: any) => {
     /* if (authStatus === AuthStatus.AUTHENTICATED) {
       navigate('/dashboard')
     } */
-  }, [authStatus])
+  }, [authStatus, refreshToken])
 
   if (authStatus === AuthStatus.CHECKING) return <LoadingWithLogo />
 

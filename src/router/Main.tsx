@@ -17,7 +17,7 @@ import {
   CoursePage,
   NotificationsPage,
   StudentsPage,
-  CourseEnrollment,
+  CourseEnrollmentPage,
   EnrollmentByCourse,
   CreateCoursePage,
   ProfessorsPage,
@@ -30,6 +30,7 @@ import { PrivateRoutes } from './PrivateRoutes'
 import DashboardConSidebars from '@/custom_components/layout/DashboardLayout2'
 
 import { AdminDashboardEducativo2WithAuth } from '@/custom_components/layout/DashboardLayout3'
+import { PublicRoutes } from './PublicRoute'
 
 /* Make the router  */
 export const Main = () => {
@@ -37,13 +38,21 @@ export const Main = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/ingreso" element={<LoginPageWithAuth />} />
+        <Route
+          path="/ingreso"
+          element={
+            <PublicRoutes>
+              <LoginPageWithAuth />
+            </PublicRoutes>
+          }
+        />
+        {/* <Route path="/ingreso" element={<LoginPageWithAuth />} /> */}
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/olvide-mi-contraseña" element={<ForgotPasswordPage />} />
-        <Route path="/inscripcion/:idCourse" element={<CourseEnrollment />} />
+        <Route path="/inscripcion/:idCourse" element={<CourseEnrollmentPage />} />
         <Route
           path="/inscripcion/:courseName/:idCourse"
-          element={<CourseEnrollment />}
+          element={<CourseEnrollmentPage />}
         />
         <Route path="/dash2" element={<DashboardConSidebars />} />
         {/* <Route path="/dash3" element={<AdminDashboardEducativo />} /> */}

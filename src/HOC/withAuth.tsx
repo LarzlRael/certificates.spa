@@ -1,6 +1,7 @@
 import { UserAuth } from '@/interfaces/auth.interface'
 import { AuthStatus, useAuthStore } from '@/store/authStore'
-import { ComponentType, FC } from 'react'
+import { ComponentType, FC, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 /* import { AuthStatus } from '@/store/auth.store' */
 
@@ -22,6 +23,14 @@ export function withAuth<T extends WithAuthProps>(
     const logout = useAuthStore((state) => state.logout)
     const refreshToken = useAuthStore((state) => state.refreshToken)
 
+    const navigate = useNavigate() // Hook para navegar entre rutas
+
+    // useEffect para monitorear cambios en el authStatus
+    useEffect(() => {
+      if (authStatus === AuthStatus.UNAUTHENTICATED) {
+        navigate('/ingreso') 
+      }
+    }, [authStatus, navigate])
     return (
       <Component
         {...(props as T)}

@@ -33,7 +33,14 @@ export const CoursePage = () => {
           </Button>
           <CourseList
             courseInfo={data!}
-            onClick={(idCourse) => navigate(`/panel-administrativo/cursos/${idCourse}`)}
+            onEdit={(idCourse) =>
+              navigate(
+                `/panel-administrativo/cursos/modificar-curso/${idCourse}`,
+              )
+            }
+            onClick={(idCourse) =>
+              navigate(`/panel-administrativo/cursos/${idCourse}`)
+            }
           />
         </div>
       )}

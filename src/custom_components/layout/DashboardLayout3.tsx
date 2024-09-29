@@ -41,6 +41,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { ExtraInformation } from './ExtraInformation'
 import { useAuthStore } from '@/store/authStore'
 import { withAuth, WithAuthProps } from '@/HOC/withAuth'
+import PieChart from '../charts/PieChart'
 
 const estadisticasGenerales = [
   {
@@ -245,7 +246,7 @@ export const AdminDashboardEducativo = () => {
           {/* Gráfico de inscripciones */}
           <Card>
             <CardHeader>
-              <CardTitle>Inscripciones Mensuales</CardTitle>
+              <CardTitle>Inscripciones Mensuales gente xd?</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px]">
               {/* <ResponsiveContainer width="100%" height="100%">
@@ -257,6 +258,13 @@ export const AdminDashboardEducativo = () => {
                   <Bar dataKey="inscripciones" fill="#3b82f6" />
                 </BarChart>
               </ResponsiveContainer> */}
+              <PieChart
+                data={[
+                  { value: 90, color: '#ff6384' }, // Color rojo
+                  { value: 10, color: '#36a2eb' }, // Color azul
+                  
+                ]}
+              />
             </CardContent>
           </Card>
 
@@ -365,11 +373,7 @@ const AdminDashboardEducativo2 = ({ logout, authStatus }: WithAuthProps) => {
     { icon: Bell, label: 'Notificaciones', path: '/notificaciones' },
   ]
   const [selectedLabel, setSelectedLabel] = useState('Panel de Administración')
-  useEffect(() => {
-    if (authStatus === 'UNAUTHENTICATED') {
-      navigate('/ingreso')
-    }
-  }, [authStatus])
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar izquierdo */}
@@ -470,4 +474,6 @@ const AdminDashboardEducativo2 = ({ logout, authStatus }: WithAuthProps) => {
 /* export const DashboardWithAuth = withAuth(AdminDashboardEducativo2) */
 
 /* export default withAuth(AdminDashboardEducativo2) */
-export const AdminDashboardEducativo2WithAuth = withAuth(AdminDashboardEducativo2)
+export const AdminDashboardEducativo2WithAuth = withAuth(
+  AdminDashboardEducativo2,
+)

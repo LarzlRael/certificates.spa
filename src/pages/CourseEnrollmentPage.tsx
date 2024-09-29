@@ -4,8 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { convertToSlug } from '@/utils/text-utils'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { CourseEnrollInterface } from './dashboard/interfaces/course-enroll.interface'
+import { CourseCardPresentation } from '@/custom_components/cards/CourseCardPresentation'
 
-export const CourseEnrollment = () => {
+export const CourseEnrollmentPage = () => {
   const params = useParams<{ idCourse: string; courseName?: string }>()
   const navigate = useNavigate()
 
@@ -31,9 +32,7 @@ export const CourseEnrollment = () => {
         <h1>Cargando...</h1>
       ) : (
         <div>
-          <h1>{data?.courseName}</h1>
-          <p>{data?.courseDescription}</p>
-          
+          <CourseCardPresentation courseInfo={data!} />
         </div>
       )}
     </div>

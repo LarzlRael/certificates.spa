@@ -6,7 +6,7 @@ type MutationFn<T, V> = (variables: V) => Promise<T>
 // Interfaz para las propiedades del hook
 interface MutationQueryProps<T, V> {
   mutationFn: MutationFn<T, V>
-  onSuccess?: (data: T) => void
+  onSuccess?: (data?: T) => void
   onError?: (error: any) => void
 }
 
