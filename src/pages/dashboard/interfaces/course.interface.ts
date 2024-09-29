@@ -51,7 +51,7 @@ export interface CourseInfoInterface {
   duration:        number;
   imageUrl:        null | string;
   virtualPlatform: null | string;
-  professors:      ProfessorCourseInfo[];
+  professors:      ProfessorCourseInfo[]; 
   formCount:       number;
 }
 
@@ -63,6 +63,7 @@ export interface ProfessorCourseInfo {
 }
 
 export interface UserProf {
+  id:              number;
   firstName:       string;
   lastName:        string;
   profileImageUrl: null | string;

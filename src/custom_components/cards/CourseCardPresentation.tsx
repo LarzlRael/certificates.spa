@@ -61,7 +61,7 @@ export const CourseCardPresentation = ({
       <CardContent>
         <div className="flex justify-between items-center mb-6">
           {courseInfo.professors.map(({ user, ...rest }) => (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4" key={rest.id}>
               <Avatar>
                 <AvatarImage src={user.profileImageUrl} />
                 <AvatarFallback>JD</AvatarFallback>
@@ -92,14 +92,17 @@ export const CourseCardPresentation = ({
         <p className="text-muted-foreground mb-6">
           {courseInfo.courseDescription}
         </p>
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          {courseInfo.notes.split(',').map((note, index) => (
-            <div className="flex items-center">
-              <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
-              <span>{capitalizeString(note.trim())}</span>
-            </div>
-          ))}
-        </div>
+
+        {isValidString(courseInfo.notes) && (
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {courseInfo.notes.split(',').map((note, index) => (
+              <div className="flex items-center" key={index}>
+                <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
+                <span>{capitalizeString(note.trim())}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <InfoLabel
           title="Modilidad"

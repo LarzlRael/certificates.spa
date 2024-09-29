@@ -11,7 +11,7 @@ export interface CourseEnrollInterface {
   imageUrl:           null | string;
   material:           null | string
   informationContact: null | string;
-  notes:              string;
+  notes:              string | string;
   virtualPlatform:    string;
   professors:         Professor[];
 }
