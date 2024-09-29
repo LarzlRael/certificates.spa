@@ -185,12 +185,8 @@ export const CourseList = ({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel
-                  
-                  >Acciones</DropdownMenuLabel>
-                  <DropdownMenuItem
-                  onClick={() => onEdit(course.id)}
-                  >
+                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => onEdit(course.id)}>
                     <Edit className="mr-2 h-4 w-4" />
                     <span>Editar</span>
                   </DropdownMenuItem>
@@ -203,8 +199,11 @@ export const CourseList = ({
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-4 mb-2">
-                {course.professors.map((professor) => (
-                  <div className="flex flex-col space-y-2">
+                {course.professors.map((professor, index) => (
+                  <div
+                    className="flex flex-col space-y-2"
+                    key={`${index}-${professor.id}`}
+                  >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={professor.user.profileImageUrl} />
                       <AvatarFallback>

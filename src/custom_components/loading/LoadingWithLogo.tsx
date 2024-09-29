@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 export const LoadingWithLogo = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-purple-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-100 to-green-400">
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -13,38 +13,24 @@ export const LoadingWithLogo = () => {
         }}
         className="flex flex-col items-center"
       >
-        <svg
-          className="w-32 h-32 mb-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 17L12 22L22 17"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 12L12 17L22 12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {/* Imagen con proporción conservada y parpadeo */}
+        <motion.img
+          src="/logo-psicoeducativa.png"
+          alt="Mi logo"
+          className="w-auto h-auto max-w-[70%] max-h-[40vh] object-contain mb-4"
+          animate={{ opacity: [1, 0.2, 1] }} // Ciclo de opacidad para parpadeo
+          transition={{
+            duration: 1.5, // Duración de cada ciclo de parpadeo
+            repeat: Infinity, // Repetir infinitamente
+            ease: 'easeInOut', // Suavizar la transición
+          }}
+        />
+
+        {/* Línea animada más grande con color primario */}
         <motion.div
           className="w-12 h-1 bg-primary rounded-full mt-4"
           initial={{ width: 0 }}
-          animate={{ width: '3rem' }}
+          animate={{ width: '5rem' }} // Línea más grande
           transition={{
             duration: 1,
             repeat: Infinity,

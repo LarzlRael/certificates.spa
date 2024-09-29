@@ -24,6 +24,7 @@ import {
   PaymentsPage,
   SettingsPage,
   ProfileStudentPage,
+  PaymentsDetailPage
 } from '@/pages/dashboard'
 import DashboardLayout from '@/custom_components/layout/DashboardLayout'
 import { PrivateRoutes } from './PrivateRoutes'
@@ -80,6 +81,7 @@ export const Main = () => {
           <Route path="estudiantes" element={<StudentsPage />} />
           <Route path="profesores" element={<ProfessorsPage />} />
           <Route path="pagos" element={<PaymentsPage />} />
+          <Route path="pagos/:idPayment" element={<PaymentsDetailPage />} />
           <Route path="configuraciones" element={<SettingsPage />} />
           <Route path="notificaciones" element={<NotificationsPage />} />
           <Route

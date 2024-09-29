@@ -5,6 +5,7 @@ import { convertToSlug } from '@/utils/text-utils'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { CourseEnrollInterface } from './dashboard/interfaces/course-enroll.interface'
 import { CourseCardPresentation } from '@/custom_components/cards/CourseCardPresentation'
+import { LoadingWithLogo } from '@/custom_components/loading/LoadingWithLogo'
 
 export const CourseEnrollmentPage = () => {
   const params = useParams<{ idCourse: string; courseName?: string }>()
@@ -29,7 +30,7 @@ export const CourseEnrollmentPage = () => {
   return (
     <div>
       {isLoading ? (
-        <h1>Cargando...</h1>
+        <LoadingWithLogo />
       ) : (
         <div>
           <CourseCardPresentation courseInfo={data!} />

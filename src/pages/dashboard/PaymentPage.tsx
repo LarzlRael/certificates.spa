@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Calendar as CalendarIcon, Download, Search } from 'lucide-react'
+import { Calendar as CalendarIcon, Download } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Popover,
@@ -26,6 +26,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { format } from 'date-fns'
+import { PaymentTableInterface } from './interfaces/payments.interface'
+import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+import { convertDate } from '@/utils/dates'
+import { capitalizeString } from '@/utils/utils'
+import { useNavigate } from 'react-router-dom'
+import { TableMain } from '@/table'
 
 export const PaymentsPage = () => {
   return (
@@ -35,65 +41,36 @@ export const PaymentsPage = () => {
   )
 }
 
-// Simulated payment data
-const payments = [
-  {
-    id: 1,
-    date: '2023-09-15',
-    amount: 199.99,
-    status: 'Completado',
-    customer: 'Juan Pérez',
-    course: 'Desarrollo Web Fullstack',
-  },
-  {
-    id: 2,
-    date: '2023-09-16',
-    amount: 149.99,
-    status: 'Pendiente',
-    customer: 'María García',
-    course: 'Diseño UX/UI',
-  },
-  {
-    id: 3,
-    date: '2023-09-17',
-    amount: 299.99,
-    status: 'Completado',
-    customer: 'Carlos Rodríguez',
-    course: 'Machine Learning Avanzado',
-  },
-  {
-    id: 4,
-    date: '2023-09-18',
-    amount: 99.99,
-    status: 'Fallido',
-    customer: 'Ana Martínez',
-    course: 'Introducción a Python',
-  },
-  {
-    id: 5,
-    date: '2023-09-19',
-    amount: 179.99,
-    status: 'Completado',
-    customer: 'Luis Sánchez',
-    course: 'Marketing Digital',
-  },
-]
-
 export const PaymentView = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined)
 
-  const filteredPayments = payments.filter(
-    (payment) =>
-      (payment.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        payment.course.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (statusFilter === '' || payment.status === statusFilter) &&
-      (!dateFilter || payment.date === format(dateFilter, 'yyyy-MM-dd')),
-  )
+  const { data, isLoading, reload } = useAxiosQueryAuth<
+    PaymentTableInterface[]
+  >({
+    url: `/payment/get-payments`,
+  })
+  const navigate = useNavigate()
+  const filteredPayments = data
+    ? data.filter((flatPayment) => {
+        return (
+          (flatPayment.fullName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+            flatPayment.courseName
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())) &&
+          (statusFilter === '' || flatPayment.status === statusFilter) &&
+          (!dateFilter ||
+            format(new Date(flatPayment.createdAt), 'yyyy-MM-dd') ===
+              format(dateFilter, 'yyyy-MM-dd'))
+        )
+      })
+    : []
 
   const totalAmount = filteredPayments.reduce(
-    (sum, payment) => sum + payment.amount,
+    (sum, payment) => sum + parseFloat(payment.amount),
     0,
   )
   const completedPayments = filteredPayments.filter(
@@ -157,10 +134,10 @@ export const PaymentView = () => {
               <SelectValue placeholder="Estado del pago" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="todos">Todos</SelectItem>
-              <SelectItem value="Completado">Completado</SelectItem>
-              <SelectItem value="Pendiente">Pendiente</SelectItem>
-              <SelectItem value="Fallido">Fallido</SelectItem>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="CONFIRMED">Completado</SelectItem>
+              <SelectItem value="PENDING">Pendiente</SelectItem>
+              <SelectItem value="REJECTED">Fallido</SelectItem>
             </SelectContent>
           </Select>
           <Popover>
@@ -192,46 +169,85 @@ export const PaymentView = () => {
         </div>
       </div>
 
-      <Card>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Fecha</TableHead>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Curso</TableHead>
-                <TableHead>Monto</TableHead>
-                <TableHead>Estado</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredPayments.map((payment) => (
-                <TableRow key={payment.id}>
-                  <TableCell>{payment.id}</TableCell>
-                  <TableCell>{payment.date}</TableCell>
-                  <TableCell>{payment.customer}</TableCell>
-                  <TableCell>{payment.course}</TableCell>
-                  <TableCell>${payment.amount.toFixed(2)}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        payment.status === 'Completado'
-                          ? 'default'
-                          : payment.status === 'Pendiente'
-                          ? 'secondary'
-                          : 'destructive'
-                      }
-                    >
-                      {payment.status}
-                    </Badge>
-                  </TableCell>
+      {isLoading ? (
+        <>cargando</>
+      ) : (
+        <Card>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Cliente</TableHead>
+                  <TableHead>Curso</TableHead>
+                  <TableHead>Monto</TableHead>
+                  <TableHead>Estado</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {filteredPayments.map((flatPayment) => {
+                  /* TODO Make this component in TableCustcom component */
+                  return (
+                    <TableRow
+                      onClickCapture={() =>
+                        navigate(
+                          `/panel-administrativo/pagos/${flatPayment.id}`,
+                        )
+                      }
+                      className="cursor-pointer"
+                      key={flatPayment.id}
+                    >
+                      <TableCell>{flatPayment.id}</TableCell>
+                      <TableCell>
+                        {convertDate(flatPayment.createdAt, 'LLLL')}
+                      </TableCell>
+                      <TableCell>{flatPayment.fullName}</TableCell>
+                      <TableCell>{flatPayment.courseName}</TableCell>
+                      <TableCell>Bs.{flatPayment.amount}</TableCell>
+                      <TableCell>
+                        <BadgeStatus status={flatPayment.status} />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
+
+      {isLoading ? (
+        <>loading</>
+      ) : (
+        <>
+          {' '}
+          <h1>table</h1>
+          <TableMain
+            header={[
+              { key: 'id', name: 'ID' },
+              { key: 'fullName', name: 'Cliente' },
+              { key: 'courseName', name: 'Curso' },
+              { key: 'amount', name: 'Monto' },
+              {
+                key: 'status',
+                name: 'Estado',
+                type: 'ReactNode',
+                children: <Badge variant="default">cambiar esto we</Badge>,
+              },
+
+              {
+                key: 'createdAt',
+                name: 'Creado en ',
+                type: 'date',
+                dateFormatter: 'LLLL',
+              },
+            ]}
+            main={filteredPayments}
+            handleInfo={(element) => {console.log(element)}}
+          />
+        </>
+      )}
 
       <div className="mt-4 flex justify-end">
         <Button>
@@ -240,5 +256,30 @@ export const PaymentView = () => {
         </Button>
       </div>
     </div>
+  )
+}
+
+type BadgeStatusType = 'PENDING' | 'CONFIRMED' | 'REJECT'
+
+interface BadgeStatusProps {
+  status: BadgeStatusType // Usa el tipo definido aquí
+}
+
+export const BadgeStatus = ({ status }: BadgeStatusProps) => {
+  const badgeMap: Record<BadgeStatusType, string> = {
+    PENDING: 'secondary',
+    CONFIRMED: 'default',
+    REJECT: 'destructive',
+  }
+  const translationMap: Record<BadgeStatusType, string> = {
+    PENDING: 'pendiente',
+    CONFIRMED: 'confirmado',
+    REJECT: 'rechazado',
+  }
+
+  return (
+    <Badge variant={badgeMap[status]}>
+      {translationMap[status].toUpperCase()}
+    </Badge>
   )
 }

@@ -1,4 +1,3 @@
-
 export { CoursePage } from './CoursePage'
 export { EnrollmentByCourse } from './EnrollmentByCourse'
 export { CourseEnrollmentPage } from '../CourseEnrollmentPage'
@@ -13,3 +12,4 @@ export { SettingsPage } from './SettingsPage'
 export { DashBoardHomePage } from './DashBoardHomePage'
 
 export { ProfileStudentPage } from './student/ProfileStudentPage'
+export { PaymentsDetailPage } from './PaymentsDetailPage'
