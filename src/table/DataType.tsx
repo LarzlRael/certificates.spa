@@ -66,11 +66,7 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
         </div>
       )
     case 'ReactNode':
-      return (
-        <div>
-          {a.children}
-        </div>
-      )
+      return <div>{a.childrenAction ? a.childrenAction(head) : '--'}</div>
     case 'actions':
       return (
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'start' }}>

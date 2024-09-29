@@ -172,81 +172,33 @@ export const PaymentView = () => {
       {isLoading ? (
         <>cargando</>
       ) : (
-        <Card>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Fecha</TableHead>
-                  <TableHead>Cliente</TableHead>
-                  <TableHead>Curso</TableHead>
-                  <TableHead>Monto</TableHead>
-                  <TableHead>Estado</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredPayments.map((flatPayment) => {
-                  /* TODO Make this component in TableCustcom component */
-                  return (
-                    <TableRow
-                      onClickCapture={() =>
-                        navigate(
-                          `/panel-administrativo/pagos/${flatPayment.id}`,
-                        )
-                      }
-                      className="cursor-pointer"
-                      key={flatPayment.id}
-                    >
-                      <TableCell>{flatPayment.id}</TableCell>
-                      <TableCell>
-                        {convertDate(flatPayment.createdAt, 'LLLL')}
-                      </TableCell>
-                      <TableCell>{flatPayment.fullName}</TableCell>
-                      <TableCell>{flatPayment.courseName}</TableCell>
-                      <TableCell>Bs.{flatPayment.amount}</TableCell>
-                      <TableCell>
-                        <BadgeStatus status={flatPayment.status} />
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      )}
+        <TableMain
+          header={[
+            { key: 'id', name: 'ID' },
+            { key: 'fullName', name: 'Cliente' },
+            { key: 'courseName', name: 'Curso' },
+            { key: 'amount', name: 'Monto' },
+            {
+              key: 'status',
+              name: 'Estado',
+              type: 'ReactNode',
+              childrenAction: (element) => (
+                <BadgeStatus status={element.status} />
+              ),
+            },
 
-      {isLoading ? (
-        <>loading</>
-      ) : (
-        <>
-          {' '}
-          <h1>table</h1>
-          <TableMain
-            header={[
-              { key: 'id', name: 'ID' },
-              { key: 'fullName', name: 'Cliente' },
-              { key: 'courseName', name: 'Curso' },
-              { key: 'amount', name: 'Monto' },
-              {
-                key: 'status',
-                name: 'Estado',
-                type: 'ReactNode',
-                children: <Badge variant="default">cambiar esto we</Badge>,
-              },
-
-              {
-                key: 'createdAt',
-                name: 'Creado en ',
-                type: 'date',
-                dateFormatter: 'LLLL',
-              },
-            ]}
-            main={filteredPayments}
-            handleInfo={(element) => {console.log(element)}}
-          />
-        </>
+            {
+              key: 'createdAt',
+              name: 'Creado en ',
+              type: 'date',
+              dateFormatter: 'LLLL',
+            },
+          ]}
+          main={filteredPayments}
+          handleInfo={(element) => {
+            console.log(element)
+          }}
+        />
       )}
 
       <div className="mt-4 flex justify-end">
@@ -259,19 +211,18 @@ export const PaymentView = () => {
   )
 }
 
-type BadgeStatusType = 'PENDING' | 'CONFIRMED' | 'REJECT'
-
 interface BadgeStatusProps {
-  status: BadgeStatusType // Usa el tipo definido aquí
+  status: string // Usa el tipo definido aquí
 }
 
 export const BadgeStatus = ({ status }: BadgeStatusProps) => {
-  const badgeMap: Record<BadgeStatusType, string> = {
+  console.log(status)
+  const badgeMap: Record<string, string> = {
     PENDING: 'secondary',
     CONFIRMED: 'default',
     REJECT: 'destructive',
   }
-  const translationMap: Record<BadgeStatusType, string> = {
+  const translationMap: Record<string, string> = {
     PENDING: 'pendiente',
     CONFIRMED: 'confirmado',
     REJECT: 'rechazado',

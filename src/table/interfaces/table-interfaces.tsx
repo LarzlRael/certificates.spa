@@ -17,7 +17,7 @@ export interface TableHeaderI {
   actions?: actionInterface[]
   action?: actionInterface
   dateFormatter?: string
-  children?: React.ReactNode
+  childrenAction?: (element: any) => React.ReactNode
 }
 export interface actionInterface {
   labelTooltip: string
