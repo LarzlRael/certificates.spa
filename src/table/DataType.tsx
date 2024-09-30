@@ -8,13 +8,16 @@ import { processUrlImage } from '../../utils/processData'
 import { TableHeaderI } from './interfaces/table-interfaces'
 import { convertDate } from '@/utils/dates'
 import { Button } from '@/components/ui/button'
-interface DataTypeProps {
+interface DataTypeProps<T> {
   [key: string]: any
-  a: TableHeaderI
+  columnData: TableHeaderI<T>
 }
 
-const DataType = ({ a, head, reload }: DataTypeProps) => {
-  switch (a.type) {
+const DataType = <T extends {}>({ columnData, head, reload }: DataTypeProps<T>) => {
+  /* console.log('DataType', a)
+  console.log('Header', head) */
+
+  switch (columnData.type) {
     case 'action':
       return (
         <Button
@@ -24,19 +27,19 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
           color="var(--colorPrimary)"
           width="auto"
           border="1px solid var(--blue)" */
-        /* onClick={() => a.action!(head)} */
+        /* onClick={() => columnData.action!(head)} */
         >
-          {a.textBtn}
+          {columnData.textBtn}
         </Button>
       )
     case 'img':
-      return <img src={head[a.key]} alt="avatar" />
+      return <img src={head[columnData.key]} alt="avatar" />
     case 'a':
-      if (head[a.key] === 'N/A') {
-        return <div>{head[a.key]}</div>
+      if (head[columnData.key] === 'N/A') {
+        return <div>{head[columnData.key]}</div>
       } else {
         return (
-          <a href={head[a.key]} target="_blank" rel="noopener noreferrer">
+          <a href={head[columnData.key]} target="_blank" rel="noopener noreferrer">
             Abrir Archivo
           </a>
         )
@@ -46,32 +49,32 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
         <div className="TableDefault__textColor">
           <h4
             style={{
-              background: `${a.color![head[a.key]]}`,
-              color: a.color![head[a.key]] ? '' : 'var(--black)',
+              background: `${columnData.color![head[columnData.key]]}`,
+              color: columnData.color![head[columnData.key]] ? '' : 'var(--black)',
             }}
           >
-            {head[a.key]}
+            {head[columnData.key]}
           </h4>
         </div>
       )
     case 'date':
       return (
         <div>
-          {head[a.key]
+          {head[columnData.key]
             ? convertDate(
-                head[a.key],
-                a.dateFormatter ?? 'LLL',
+                head[columnData.key],
+                columnData.dateFormatter ?? 'LLL',
               )?.toLocaleString()
             : '--'}
         </div>
       )
     case 'ReactNode':
-      return <div>{a.childrenAction ? a.childrenAction(head) : '--'}</div>
+      return <div>{columnData.childrenAction ? columnData.childrenAction(head) : '--'}</div>
     case 'actions':
       return (
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'start' }}>
-          {isValidArray(a.actions!) &&
-            a.actions!.map((item, i) => (
+          {isValidArray(columnData.actions!) &&
+            columnData.actions!.map((item, i) => (
               <Button
                 /* background="var(--secondary-color)" */
                 onClick={() => item.action(head)}
@@ -82,19 +85,19 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
         </div>
       )
     case 'textArea':
-      if (head[a.key]) {
+      if (head[columnData.key]) {
         return (
           <div>
-            {head[a.key].substring(0, 100) +
-              `${head[a.key].length > 100 ? '...' : ''} `}
+            {head[columnData.key].substring(0, 100) +
+              `${head[columnData.key].length > 100 ? '...' : ''} `}
           </div>
         )
       } else {
         return <div>--</div>
       }
     case 'list':
-      if (head[a.key]) {
-        const list = head[a.key].split('; ')
+      if (head[columnData.key]) {
+        const list = head[columnData.key].split('; ')
 
         return (
           <div>
@@ -106,7 +109,7 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
                   border: '1px solid gray',
                   borderRadius: '5px',
                   padding: '2px 5px',
-                }}
+                }} 
               >
                 {item}
               </div>
@@ -117,8 +120,8 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
         return <div>--</div>
       }
     /* case 'stringArray':
-      if (head[a.key]) {
-        const list = head[a.key]
+      if (head[columnData.key]) {
+        const list = head[columnData.key]
 
         return (
           <div>
@@ -141,7 +144,7 @@ const DataType = ({ a, head, reload }: DataTypeProps) => {
         return <div>--</div>
       } */
     default:
-      return <div>{head[a.key] ? head[a.key] : '--'}</div>
+      return <div>{head[columnData.key] ? head[columnData.key] : '--'}</div>
   }
 }
 

@@ -17,21 +17,22 @@ import {
 } from '@/components/ui/table'
 import { Card, CardContent } from '@/components/ui/card'
 
-interface TableMainProps {
+interface TableMainProps<T> {
   [key: string]: any
-  header: TableHeaderI[]
-  main: { [key: string]: any }[]
-  handleInfo?: (us: any) => void
+  reload?: () => void
+  handleInfo?: (data: T) => void
+  tableHeaders: TableHeaderI<T>[]
+  data: T[]
 }
 
-const TableMain = ({
-  header,
-  main,
+const TableMain = <T extends {}>({
+  tableHeaders: header,
+  data: main,
   handleInfo,
   reload,
   keyOrder = '',
   borderBottom = false,
-}: TableMainProps) => {
+}: TableMainProps<T>) => {
   const { target, currentSize } = useSize()
 
   const gridTable = {
@@ -48,7 +49,7 @@ const TableMain = ({
   /*  <h2 key={i} className="TableDefault__head">
                   {a.name}
                 </h2> */
-  function TableFordesk() {
+  function TableForDesktop() {
     return (
       <>
         <Card>
@@ -58,7 +59,7 @@ const TableMain = ({
                 <TableRow>
                   {isValidArray(header)
                     ? header.map((a, i: number) => (
-                        <TableHead>{a.name}</TableHead>
+                        <TableHead key={i}>{a.name}</TableHead>
                       ))
                     : null}
                 </TableRow>
@@ -69,7 +70,8 @@ const TableMain = ({
                       .sort((a, b: any) => a[keyOrder] - b[keyOrder])
                       .map((head: any, i: number) => (
                         <TableRow
-                        /* key={i}
+                          key={i}
+                          /* 
                           style={gridTable}
                           className={`TableDefault__cell ${
                             borderBottom
@@ -80,18 +82,24 @@ const TableMain = ({
                           }`} */
                         >
                           {isValidArray(header)
-                            ? header.map((a, j: number) => (
-                                <TableCell
-                                  onClick={
-                                    a.type === 'actions'
-                                      ? () => {}
-                                      : () => HandleActivate(i, head)
-                                  }
-                                  key={j}
-                                >
-                                  <DataType a={a} head={head} reload={reload} />
-                                </TableCell>
-                              ))
+                            ? header.map((a, j: number) => {
+                                return (
+                                  <TableCell
+                                    onClick={
+                                      a.type === 'actions'
+                                        ? () => {}
+                                        : () => HandleActivate(i, head)
+                                    }
+                                    key={j}
+                                  >
+                                    <DataType
+                                      columnData={a}
+                                      head={head}
+                                      reload={reload}
+                                    />
+                                  </TableCell>
+                                )
+                              })
                             : null}
                         </TableRow>
                       ))
@@ -115,7 +123,7 @@ const TableMain = ({
                   id={i}
                   cell={head}
                   header={header}
-                  HandleActivate={HandleActivate}
+                  handleActivate={HandleActivate}
                   activate={activate}
                 />
               )
@@ -129,12 +137,12 @@ const TableMain = ({
     <div ref={target} className="TableDefault">
       {currentSize.width ? (
         currentSize.width > limitSize ? (
-          <TableFordesk />
+          <TableForDesktop />
         ) : (
           <TableForMobile />
         )
       ) : (
-        <TableFordesk />
+        <TableForDesktop />
       )}
     </div>
   )

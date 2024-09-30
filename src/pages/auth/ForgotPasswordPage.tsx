@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useState } from 'react';
-import { FormCustomField } from '@/custom_components/forms/FormCustomField';
+import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField';
 import { Button } from '@/components/ui/button';
 
 

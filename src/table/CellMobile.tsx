@@ -2,26 +2,29 @@ import DataType from './DataType'
 
 import { isValidArray } from '@/utils/validation/validation'
 import { TableHeaderI } from './interfaces/table-interfaces'
-interface CellMobileProps {
+import { Card, CardContent } from '@/components/ui/card'
+interface CellMobileProps<T> {
   [key: string]: any
-  header: TableHeaderI[]
+  header: TableHeaderI<T>[]
   id: number
+  handleActivate: (index: number, us: any) => void
+  activate: number | null
 }
-const CellMobile = ({
+const CellMobile = <T extends {}>({
   cell,
   id,
-  HandleActivate,
+  handleActivate,
   header,
   activate,
-}: CellMobileProps) => {
+}: CellMobileProps<T>) => {
   return (
-    <>
-      <div className="TableDefault__container">
-        <div
-          className={`TableDefault__cell ${
-            activate === id ? 'TableDefault__cell-activate' : ''
-          }`}
-        >
+    <Card className="my-3">
+      <div
+        className={`TableDefault__cell my ${
+          activate === id ? 'TableDefault__cell-activate' : ''
+        }`}
+      >
+        <CardContent>
           {isValidArray(header)
             ? header.map((a, i: number) => {
                 return (
@@ -29,21 +32,20 @@ const CellMobile = ({
                     onClick={
                       a.type === 'actions'
                         ? () => {}
-                        : () => HandleActivate(id, cell)
+                        : () => handleActivate(id, cell)
                     }
                     className="TableDefault__column"
                     key={i}
                   >
-                    <h2 className="TableDefault__head">{a.name}</h2>
-                    <DataType a={a} key={i} head={cell} />
+                    <h2 className="text-sm font-semibold">{a.name}</h2>
+                    <DataType columnData={a} key={i} head={cell} />
                   </div>
                 )
               })
             : null}
-        </div>
+        </CardContent>
       </div>
-      <hr />
-    </>
+    </Card>
   )
 }
 

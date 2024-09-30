@@ -136,14 +136,14 @@ export default function DashboardLayout() {
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex-1 px-3 bg-white divide-y space-y-1">
                 <ul className="space-y-2 pb-2">
-                  <ExtraInformation informationComponent={
+                  <ExtraInformation /* informationComponent={
                     <div>
                       <h3 className="text-lg font-semibold">Información Adicional</h3>
                       <p className="text-sm text-gray-600">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, dolores.
                       </p>
                     </div>
-                  }/>
+                  } *//>
                 </ul>
               </div>
             </div>

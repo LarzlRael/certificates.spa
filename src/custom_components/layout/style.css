@@ -1,0 +1,101 @@
+/* html {
+  font-size: 62.5%;
+} */
+@media screen and (min-width: 1024px) {
+  html {
+    overflow-y: hidden;
+  }
+}
+@media screen and (min-width: 1500px) {
+/*   html {
+    font-size: 72.5%;
+  } */
+}
+button:focus {
+  outline: none;
+}
+.itemnav {
+  grid-area: Navbar;
+}
+.itemSidebar {
+  grid-area: Sidebar;
+}
+.itemContent {
+  grid-area: Content;
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: var(--green) transparent;
+  scrollbar-width: thin;
+}
+.itemInformation {
+  grid-area: Inf;
+}
+@media screen and (max-width: 900px) {
+  .itemContent {
+    padding: 10px;
+  }
+  .itemInformation {
+    padding: 10px;
+  }
+}
+.itemContent::-webkit-scrollbar {
+  width: 1rem;
+}
+.itemContent::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 20px 0;
+}
+.itemContent::-webkit-scrollbar-thumb {
+  background: var(--green);
+  border-radius: 25px;
+}
+/* GridLogin */
+.containerLogin__form {
+  margin-left: 50px;
+  display: grid;
+  grid-template: 50px 1fr 50px / 1fr 1fr;
+  grid-template-areas:
+    'title title'
+    'formLR LoginGF'
+    'changeLR changeLR';
+  gap: 10px 35px;
+}
+.LoginForm__title {
+  grid-area: title;
+}
+.LoginForm__form {
+  grid-area: formLR;
+}
+.LoginForm__fg {
+  grid-area: LoginGF;
+}
+.LoginForm__change {
+  grid-area: changeLR;
+}
+@media screen and (max-width: 900px) {
+  .Modal__container {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .containerLogin__form {
+    grid-template-columns: 250px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'title'
+      'formLR'
+      'LoginGF'
+      'changeLR';
+    margin: auto;
+    gap: 40px;
+    width: 250px;
+    padding-left: 25px;
+  }
+  .Modal__container {
+    margin: 0 auto;
+  }
+  .form__Link {
+    padding: 8px 70px;
+  }
+}

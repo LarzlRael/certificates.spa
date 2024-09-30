@@ -173,7 +173,7 @@ export const PaymentView = () => {
         <>cargando</>
       ) : (
         <TableMain
-          header={[
+          tableHeaders={[
             { key: 'id', name: 'ID' },
             { key: 'fullName', name: 'Cliente' },
             { key: 'courseName', name: 'Curso' },
@@ -194,7 +194,7 @@ export const PaymentView = () => {
               dateFormatter: 'LLLL',
             },
           ]}
-          main={filteredPayments}
+          data={filteredPayments}
           handleInfo={(element) => {
             console.log(element)
           }}
@@ -216,7 +216,6 @@ interface BadgeStatusProps {
 }
 
 export const BadgeStatus = ({ status }: BadgeStatusProps) => {
-  console.log(status)
   const badgeMap: Record<string, string> = {
     PENDING: 'secondary',
     CONFIRMED: 'default',

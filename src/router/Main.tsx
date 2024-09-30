@@ -24,14 +24,15 @@ import {
   PaymentsPage,
   SettingsPage,
   ProfileStudentPage,
-  PaymentsDetailPage
+  PaymentsDetailPage,
 } from '@/pages/dashboard'
 import DashboardLayout from '@/custom_components/layout/DashboardLayout'
 import { PrivateRoutes } from './PrivateRoutes'
 import DashboardConSidebars from '@/custom_components/layout/DashboardLayout2'
+import { MainAdminDashboardWithAuth } from '@/custom_components/layout/MainDashboard'
+import Template from '@/custom_components/layout/Template'
 
-import { AdminDashboardEducativo2WithAuth } from '@/custom_components/layout/DashboardLayout3'
-import { PublicRoutes } from './PublicRoute'
+/* import { PublicRoutes } from './PublicRoute' */
 
 /* Make the router  */
 export const Main = () => {
@@ -39,18 +40,15 @@ export const Main = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route
-          path="/ingreso"
-          element={
-            <PublicRoutes>
-              <LoginPageWithAuth />
-            </PublicRoutes>
-          }
-        />
+        <Route path="/template-test" element={<Template />} />
+        <Route path="/ingreso" element={<LoginPageWithAuth />} />
         {/* <Route path="/ingreso" element={<LoginPageWithAuth />} /> */}
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/olvide-mi-contraseña" element={<ForgotPasswordPage />} />
-        <Route path="/inscripcion/:idCourse" element={<CourseEnrollmentPage />} />
+        <Route
+          path="/inscripcion/:idCourse"
+          element={<CourseEnrollmentPage />}
+        />
         <Route
           path="/inscripcion/:courseName/:idCourse"
           element={<CourseEnrollmentPage />}
@@ -62,7 +60,7 @@ export const Main = () => {
           path="panel-administrativo"
           element={
             <PrivateRoutes>
-              <AdminDashboardEducativo2WithAuth />
+              <MainAdminDashboardWithAuth />
             </PrivateRoutes>
           }
         >

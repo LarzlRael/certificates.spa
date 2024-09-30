@@ -6,6 +6,8 @@ import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useThemeStore } from '@/store/themeStore'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { UserProfile } from '@/custom_components/cards/UserCard'
+import { UserDialogProfile } from '@/custom_components/cards/UserProfile'
 
 export const StudentsPage = () => {
   const { data, isLoading, error, reload } = useAxiosQueryAuth<Student[]>({
@@ -45,6 +47,7 @@ export const StudentsPage = () => {
           </CardContent>
         </Card>
       )}
+      {/* <UserDialogProfile /> */}
     </div>
   )
 }

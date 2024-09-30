@@ -356,7 +356,7 @@ interface MenuItems {
 }
 const rootPath = '/panel-administrativo'
 
-const AdminDashboardEducativo2 = ({ logout, authStatus }: WithAuthProps) => {
+const MainAdminDashboard = ({ logout }: WithAuthProps) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
@@ -474,6 +474,6 @@ const AdminDashboardEducativo2 = ({ logout, authStatus }: WithAuthProps) => {
 /* export const DashboardWithAuth = withAuth(AdminDashboardEducativo2) */
 
 /* export default withAuth(AdminDashboardEducativo2) */
-export const AdminDashboardEducativo2WithAuth = withAuth(
-  AdminDashboardEducativo2,
+export const MainAdminDashboardWithAuth = withAuth(
+  MainAdminDashboard,
 )

@@ -1,5 +1,5 @@
-export interface TableHeaderI {
-  key: string
+export interface TableHeaderI <T>{
+  key: keyof T
   name: string
   type?:
     | 'img'
@@ -17,7 +17,7 @@ export interface TableHeaderI {
   actions?: actionInterface[]
   action?: actionInterface
   dateFormatter?: string
-  childrenAction?: (element: any) => React.ReactNode
+  childrenAction?: (element: T) => React.ReactNode
 }
 export interface actionInterface {
   labelTooltip: string

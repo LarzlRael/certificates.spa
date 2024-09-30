@@ -16,7 +16,7 @@ import {
   LabelClickable,
   LabelTitleSubTitleClickable,
 } from '@/custom_components/display-text'
-import { FormCustomField } from '@/custom_components/forms/FormCustomField'
+import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
 import { useMutationQuery } from '@/hooks/useMutationQuery'
 import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 
