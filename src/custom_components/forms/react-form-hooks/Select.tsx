@@ -1,5 +1,12 @@
 import React from 'react'
-import { FormLabel } from '@/components/ui/form'
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   SelectTrigger,
   SelectValue,
@@ -18,41 +25,44 @@ interface SelectProps {
   [x: string]: any
   options: OptionsI[]
   control: any
+  description?: string
+  placeHolder?: string
 }
 
 export const CustomSelect = ({
   label,
   options,
   fieldName,
+  description,
   control,
+  placeHolder,
 }: SelectProps) => {
+  console.log('options', options)
   return (
-    <div>
-      <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-        {label}
-      </FormLabel>
-      <Controller
-        name={fieldName} // Nombre del campo en el schema del form
-        control={control}
-        render={({ field }) => (
-          <Select onValueChange={field.onChange} value={field.value}>
-            <SelectTrigger className="w-[240px]">
-              <SelectValue placeholder={'Modalidad'} />
-            </SelectTrigger>
+    <FormField
+      control={control}
+      name={fieldName}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder={placeHolder} />
+              </SelectTrigger>
+            </FormControl>
             <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Modalidad</SelectLabel>
-                {/*  <SelectItem value="VIRTUAL">Virtual</SelectItem> */}
-                {options.map((option: OptionsI) => (
-                  <SelectItem key={option.key} value={option.value}>
-                    {option.key}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
+              {options.map((option: OptionsI) => (
+                <SelectItem key={option.key} value={option.value}>
+                  {option.key}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
-        )}
-      />
-    </div>
+          {description && <FormDescription>description</FormDescription>}
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   )
 }

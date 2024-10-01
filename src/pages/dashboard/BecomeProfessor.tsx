@@ -15,7 +15,7 @@ import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
-import { postAction } from '@/provider/action/ActionAuthorization'
+import { postAction, putAction } from '@/provider/action/ActionAuthorization'
 import { useInformationStore } from '@/store/useInformationStore'
 
 const professorSchema = z.object({
@@ -49,27 +49,43 @@ export const BecomeProfessor = ({
       idUser: userStudent?.id,
     },
   })
-  const handleSubmit = async (values) => {
+
+  const onUpdateInformation = async (values): boolean => {
+    setIsLoading(true)
+    const res = await putAction('/professor', {
+      ...values,
+    })
+    setIsLoading(false)
+    return isValidStatus(res.status)
+  }
+  const onCreateInformation = async (values): boolean => {
     setIsLoading(true)
     const res = await postAction('/professor', {
       ...values,
     })
     setIsLoading(false)
-    if (isValidStatus(res.status)) {
-      console.log('Profesor')
-      toast.success(
-        `Usuario ${userStudent?.firstName} Se ha convertido en profesor`,
-      )
+    return isValidStatus(res.status)
+  }
+
+  const handleSubmit = async (values) => {
+    console.log(values)
+    const isCreating = professionalTitle != null || expertise != null
+    const res = isCreating
+      ? await onUpdateInformation(values)
+      : await onCreateInformation(values)
+
+    if (res) {
       changeDialogInformation({
         isDialogOpen: false,
         title: '',
-        content: <></>,
+        subtitle: '',
+        content: null,
       })
-      changeExtraInformation(<></>)
-      return
+      changeExtraInformation(null)
+      toast.success('Se ha actualizado la información correctamente')
+    } else {
+      toast.error('Ha ocurrido un error al actualizar la información')
     }
-
-    toast.error('Error al convertir en profesor')
   }
   return (
     <>
@@ -108,6 +124,7 @@ interface UserProfileRawInfoProps {
   user: UserStudentDetail | undefined
 }
 const UserProfileRawInfo = ({ user }: UserProfileRawInfoProps) => {
+  console.log(user)
   return (
     <CardHeader>
       <div className="flex items-center space-x-4">

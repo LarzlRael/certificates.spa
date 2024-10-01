@@ -65,6 +65,7 @@ export const GlobalFormHook = ({
                         key={item.fieldName}
                         isLoading={isLoading}
                         control={form.control}
+                        placeHolder={item.placeholder}
                         fieldName={item.fieldName}
                         label={item.label!}
                         options={item.options!}

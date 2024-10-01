@@ -28,6 +28,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
+import { convertDate } from '@/utils/dates'
 
 interface ProfessorListCardProps {
   professorList: ProfessorInterface[]
@@ -60,7 +61,10 @@ export const ProfessorsListCard = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {professorList.map((user) => (
-          <OneProfessorCard user={user} onEdit={onEdit} />
+          <OneProfessorCard 
+            key={user.id}
+            user={user}
+            onEdit={onEdit} />
         ))}
       </div>
     </div>
@@ -117,7 +121,7 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
       <CardContent className="flex-grow">
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <GraduationCapIcon className="w-4 h-4" />
-          <span>{user.createdAt}</span>
+          <span>Profesor desde<br /> {convertDate(user.createdAt,'LLLL')}</span>
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-500 mt-2">
           <BookOpenIcon className="w-4 h-4" />

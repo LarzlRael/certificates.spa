@@ -1,4 +1,4 @@
-import { getDifferenceBetweenDates } from '@/utils/convertDate'
+import { getDifferenceBetweenDates } from '@/utils/dates'
 import { z } from 'zod'
 
 export const formAddCourseSchema = z.object({
@@ -26,7 +26,6 @@ export const formAddCourseSchema = z.object({
 
   professorsIds: z.array(z.number().positive()).optional(),
 })
-
 
 interface partialFormAddCourseSchema
   extends z.infer<typeof formAddCourseSchema> {

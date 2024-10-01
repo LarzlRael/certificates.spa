@@ -32,7 +32,7 @@ export default function ProfessorsCard({
   const [selected, isSelected] = useState<number[]>([])
   const [filter, setFilter] = useState<string>('')
 
-  const toggleSeleccion = (id: number) => {
+  const toggleSelection = (id: number) => {
     isSelected((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     )
@@ -45,11 +45,11 @@ export default function ProfessorsCard({
   const filteredProfessors = professorsList.filter(
     (prof) =>
       prof.professionalTitle.toLowerCase().includes(filter.toLowerCase()) ||
-      prof.user.username.toLowerCase().includes(filter.toLowerCase()) ||
-      (prof.user.firstName?.toLowerCase() ?? '').includes(
+      prof.username.toLowerCase().includes(filter.toLowerCase()) ||
+      (prof.firstName?.toLowerCase() ?? '').includes(
         filter.toLowerCase(),
       ) || // Maneja null
-      (prof.user.lastName?.toLowerCase() ?? '').includes(
+      (prof.lastName?.toLowerCase() ?? '').includes(
         filter.toLowerCase(),
       ) || // Maneja null
       prof.expertise.toLowerCase().includes(filter.toLowerCase()),
@@ -76,15 +76,15 @@ export default function ProfessorsCard({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredProfessors.map((profesor) => (
-                <Card key={profesor.id} className="flex flex-col">
+                <Card key={profesor.idProfessor} className="flex flex-col">
                   <CardHeader className="flex flex-row items-center space-y-0 pb-2">
                     <Avatar className="h-16 w-16 mr-4">
                       <AvatarImage
-                        src={profesor.user.profileImageUrl}
-                        alt={`Foto de ${profesor.user.username}`}
+                        src={profesor.profileImageUrl}
+                        alt={`Foto de ${profesor.username}`}
                       />
                       <AvatarFallback>
-                        {profesor.user.username
+                        {profesor.username
                           .split(' ')
                           .map((n) => n[0])
                           .join('')}
@@ -92,17 +92,19 @@ export default function ProfessorsCard({
                     </Avatar>
                     <div className="flex-1">
                       <CardTitle className="text-lg font-medium">
-                        {profesor.professionalTitle} {profesor.user.firstName}{' '}
-                        {profesor.user.lastName}
+                        {profesor.professionalTitle} {profesor.firstName}{' '}
+                        {profesor.lastName}
                       </CardTitle>
                       {/*   <CardDescription className="text-sm text-muted-foreground">
                   {profesor.expertise}
                 </CardDescription> */}
                     </div>
                     <Checkbox
-                      id={`select-${profesor.id}`}
-                      checked={selected.includes(profesor.id)}
-                      onCheckedChange={() => toggleSeleccion(profesor.id)}
+                      id={`select-${profesor.idProfessor}`}
+                      checked={selected.includes(profesor.idProfessor)}
+                      onCheckedChange={() =>
+                        toggleSelection(profesor.idProfessor)
+                      }
                     />
                   </CardHeader>
                   <CardContent>
