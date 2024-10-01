@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { UserStudent } from '@/pages/dashboard/interfaces/students.interface'
+import { UserStudent, UserStudentDetail } from '@/pages/dashboard/interfaces/students.interface'
 import { ColumnDef, SortDirection } from '@tanstack/react-table'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -16,7 +16,7 @@ const SortedIcon = ({ isSorted }: { isSorted: SortDirection | false }) => {
   return null
 }
 
-export const columns: ColumnDef<UserStudent>[] = [
+export const columns: ColumnDef<UserStudentDetail>[] = [
   {
     id: 'select',
     header: ({ table }) => (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { DataTable } from '@/custom_components/data-table/DataTable'
-import { Student, UserStudent } from './interfaces/students.interface'
+import { Student, UserStudent, UserStudentDetail } from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -10,7 +10,7 @@ import { UserProfile } from '@/custom_components/cards/UserCard'
 import { UserDialogProfile } from '@/custom_components/cards/UserProfile'
 
 export const StudentsPage = () => {
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<Student[]>({
+  const { data, isLoading, error, reload } = useAxiosQueryAuth<UserStudentDetail[]>({
     url: `/students/find-students`,
     method: 'GET',
   })
@@ -19,7 +19,7 @@ export const StudentsPage = () => {
   /*
   const { changeDialogInformation } = useThemeStore() */
   /* const { setProfileDialog } = useThemeStore() */
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
+  const [selectedStudent, setSelectedStudent] = useState<UserStudentDetail | null>(null)
 
   /* useEffect(() => {
     if (selectedStudent != null) {
@@ -34,7 +34,7 @@ export const StudentsPage = () => {
   useEffect(() => {
     if (selectedStudent != null) {
       changeExtraInformation(
-        <UserDialogProfile idStudent={selectedStudent.id} />,
+        <UserDialogProfile studentDetail={selectedStudent} />,
       )
     }
   }, [selectedStudent])
@@ -50,7 +50,7 @@ export const StudentsPage = () => {
           <CardContent>
             <DataTable
               columns={columns}
-              data={data?.map((student) => student.user) || []}
+              data={data?.map((student) => student) || []}
               handleInfo={(rowData) => {
                 setSelectedStudent(rowData)
                 /* setProfileDialog(true) */

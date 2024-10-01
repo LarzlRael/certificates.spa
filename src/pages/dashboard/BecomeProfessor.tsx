@@ -66,18 +66,23 @@ interface UserProfileRawInfoProps {
 }
 const UserProfileRawInfo = ({ user }: UserProfileRawInfoProps) => {
   return (
-    <CardHeader className="flex flex-row items-center gap-4">
-      <Avatar className="h-20 w-20">
-        <AvatarImage src={user?.profileImageUrl} alt="Foto del usuario" />
-        <AvatarFallback>
-          <User className="h-10 w-10" />
-        </AvatarFallback>
-      </Avatar>
-      <div>
-        <CardTitle>
-          {user?.firstName} {user?.lastName}
-        </CardTitle>
-        <CardDescription>{user?.username}</CardDescription>
+    <CardHeader>
+      <div className="flex items-center space-x-4">
+        <Avatar className="w-12 h-12">
+          <AvatarImage src={user.profileImageUrl} />
+          <AvatarFallback>
+            {user.username
+              .split(' ')
+              .map((n) => n[0])
+              .join('')}
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <CardTitle>
+            {user.professionalTitle} {user.firstName} {user.lastName}
+          </CardTitle>
+          <CardDescription>{user.email}</CardDescription>
+        </div>
       </div>
     </CardHeader>
   )

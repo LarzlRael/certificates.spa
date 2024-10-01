@@ -37,65 +37,56 @@ import { EditUserProfile } from './EditUserProfile'
 import { BecomeProfessor } from '@/pages/dashboard/BecomeProfessor'
 
 interface UserDialogProfileProps {
-  idStudent?: number
+  studentDetail?: UserStudentDetail
 }
-export const UserDialogProfile = ({ idStudent }: UserDialogProfileProps) => {
-  const { data, isLoading } = useAxiosQueryAuth<UserStudentDetail>({
+export const UserDialogProfile = ({
+  studentDetail,
+}: UserDialogProfileProps) => {
+  /*  const { studentDetail, isLoading } = useAxiosQueryAuth<UserStudentDetail>({
     url: `/students/user-student-info/${idStudent}`,
     method: 'GET',
-  })
+  }) */
 
   const { changeExtraInformation } = useThemeStore()
   const { changeDialogInformation } = useThemeStore()
 
-  return isLoading ? (
-    <Card>
-      <CardContent>
-        <div className="flex flex-wrap gap-2 items-center">
-          <Skeleton className="w-20 h-20 rounded-full" />
-          <div>
-            <Skeleton className="w-30 h-5" />
-            <Skeleton className="w-30 h-5" />
-          </div>
-        </div>
-
-        <Skeleton className="h-5 w-50 rounded-md my-4" />
-        <Skeleton className="h-5 w-50 rounded-md mry-4" />
-        <Skeleton className="h-5 w-50 rounded-md my-4" />
-      </CardContent>
-    </Card>
-  ) : (
+  return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center gap-4">
         <Avatar className="h-20 w-20">
-          <AvatarImage src={data?.profileImageUrl} alt="Foto del usuario" />
+          <AvatarImage
+            src={studentDetail?.profileImageUrl}
+            alt="Foto del usuario"
+          />
           <AvatarFallback>
             <User className="h-10 w-10" />
           </AvatarFallback>
         </Avatar>
         <div>
           <CardTitle>
-            {data?.firstName} {data?.lastName}
+            {studentDetail?.firstName} {studentDetail?.lastName}
           </CardTitle>
-          <CardDescription>{data?.username}</CardDescription>
+          <CardDescription>{studentDetail?.username}</CardDescription>
         </div>
       </CardHeader>
       <CardContent className="">
         <UserProfileRawInfo
-          value={data?.email}
+          value={studentDetail?.email}
           icon={<Mail className="h-4 w-4 text-muted-foreground" />}
         />
         <UserProfileRawInfo
-          value={data?.phone}
+          value={studentDetail?.phone}
           icon={<Phone className="h-4 w-4 text-muted-foreground" />}
         />
         <UserProfileRawInfo
-          value={data?.address}
+          value={studentDetail?.address}
           icon={<MapPin className="h-4 w-4 text-muted-foreground" />}
         />
 
         <UserProfileRawInfo
-          value={'Miembro desde: ' + convertDate(data?.createdAt, 'LLLL')}
+          value={
+            'Miembro desde: ' + convertDate(studentDetail?.createdAt, 'LLLL')
+          }
           icon={<Calendar className="h-4 w-4 text-muted-foreground" />}
         />
         {/* <div className="flex items-center gap-2">
@@ -109,7 +100,7 @@ export const UserDialogProfile = ({ idStudent }: UserDialogProfileProps) => {
         <Badge>User Research</Badge>
       </div> */}
 
-        {data?.roles?.map((role) => (
+        {studentDetail?.roles?.map((role) => (
           <Badge className="mx-1" key={role.id}>
             {capitalizeString(role.name)}
           </Badge>
@@ -125,9 +116,7 @@ export const UserDialogProfile = ({ idStudent }: UserDialogProfileProps) => {
               isDialogOpen: true,
               title: 'Convertirse en profesor',
               subtitle: '¿Estás seguro de que deseas convertirte en profesor?',
-              content: (
-                <BecomeProfessor userStudent={data} />
-              ),
+              content: <BecomeProfessor userStudent={studentDetail} />,
             })
           }
         >
