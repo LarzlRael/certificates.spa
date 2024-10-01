@@ -29,17 +29,20 @@ import {
 import { useParams } from 'react-router-dom'
 import { CourseEnrollInterface } from './interfaces/course-enroll.interface'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { FormLabel } from '@/components/ui/form'
+import { postAction } from '@/provider/action/ActionAuthorization'
+import { isValidStatus } from '@/utils/validation/validation'
 
 export const CreateCoursePage = () => {
   const [isPending, setisPending] = useState(false)
   const params = useParams()
-  const {
+ /*  const {
     data: courseData,
     isLoading: isLoadingCourse,
     reload: reloadCourse,
   } = useAxiosQueryAuth<CourseEnrollInterface>({
     url: `/course/course-detail/${params.idCourse}`,
-  })
+  }) */
   const { data, isLoading, reload } = useAxiosQueryAuth<ProfessorInterface[]>({
     url: '/professor',
   })
@@ -53,7 +56,7 @@ export const CreateCoursePage = () => {
       courseName: '',
       courseDescription: '',
       requirements: '',
-      coursePrice: '',
+      coursePrice: 0,
       modality: '',
       notes: '',
       informationContact: '',
@@ -64,14 +67,22 @@ export const CreateCoursePage = () => {
       imageCourse: undefined,
     },
   })
-  function handleSubmit(values) {
-    processAddCourseData(values)
+  async function handleSubmit(values) {
+    const sendData = await postAction(
+      '/course',
+      processAddCourseData(values),
+    )
+    if (isValidStatus(sendData.status)) {
+      // Si se envió correctamente, recarga la página
+      /* reloadCourse() */
+    }
   }
+
   function selectProfessors(ids) {
     setSelectProfessor(data.filter((professor) => ids.includes(professor.id)))
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (courseData != null || courseData != undefined) {
       form.reset({
         courseName: courseData.courseName || '',
@@ -92,7 +103,7 @@ export const CreateCoursePage = () => {
       })
       setSelectProfessor(courseData.professors || [])
     }
-  }, [courseData, form])
+  }, [courseData, form]) */
 
   return (
     <div className="">
@@ -104,7 +115,7 @@ export const CreateCoursePage = () => {
           <FormProvider {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
-              className="space-y-4"
+              className="space-y-2"
             >
               <FormCustomField
                 isLoading={isPending}
@@ -134,9 +145,9 @@ export const CreateCoursePage = () => {
                 control={form.control}
                 render={({ field }) => (
                   <div className="flex flex-col">
-                    <label className="mb-2 font-semibold text-gray-700">
+                    <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
                       Subir imagen del curso
-                    </label>
+                    </FormLabel>
                     <input
                       type="file"
                       accept="image/*" // Solo acepta imágenes
@@ -189,6 +200,10 @@ export const CreateCoursePage = () => {
                 label="Precio del curso"
                 placeholder="Precio del curso"
               />
+
+              <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
+                Modalidad
+              </FormLabel>
               <Controller
                 name="modality" // Nombre del campo en el schema del form
                 control={form.control}

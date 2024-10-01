@@ -15,3 +15,8 @@ export interface UserAuth {
   roles: string[];
   accessToken: string;
 }
+export interface RolesInterface {
+  id:          number;
+  name:        string;
+  description: string;
+}

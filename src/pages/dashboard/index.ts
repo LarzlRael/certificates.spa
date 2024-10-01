@@ -13,3 +13,4 @@ export { DashBoardHomePage } from './DashBoardHomePage'
 
 export { ProfileStudentPage } from './student/ProfileStudentPage'
 export { PaymentsDetailPage } from './PaymentsDetailPage'
+export { EditCoursePage } from './EditCoursePage'

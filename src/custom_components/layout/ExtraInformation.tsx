@@ -1,10 +1,10 @@
 import { useThemeStore } from '@/store/themeStore'
 
 export const ExtraInformation = () => {
-  const { informationInfo } = useThemeStore()
+  const { extraInformation } = useThemeStore()
   return (
     <div className="" id="infor">
-      {informationInfo ?? null}
+      {extraInformation ?? null}
     </div>
   )
 }

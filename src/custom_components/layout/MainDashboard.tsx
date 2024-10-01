@@ -16,6 +16,7 @@ import { useState } from 'react'
 import { useNavigate, Link, Outlet } from 'react-router-dom'
 import { ExtraInformation } from './ExtraInformation'
 import { Button } from '@/components/ui/button'
+import { DialogInformation } from './dasboard/DialogInformation'
 
 interface MenuItems {
   icon: any
@@ -114,7 +115,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
 
       {/* Sidebar derecho */}
       <aside
-        className={`bg-white w-64 min-h-screen p-4 transition-all duration-300 ${
+        className={`bg-white w-96 min-h-screen p-4 transition-all duration-300 ${
           rightSidebarOpen ? '' : 'translate-x-64'
         }`}
       >
@@ -123,6 +124,8 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
           <ExtraInformation />
         </div>
       </aside>
+      {/* Didalong component */}
+      <DialogInformation />
     </div>
   )
 }

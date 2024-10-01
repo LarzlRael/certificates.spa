@@ -17,6 +17,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ProfessorInterface } from '@/pages/dashboard/interfaces/professors.interface'
+import { FormLabel } from '@/components/ui/form'
 /* import { Badge } from '@/components/ui/badge' */
 
 interface ProfessorsProps {
@@ -55,77 +56,84 @@ export default function ProfessorsCard({
   )
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Seleccionar profesores</Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-100">
-        <div className="container mx-auto p-4">
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Buscar profesores..."
-              className="w-full p-2 border rounded"
-              onChange={(e) => setFilter(e.target.value)}
-            />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredProfessors.map((profesor) => (
-              <Card key={profesor.id} className="flex flex-col">
-                <CardHeader className="flex flex-row items-center space-y-0 pb-2">
-                  <Avatar className="h-16 w-16 mr-4">
-                    <AvatarImage
-                      src={profesor.user.profileImageUrl}
-                      alt={`Foto de ${profesor.user.username}`}
-                    />
-                    <AvatarFallback>
-                      {profesor.user.username
-                        .split(' ')
-                        .map((n) => n[0])
-                        .join('')}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg font-medium">
-                      {profesor.professionalTitle} {profesor.user.firstName}{' '}
-                      {profesor.user.lastName}
-                    </CardTitle>
-                    {/*   <CardDescription className="text-sm text-muted-foreground">
+    <>
+      <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
+        Profesores
+      </FormLabel>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline">Seleccionar profesores</Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-100">
+          <div className="container mx-auto p-4">
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Buscar profesores..."
+                className="w-full p-2 border rounded"
+                onChange={(e) => setFilter(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredProfessors.map((profesor) => (
+                <Card key={profesor.id} className="flex flex-col">
+                  <CardHeader className="flex flex-row items-center space-y-0 pb-2">
+                    <Avatar className="h-16 w-16 mr-4">
+                      <AvatarImage
+                        src={profesor.user.profileImageUrl}
+                        alt={`Foto de ${profesor.user.username}`}
+                      />
+                      <AvatarFallback>
+                        {profesor.user.username
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <CardTitle className="text-lg font-medium">
+                        {profesor.professionalTitle} {profesor.user.firstName}{' '}
+                        {profesor.user.lastName}
+                      </CardTitle>
+                      {/*   <CardDescription className="text-sm text-muted-foreground">
                   {profesor.expertise}
                 </CardDescription> */}
-                  </div>
-                  <Checkbox
-                    id={`select-${profesor.id}`}
-                    checked={selected.includes(profesor.id)}
-                    onCheckedChange={() => toggleSeleccion(profesor.id)}
-                  />
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm mb-2">
-                    Experiencia: {profesor.expertise}
-                  </p>
-                  {/* <div className="flex flex-wrap gap-1">
+                    </div>
+                    <Checkbox
+                      id={`select-${profesor.id}`}
+                      checked={selected.includes(profesor.id)}
+                      onCheckedChange={() => toggleSeleccion(profesor.id)}
+                    />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm mb-2">
+                      Experiencia: {profesor.expertise}
+                    </p>
+                    {/* <div className="flex flex-wrap gap-1">
                 {profesor.especialidades.map((esp, index) => (
                   <Badge key={index} variant="secondary">
                     {esp}
                   </Badge>
                 ))}
               </div> */}
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <div className="mt-4">
+              <Button
+                onClick={() =>
+                  console.log('Profesores seleccionados:', selected)
+                }
+                disabled={selected.length === 0}
+              >
+                Contactar Seleccionados ({selected.length})
+              </Button>
+            </div>
           </div>
-          <div className="mt-4">
-            <Button
-              onClick={() => console.log('Profesores seleccionados:', selected)}
-              disabled={selected.length === 0}
-            >
-              Contactar Seleccionados ({selected.length})
-            </Button>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </PopoverContent>
+      </Popover>
+    </>
   )
 }
 
@@ -139,7 +147,7 @@ export const ProfessorCardMini = ({
   selectProfessors,
 }: ProfessorsPropsMini) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
       {professorsList.map((profesor) => (
         <Card key={profesor.id} className="relative">
           {/* button */}

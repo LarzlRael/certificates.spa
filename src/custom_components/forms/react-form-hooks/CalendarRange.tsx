@@ -16,11 +16,11 @@ import { FormField, FormItem, FormLabel } from '@/components/ui/form'
 export function DatePickerWithRange({
   className,
   control,
-  fieldName
+  fieldName,
 }: {
   className?: string
-  control: any,
-  fieldName: string,
+  control: any
+  fieldName: string
 }) {
   return (
     <div className={cn('grid gap-2', className)}>
@@ -29,7 +29,9 @@ export function DatePickerWithRange({
         name={fieldName}
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>Rango de fechas</FormLabel>
+            <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
+              Rango de fechas
+            </FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -61,8 +63,7 @@ export function DatePickerWithRange({
                   mode="range"
                   defaultMonth={field.value?.from}
                   selected={field.value}
-                  onSelect={(range: DateRange | undefined) =>{
-                    console.log(range)
+                  onSelect={(range: DateRange | undefined) => {
                     field.onChange(range)
                   }} // Aseguramos que el cambio propague correctamente el rango
                   numberOfMonths={2}

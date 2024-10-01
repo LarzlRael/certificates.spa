@@ -17,6 +17,7 @@ export interface UserStudent {
   profileImageUrl: null | string;
   email:           null | string;
   address:         null | string;
+  phone:           null | string;
   createdAt:       string;
 }
 
@@ -29,4 +30,23 @@ export class Convert {
   public static studentToJson(value: Student[]): string {
       return JSON.stringify(value);
   }
+}
+
+export interface UserStudentDetail {
+  id:              number;
+  idStudent:       number;
+  username:        string;
+  firstName:       string;
+  lastName:        string;
+  email:           string;
+  phone:           string;
+  createdAt:       Date;
+  profileImageUrl: string;
+  address:         null;
+  roles:           Role[];
+}
+
+export interface Role {
+  id:   number;
+  name: string;
 }

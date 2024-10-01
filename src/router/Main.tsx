@@ -25,6 +25,7 @@ import {
   SettingsPage,
   ProfileStudentPage,
   PaymentsDetailPage,
+  EditCoursePage
 } from '@/pages/dashboard'
 import DashboardLayout from '@/custom_components/layout/DashboardLayout'
 import { PrivateRoutes } from './PrivateRoutes'
@@ -72,7 +73,7 @@ export const Main = () => {
           <Route path="cursos/crear-curso" element={<CreateCoursePage />} />
           <Route
             path="cursos/modificar-curso/:idCourse"
-            element={<CreateCoursePage />}
+            element={<EditCoursePage />}
           />
           <Route path="cursos/:idCourse" element={<EnrollmentByCourse />} />
           <Route path="notificaciones" element={<NotificationsPage />} />

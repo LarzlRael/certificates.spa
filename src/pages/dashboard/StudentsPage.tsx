@@ -14,16 +14,27 @@ export const StudentsPage = () => {
     url: `/students/find-students`,
     method: 'GET',
   })
-  const { changeInformationInfo } = useThemeStore()
-  const [selectedStudent, setSelectedStudent] = useState<UserStudent>(null)
+  const { changeExtraInformation } = useThemeStore()
+  /* const { changeDialogInformation } = useThemeStore() */
+  /*
+  const { changeDialogInformation } = useThemeStore() */
+  /* const { setProfileDialog } = useThemeStore() */
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
 
+  /* useEffect(() => {
+    if (selectedStudent != null) {
+      changeExtraInformation({
+        isDialogOpen: true,
+        content: <UserDialogProfile idStudent={selectedStudent.id} />,
+        title: 'Perfil de Usuario',
+        subtitle: 'Información personal y de contacto',
+      })
+    }
+  }, [selectedStudent]) */
   useEffect(() => {
     if (selectedStudent != null) {
-      changeInformationInfo(
-        <div>
-          <h1>{selectedStudent.username}</h1>
-          <p>{selectedStudent.email}</p>
-        </div>,
+      changeExtraInformation(
+        <UserDialogProfile idStudent={selectedStudent.id} />,
       )
     }
   }, [selectedStudent])
@@ -42,12 +53,25 @@ export const StudentsPage = () => {
               data={data?.map((student) => student.user) || []}
               handleInfo={(rowData) => {
                 setSelectedStudent(rowData)
+                /* setProfileDialog(true) */
+                /* changeDialogInformation({
+                  subtitle: 'Información del estudiante',
+                  title: 'Perfil',
+                  content: (
+                    <>
+                      <h2>Información del estudiante</h2>
+                      <label>
+                        Nombre: {rowData?.firstName} {rowData?.lastName}
+                      </label>
+                    </>
+                  ),
+                }) */
               }}
             />
           </CardContent>
         </Card>
       )}
-      {/* <UserDialogProfile /> */}
+      {/*       <UserDialogProfile userStudent={selectedStudent} /> */}
     </div>
   )
 }
@@ -66,11 +90,4 @@ export const SkeletonLoading = () => {
       ))}
     </>
   )
-}
-
-{
-  /* <DataTable
-          columns={columns}
-          data={data?.map((student) => student.user) || []}
-        /> */
 }

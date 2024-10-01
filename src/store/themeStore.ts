@@ -9,29 +9,53 @@ type LayoutStyle =
   | 'Dashboard'
   | 'DashboardBigContent'
 
+interface DialogInformation {
+  isDialogOpen: boolean
+  title?: string
+  subtitle?: string
+  content: React.ReactNode | undefined
+}
 interface State {
   isDarkMode: boolean
-  informationInfo: React.ReactNode | null
-  toggleDarkMode: () => void
-  changeInformationInfo: (info: React.ReactNode | null) => void
+  dialogContent: DialogInformation
+  extraInformation: React.ReactNode | undefined
   layout: {
     content: string
     responsive: string
   }
   navigation: boolean
   layoutStyle: LayoutStyle
-  openProfileDialog: boolean
-  setProfileDialog: (open: boolean) => void
+
+  changeExtraInformation: (extraInformation: React.ReactNode) => void
+  changeDialogInformation: (dialogInformation: DialogInformation) => void
+  toggleDarkMode: () => void
   changeLayout: (layoutStyle: LayoutStyle, navigation?: boolean) => void
 }
 
 export const useThemeStore = create<State>((set) => ({
+  informationDialog: null,
   isDarkMode: false,
   openProfileDialog: false,
-  informationInfo: null,
-  setProfileDialog: (open) => set({ openProfileDialog: open }),
+  dialogContent: {
+    content: undefined,
+    isDialogOpen: false,
+    title: '',
+    subtitle: '',
+  },
+  extraInformation: undefined,
+  changeExtraInformation: (extraInformation) =>
+    set({ extraInformation: extraInformation }),
+
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
-  changeInformationInfo: (info) => set({ informationInfo: info }),
+  changeDialogInformation: (info) =>
+    set({
+      dialogContent: {
+        isDialogOpen: info.isDialogOpen,
+        title: info.title,
+        subtitle: info.subtitle,
+        content: info.content,
+      },
+    }),
 
   layout: {
     content: `"Navbar Navbar Navbar Navbar" "Content Content Content Inf"`,
