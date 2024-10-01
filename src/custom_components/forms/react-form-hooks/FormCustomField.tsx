@@ -11,11 +11,11 @@ import { Input } from '@/components/ui/input'
 interface PasswordFieldProps {
   control: any
   isLoading: boolean
-  label: string
+  label?: string
   fieldName: string
   placeholder?: string
   isPasswordField?: boolean
-  inputType?: string;
+  inputType?: string
 }
 
 export const FormCustomField = ({
@@ -24,7 +24,7 @@ export const FormCustomField = ({
   label,
   fieldName,
   placeholder,
-  inputType="text",
+  inputType = 'text',
   isPasswordField = false,
 }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(!isPasswordField)
@@ -36,7 +36,6 @@ export const FormCustomField = ({
   return (
     <FormField
       control={control}
-      
       name={fieldName}
       render={({ field }) => (
         <FormItem>
@@ -49,8 +48,11 @@ export const FormCustomField = ({
                 disabled={isLoading}
                 className="block w-full pr-10 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-left"
                 type={
-                  isPasswordField ? 
-                  (showPassword ? 'text' : 'password'): inputType
+                  isPasswordField
+                    ? showPassword
+                      ? 'text'
+                      : 'password'
+                    : inputType
                 }
                 placeholder={placeholder}
                 {...field}

@@ -34,6 +34,7 @@ import { isValidString } from '@/utils/validation/validation'
 import { capitalizeString } from '../../utils/utils'
 import { useThemeStore } from '@/store/themeStore'
 import { EditUserProfile } from './EditUserProfile'
+import { BecomeProfessor } from '@/pages/dashboard/BecomeProfessor'
 
 interface UserDialogProfileProps {
   idStudent?: number
@@ -45,6 +46,7 @@ export const UserDialogProfile = ({ idStudent }: UserDialogProfileProps) => {
   })
 
   const { changeExtraInformation } = useThemeStore()
+  const { changeDialogInformation } = useThemeStore()
 
   return isLoading ? (
     <Card>
@@ -116,6 +118,20 @@ export const UserDialogProfile = ({ idStudent }: UserDialogProfileProps) => {
       <CardFooter className="">
         <Button onClick={() => changeExtraInformation(<EditUserProfile />)}>
           Editar Perfil
+        </Button>
+        <Button
+          onClick={() =>
+            changeDialogInformation({
+              isDialogOpen: true,
+              title: 'Convertirse en profesor',
+              subtitle: '¿Estás seguro de que deseas convertirte en profesor?',
+              content: (
+                <BecomeProfessor userStudent={data} />
+              ),
+            })
+          }
+        >
+          Convertir en profesor
         </Button>
       </CardFooter>
     </Card>

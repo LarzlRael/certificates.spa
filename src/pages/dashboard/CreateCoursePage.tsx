@@ -36,7 +36,7 @@ import { isValidStatus } from '@/utils/validation/validation'
 export const CreateCoursePage = () => {
   const [isPending, setisPending] = useState(false)
   const params = useParams()
- /*  const {
+  /*  const {
     data: courseData,
     isLoading: isLoadingCourse,
     reload: reloadCourse,
@@ -68,10 +68,7 @@ export const CreateCoursePage = () => {
     },
   })
   async function handleSubmit(values) {
-    const sendData = await postAction(
-      '/course',
-      processAddCourseData(values),
-    )
+    const sendData = await postAction('/course', processAddCourseData(values))
     if (isValidStatus(sendData.status)) {
       // Si se envió correctamente, recarga la página
       /* reloadCourse() */
