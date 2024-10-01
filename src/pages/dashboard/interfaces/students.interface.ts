@@ -11,7 +11,7 @@ export interface Student {
 
 export interface UserStudent {
   id:              number;
-  username:        null | string;
+  username:        string;
   firstName:       null | string;
   lastName:        null | string;
   profileImageUrl: null | string;

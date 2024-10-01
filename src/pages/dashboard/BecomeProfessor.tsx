@@ -4,15 +4,18 @@ import { User } from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 import { z } from 'zod'
-import { Button } from '@/components/ui/button'
 import { CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
+import {
+  FormCustomField,
+  FormCustomArea,
+} from '@/custom_components/forms/react-form-hooks/'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserStudentDetail } from './interfaces/students.interface'
-import { postAction } from '@/provider/action/ActionAuthorization'
-import { isValidStatus } from '@/utils/validation/validation'
+import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 
+import { postAction } from '@/provider/action/ActionAuthorization'
 import { useInformationStore } from '@/store/useInformationStore'
 
 const professorSchema = z.object({
@@ -24,8 +27,14 @@ const professorSchema = z.object({
 })
 interface BecomeProfessorProps {
   userStudent: UserStudentDetail | undefined
+  professionalTitle?: string | undefined
+  expertise?: string | undefined
 }
-export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
+export const BecomeProfessor = ({
+  userStudent,
+  professionalTitle,
+  expertise,
+}: BecomeProfessorProps) => {
   const { changeDialogInformation } = useInformationStore()
   const { changeExtraInformation } = useInformationStore()
 
@@ -33,8 +42,10 @@ export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
   const form = useForm<z.infer<typeof professorSchema>>({
     resolver: zodResolver(professorSchema),
     defaultValues: {
-      professionalTitle: '',
-      expertise: '',
+      professionalTitle: isValidString(professionalTitle)
+        ? professionalTitle
+        : '',
+      expertise: isValidString(expertise) ? expertise : '',
       idUser: userStudent?.id,
     },
   })
@@ -72,7 +83,7 @@ export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
             label="Titulo profesional"
             placeholder="Titulo profesional"
           />
-          <FormCustomField
+          <FormCustomArea
             isLoading={isLoading}
             control={form.control}
             fieldName="expertise"
