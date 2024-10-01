@@ -1,25 +1,34 @@
 import { useState, useEffect } from 'react'
 import { DataTable } from '@/custom_components/data-table/DataTable'
-import { Student, UserStudent, UserStudentDetail } from './interfaces/students.interface'
+import {
+  Student,
+  UserStudent,
+  UserStudentDetail,
+} from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useThemeStore } from '@/store/themeStore'
+import { useInformationStore } from '@/store/useInformationStore'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { UserProfile } from '@/custom_components/cards/UserCard'
 import { UserDialogProfile } from '@/custom_components/cards/UserProfile'
 
 export const StudentsPage = () => {
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<UserStudentDetail[]>({
+  const { data, isLoading, error, reload } = useAxiosQueryAuth<
+    UserStudentDetail[]
+  >({
     url: `/students/find-students`,
     method: 'GET',
   })
-  const { changeExtraInformation } = useThemeStore()
+  const { changeExtraInformation } = useInformationStore()
   /* const { changeDialogInformation } = useThemeStore() */
   /*
   const { changeDialogInformation } = useThemeStore() */
   /* const { setProfileDialog } = useThemeStore() */
-  const [selectedStudent, setSelectedStudent] = useState<UserStudentDetail | null>(null)
+  const [
+    selectedStudent,
+    setSelectedStudent,
+  ] = useState<UserStudentDetail | null>(null)
 
   /* useEffect(() => {
     if (selectedStudent != null) {

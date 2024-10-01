@@ -32,9 +32,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { RolesInterface } from '@/interfaces/auth.interface'
 import { isValidString } from '@/utils/validation/validation'
 import { capitalizeString } from '../../utils/utils'
-import { useThemeStore } from '@/store/themeStore'
 import { EditUserProfile } from './EditUserProfile'
 import { BecomeProfessor } from '@/pages/dashboard/BecomeProfessor'
+import { useInformationStore } from '@/store/useInformationStore'
 
 interface UserDialogProfileProps {
   studentDetail?: UserStudentDetail
@@ -47,8 +47,8 @@ export const UserDialogProfile = ({
     method: 'GET',
   }) */
 
-  const { changeExtraInformation } = useThemeStore()
-  const { changeDialogInformation } = useThemeStore()
+  const { changeExtraInformation } = useInformationStore()
+  const { changeDialogInformation } = useInformationStore()
 
   return (
     <Card className="w-full">

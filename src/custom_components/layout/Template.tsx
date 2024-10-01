@@ -2,7 +2,7 @@ import './style.css'
 
 import GridContainer from './GridContainer'
 
-import { useThemeStore } from '@/store/themeStore'
+import { useThemeStore } from '@/store/useThemeStore'
 import { ExtraInformation } from './ExtraInformation'
 import { useEffect } from 'react'
 import { Sidebar } from './dasboard/Sidebar'

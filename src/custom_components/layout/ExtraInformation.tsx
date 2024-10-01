@@ -1,7 +1,7 @@
-import { useThemeStore } from '@/store/themeStore'
+import { useInformationStore } from '@/store/useInformationStore'
 
 export const ExtraInformation = () => {
-  const { extraInformation } = useThemeStore()
+  const { extraInformation } = useInformationStore()
   return (
     <div className="" id="infor">
       {extraInformation ?? null}

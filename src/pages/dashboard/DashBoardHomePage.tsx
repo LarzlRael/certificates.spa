@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import UserCardMini from '@/custom_components/cards/UserCard'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
-import { useThemeStore } from '@/store/themeStore'
+import { useInformationStore } from '@/store/useInformationStore'
 import { isValidArray } from '@/utils/validation/validation'
 import {
   User,
@@ -110,7 +110,7 @@ const notificaciones = [
 
 export const DashBoardHomePage = () => {
   const navigate = useNavigate()
-  const { changeInformationInfo } = useThemeStore()
+  const { changeInformationInfo } = useInformationStore()
   const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
     Student[]
   >({

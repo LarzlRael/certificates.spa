@@ -7,11 +7,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useThemeStore } from '@/store/themeStore'
+import { useInformationStore } from '@/store/useInformationStore'
 
 export const DialogInformation = () => {
-  const { dialogContent } = useThemeStore()
-  const { changeDialogInformation } = useThemeStore()
+  const { dialogContent } = useInformationStore()
+  const { changeDialogInformation } = useInformationStore()
 
   return (
     <Dialog

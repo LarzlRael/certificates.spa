@@ -1,17 +1,19 @@
+import { useState } from 'react'
+import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
+import { User } from 'lucide-react'
+import { FormProvider, useForm } from 'react-hook-form'
+
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
-import { User } from 'lucide-react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { UserStudentDetail } from './interfaces/students.interface'
 import { postAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
 import { toast } from 'sonner'
-import { useThemeStore } from '@/store/themeStore'
-import { useState } from 'react'
+
+import { useInformationStore } from '@/store/useInformationStore'
 
 const professorSchema = z.object({
   professionalTitle: z.string().min(2, {
@@ -24,8 +26,9 @@ interface BecomeProfessorProps {
   userStudent: UserStudentDetail | undefined
 }
 export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
-  const { changeDialogInformation } = useThemeStore()
-  const { changeExtraInformation } = useThemeStore()
+  const { changeDialogInformation } = useInformationStore()
+  const { changeExtraInformation } = useInformationStore()
+
   const [isLoading, setIsLoading] = useState(false)
   const form = useForm<z.infer<typeof professorSchema>>({
     resolver: zodResolver(professorSchema),

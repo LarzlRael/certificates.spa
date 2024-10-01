@@ -14,7 +14,8 @@ import {
 
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { useThemeStore } from '@/store/themeStore'
+import { useInformationStore } from '@/store/useInformationStore'
+import { useThemeStore } from '@/store/useThemeStore'
 interface MenuItems {
   icon: any
   label: string

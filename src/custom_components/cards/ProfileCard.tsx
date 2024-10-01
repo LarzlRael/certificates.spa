@@ -81,33 +81,6 @@ export default function EnhancedCourseUserProfile() {
     createdAt: '2023-01-15T00:00:00Z',
   }
 
-  const courses: Course[] = [
-    {
-      id: 1,
-      title: 'Introduction to React',
-      category: 'Web Development',
-      completionDate: '2023-03-15',
-    },
-    {
-      id: 2,
-      title: 'Advanced JavaScript',
-      category: 'Programming',
-      completionDate: null,
-    },
-    {
-      id: 3,
-      title: 'UX Design Fundamentals',
-      category: 'Design',
-      completionDate: '2023-05-20',
-    },
-    {
-      id: 4,
-      title: 'Data Science Basics',
-      category: 'Data',
-      completionDate: null,
-    },
-  ]
-
   const fullName =
     [user.firstName, user.lastName].filter(Boolean).join(' ') ||
     'Anonymous Learner'

@@ -1,5 +1,5 @@
 import './App.css'
-import { useThemeStore } from './store/themeStore'
+import { useThemeStore } from './store/useThemeStore'
 import { Main } from './router/Main'
 
 function App() {

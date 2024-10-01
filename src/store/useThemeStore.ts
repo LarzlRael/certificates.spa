@@ -1,3 +1,4 @@
+// useThemeStore.ts
 import { create } from 'zustand'
 
 type LayoutStyle =
@@ -9,16 +10,8 @@ type LayoutStyle =
   | 'Dashboard'
   | 'DashboardBigContent'
 
-interface DialogInformation {
-  isDialogOpen: boolean
-  title?: string
-  subtitle?: string
-  content: React.ReactNode | undefined
-}
 interface State {
   isDarkMode: boolean
-  dialogContent: DialogInformation
-  extraInformation: React.ReactNode | undefined
   layout: {
     content: string
     responsive: string
@@ -26,36 +19,13 @@ interface State {
   navigation: boolean
   layoutStyle: LayoutStyle
 
-  changeExtraInformation: (extraInformation: React.ReactNode) => void
-  changeDialogInformation: (dialogInformation: DialogInformation) => void
   toggleDarkMode: () => void
   changeLayout: (layoutStyle: LayoutStyle, navigation?: boolean) => void
 }
 
 export const useThemeStore = create<State>((set) => ({
-  informationDialog: null,
   isDarkMode: false,
-  openProfileDialog: false,
-  dialogContent: {
-    content: undefined,
-    isDialogOpen: false,
-    title: '',
-    subtitle: '',
-  },
-  extraInformation: undefined,
-  changeExtraInformation: (extraInformation) =>
-    set({ extraInformation: extraInformation }),
-
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
-  changeDialogInformation: (info) =>
-    set({
-      dialogContent: {
-        isDialogOpen: info.isDialogOpen,
-        title: info.title,
-        subtitle: info.subtitle,
-        content: info.content,
-      },
-    }),
 
   layout: {
     content: `"Navbar Navbar Navbar Navbar" "Content Content Content Inf"`,
@@ -64,7 +34,6 @@ export const useThemeStore = create<State>((set) => ({
   layoutStyle: 'Dashboard',
   navigation: true,
 
-  // Corrección de la función changeLayout
   changeLayout: (layoutStyle: LayoutStyle, navigation = true) => {
     let layout = {
       content: `"Navbar Navbar Navbar Navbar" "Content Content Content Inf"`,
@@ -81,7 +50,7 @@ export const useThemeStore = create<State>((set) => ({
       case 'Dashboard':
         layout = {
           content: `"Sidebar Navbar Navbar Inf"
-                  "Sidebar Content Content Inf"`,
+                    "Sidebar Content Content Inf"`,
           responsive: `"Navbar" "Content" "Content" "Content"`,
         }
         break
@@ -112,7 +81,7 @@ export const useThemeStore = create<State>((set) => ({
       case 'DashboardBigContent':
         layout = {
           content: `"Sidebar Navbar Navbar Navbar"
-                  "Sidebar Content Content Content"`,
+                    "Sidebar Content Content Content"`,
           responsive: `"Navbar" "Content" "Inf" "Inf"`,
         }
         break
@@ -120,7 +89,6 @@ export const useThemeStore = create<State>((set) => ({
         break
     }
 
-    // Actualizamos el estado con el nuevo layout y la navegación
     set({
       layout,
       navigation,
