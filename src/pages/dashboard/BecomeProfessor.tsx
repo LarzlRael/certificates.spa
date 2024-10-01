@@ -7,6 +7,11 @@ import { User } from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { UserStudentDetail } from './interfaces/students.interface'
+import { postAction } from '@/provider/action/ActionAuthorization'
+import { isValidStatus } from '@/utils/validation/validation'
+import { toast } from 'sonner'
+import { useThemeStore } from '@/store/themeStore'
+import { useState } from 'react'
 
 const professorSchema = z.object({
   professionalTitle: z.string().min(2, {
@@ -19,29 +24,53 @@ interface BecomeProfessorProps {
   userStudent: UserStudentDetail | undefined
 }
 export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
+  const { changeDialogInformation } = useThemeStore()
+  const { changeExtraInformation } = useThemeStore()
+  const [isLoading, setIsLoading] = useState(false)
   const form = useForm<z.infer<typeof professorSchema>>({
     resolver: zodResolver(professorSchema),
     defaultValues: {
       professionalTitle: '',
       expertise: '',
-      idUser: 0,
+      idUser: userStudent?.id,
     },
   })
-  const handleSubmit = (values) => {}
+  const handleSubmit = async (values) => {
+    setIsLoading(true)
+    const res = await postAction('/professor', {
+      ...values,
+    })
+    setIsLoading(false)
+    if (isValidStatus(res.status)) {
+      console.log('Profesor')
+      toast.success(
+        `Usuario ${userStudent?.firstName} Se ha convertido en profesor`,
+      )
+      changeDialogInformation({
+        isDialogOpen: false,
+        title: '',
+        content: <></>,
+      })
+      changeExtraInformation(<></>)
+      return
+    }
+
+    toast.error('Error al convertir en profesor')
+  }
   return (
     <>
       <UserProfileRawInfo user={userStudent} />
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
           <FormCustomField
-            isLoading={false}
+            isLoading={isLoading}
             control={form.control}
             fieldName="professionalTitle"
             label="Titulo profesional"
             placeholder="Titulo profesional"
           />
           <FormCustomField
-            isLoading={false}
+            isLoading={isLoading}
             control={form.control}
             fieldName="expertise"
             label="Especialidad"
@@ -50,7 +79,7 @@ export const BecomeProfessor = ({ userStudent }: BecomeProfessorProps) => {
 
           <Button
             className="flex w-full justify-center rounded-full bg-primary px-3 py-6 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
-            disabled={false}
+            disabled={isLoading}
             type="submit"
           >
             Convertir en profesor
