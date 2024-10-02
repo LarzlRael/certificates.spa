@@ -1,13 +1,13 @@
-import { Student } from '@/pages/dashboard/interfaces/students.interface'
+import { UserStudentDetail } from '@/pages/dashboard/interfaces/students.interface'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 
 interface UserCardMiniProps {
-  student: Student
+  student: UserStudentDetail
   onClick?: () => void
 }
 
 export default function UserCardMini({ onClick, student }: UserCardMiniProps) {
-  const { username, firstName, lastName, profileImageUrl } = student.user
+  const { username, firstName, lastName, profileImageUrl } = student
   return (
     <div
       onClick={onClick}

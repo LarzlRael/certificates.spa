@@ -5,6 +5,7 @@ export const ProfileStudentPage = () => {
   const params = useParams()
   const { idStudent } = params
   const { data, isLoading } = useAxiosQueryAuth({
+    
     url: `/students/student-info/${idStudent}`,
     method: 'GET',
   })

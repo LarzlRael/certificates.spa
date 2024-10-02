@@ -174,6 +174,7 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
                     <br />
 
                     <Button
+                      type="button"
                       onClick={() => {
                         changeDialogInformation({
                           isDialogOpen: true,

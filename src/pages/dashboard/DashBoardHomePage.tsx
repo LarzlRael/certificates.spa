@@ -26,6 +26,7 @@ import {
 import { QuickActionSkeleton } from '@/custom_components/loading/QuickActionSkeleton'
 import PieChart from '@/custom_components/charts/PieChart'
 import BarChart from '@/custom_components/charts/Bar'
+import { UserStudentDetail } from './interfaces/students.interface'
 
 const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
   return [
@@ -87,32 +88,12 @@ const datosInscripciones = [
   { mes: 'Jul', inscripciones: 40 },
 ]
 
-const notificaciones = [
-  {
-    id: 1,
-    titulo: 'Nuevo mensaje',
-    contenido: 'Tienes un nuevo mensaje del equipo de soporte.',
-    tiempo: 'Hace 10 minutos',
-  },
-  {
-    id: 2,
-    titulo: 'Actualización del sistema',
-    contenido: 'Se ha programado una actualización para mañana a las 02:00 AM.',
-    tiempo: 'Hace 1 hora',
-  },
-  {
-    id: 3,
-    titulo: 'Recordatorio',
-    contenido: 'Reunión de equipo a las 15:00.',
-    tiempo: 'Hace 2 horas',
-  },
-]
 
 export const DashBoardHomePage = () => {
   const navigate = useNavigate()
-  const { changeInformationInfo } = useInformationStore()
+  const { changeExtraInformation } = useInformationStore()
   const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
-    Student[]
+    UserStudentDetail[]
   >({
     url: `/students/find-students`,
     method: 'GET',
@@ -137,27 +118,27 @@ export const DashBoardHomePage = () => {
   const handOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value
     if (e.target.value === '') {
-      changeInformationInfo(<></>)
+      changeExtraInformation(<></>)
       return
     }
-    const filteredData = data.filter((student) => {
+    const filteredData = data.filter((user) => {
       return (
-        student.user.username.includes(search) ||
-        student.user.email.includes(search)
+        user.username.includes(search) ||
+        user.email.includes(search)
       )
     })
-    changeInformationInfo(
+    changeExtraInformation(
       <div className="">
         {isValidArray(filteredData) ? (
-          filteredData.map((student) => (
-            <div key={student.user.id}>
+          filteredData.map((user) => (
+            <div key={user.id}>
               <UserCardMini
                 onClick={() => {
                   navigate(
-                    `/panel-administrativo/perfil-estudiante/${student.id}`,
+                    `/panel-administrativo/perfil-estudiante/${user.idStudent}`,
                   )
                 }}
-                student={student}
+                student={user}
               />
             </div>
           ))

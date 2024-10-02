@@ -32,7 +32,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   /* const navigate = useNavigate() */
-  const { changeAlertDialogInformation } = useInformationStore()
+  /* const { changeAlertDialogInformation } = useInformationStore() */
 
   const menuItems: MenuItems[] = [
     { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
@@ -144,7 +144,6 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
           rightSidebarOpen ? '' : 'translate-x-64'
         }`}
       >
-        <h2 className="text-xl font-semibold mb-4">Notificaciones</h2>
         <div className="space-y-4">
           <ExtraInformation />
         </div>
