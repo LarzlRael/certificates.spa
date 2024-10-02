@@ -45,7 +45,10 @@ export const StudentsPage = () => {
                 console.log(rowData)
 
                 changeExtraInformation(
-                  <UserDialogProfile studentDetail={rowData} />,
+                  <UserDialogProfile
+                    studentDetail={rowData}
+                    onReload={reload}
+                  />,
                 )
                 /* setProfileDialog(true) */
                 /* changeDialogInformation({

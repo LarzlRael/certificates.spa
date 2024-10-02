@@ -33,6 +33,7 @@ import { convertDate } from '@/utils/dates'
 import { putAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
+import { ContentRawInformation } from '@/custom_components/cards/RawInfomation'
 
 export const formVerifySchema = z.object({
   idPayment: z.number().positive(),
@@ -108,39 +109,39 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Curso"
             value={payment.courseName}
             icon={<BookOpenIcon className="h-5 w-5 text-primary" />}
           />
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Estudiante"
             value={payment.fullName}
             icon={<GraduationCapIcon className="h-5 w-5 text-primary" />}
           />
 
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Monto Pagado"
             value={payment.amount}
             icon={<CreditCardIcon className="h-5 w-5 text-primary" />}
           />
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Fecha de pago"
             value={convertDate(payment.createdAt, 'LLLL')}
             icon={<CalendarIcon className="h-5 w-5 text-primary" />}
           />
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Descripcion (Por el supervisor de pagos)"
             value={payment.description}
             icon={<FileTextIcon className="h-5 w-5 text-primary" />}
           />
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Referencia"
             value={payment.transactionReference}
             icon={<HashIcon className="h-5 w-5 text-primary" />}
           />
 
-          <PaymentInfoRow
+          <ContentRawInformation
             label="Metodo de pago"
             value={payment.paymentMethod}
             icon={<DollarSignIcon className="h-5 w-5 text-primary" />}
@@ -250,20 +251,3 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   )
 }
 
-interface PaymentInfoProps {
-  label: string
-  value: string | null | undefined
-  icon: React.ReactNode
-}
-const PaymentInfoRow = ({ label, value, icon }: PaymentInfoProps) => {
-  if (!isValidString(value)) return <div></div>
-  return (
-    <div className="flex items-center space-x-3">
-      {icon}
-      <div>
-        <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <p className="font-semibold">{value}</p>
-      </div>
-    </div>
-  )
-}

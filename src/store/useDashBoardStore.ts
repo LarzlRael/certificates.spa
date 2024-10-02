@@ -9,7 +9,7 @@ interface DashboardState {
 
 export const useDashboardStore = create<DashboardState>((set) => ({
   isLeftSidebarOpen: true,
-  isRightSidebarOpen: true,
+  isRightSidebarOpen: false,
   toggleLeftSidebar: (newState: boolean) =>
     set({ isLeftSidebarOpen: newState }),
   toggleRightSidebar: (newState: boolean) =>

@@ -16,6 +16,8 @@ export const GlobalFormHook = ({
   isLoading,
   titleButton,
   schema,
+  ExtraComponent,
+  extraComponentPosition = 'top',
 }: FormInterface) => {
   const defaultValues = inputJson.reduce((acc, item) => {
     // Si existe data y contiene el campo, usamos el valor de data; si no, usamos initialValue
@@ -36,7 +38,9 @@ export const GlobalFormHook = ({
         {/* <h2 margin="1rem 0" color="var(--color-text)" fontWeight="600"> */}
         {/* add tailwind classes */}
         <CardHeader>
-          <h2 className="">{formTitle}</h2>
+          <h2 className="text-2xl font-bold text-center mt-4 text-gray-700">
+            {formTitle}
+          </h2>
         </CardHeader>
 
         <FormProvider {...form}>
@@ -45,6 +49,9 @@ export const GlobalFormHook = ({
             className="space-y-8"
           >
             <CardContent>
+              {ExtraComponent &&
+                extraComponentPosition === 'top' &&
+                ExtraComponent}
               {inputJson.map((item) => {
                 switch (item.type) {
                   case 'text':
@@ -78,6 +85,9 @@ export const GlobalFormHook = ({
                     )
                 }
               })}
+              {ExtraComponent &&
+                extraComponentPosition === 'bottom' &&
+                ExtraComponent}
             </CardContent>
             <CardFooter>
               <Button

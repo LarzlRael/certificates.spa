@@ -1,4 +1,5 @@
-import { z } from "zod"
+import { z } from 'zod'
+
 
 export interface FormInterface {
   inputJson: InputJsonI[]
@@ -6,7 +7,9 @@ export interface FormInterface {
   data?: any
   formTitle?: string
   isLoading: boolean
+  ExtraComponent?: undefined | React.ReactNode
   titleButton?: string
+  extraComponentPosition?: 'top' | 'bottom'
   schema: z.ZodType<any>
 }
 export interface InputJsonI {

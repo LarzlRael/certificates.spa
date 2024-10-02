@@ -35,12 +35,15 @@ import { capitalizeString } from '../../utils/utils'
 import { EditUserProfile } from './EditUserProfile'
 import { BecomeProfessor } from '@/pages/dashboard/BecomeProfessor'
 import { useInformationStore } from '@/store/useInformationStore'
+import { ContentRawInformation } from './RawInfomation'
 
 interface UserDialogProfileProps {
   studentDetail?: UserStudentDetail
+  onReload?: () => void
 }
 export const UserDialogProfile = ({
   studentDetail,
+  onReload,
 }: UserDialogProfileProps) => {
   /*  const { studentDetail, isLoading } = useAxiosQueryAuth<UserStudentDetail>({
     url: `/students/user-student-info/${idStudent}`,
@@ -70,20 +73,24 @@ export const UserDialogProfile = ({
         </div>
       </CardHeader>
       <CardContent className="">
-        <UserProfileRawInfo
+        <ContentRawInformation
+          label="Correo electrónico"
           value={studentDetail?.email}
           icon={<Mail className="h-4 w-4 text-muted-foreground" />}
         />
-        <UserProfileRawInfo
+        <ContentRawInformation
+          label="Telefono"
           value={studentDetail?.phone}
           icon={<Phone className="h-4 w-4 text-muted-foreground" />}
         />
-        <UserProfileRawInfo
+        <ContentRawInformation
+          label="Direccion"
           value={studentDetail?.address}
           icon={<MapPin className="h-4 w-4 text-muted-foreground" />}
         />
 
-        <UserProfileRawInfo
+        <ContentRawInformation
+          label="Trabajo"
           value={
             'Miembro desde: ' + convertDate(studentDetail?.createdAt, 'LLLL')
           }
@@ -107,7 +114,13 @@ export const UserDialogProfile = ({
         ))}
       </CardContent>
       <CardFooter className="">
-        <Button onClick={() => changeExtraInformation(<EditUserProfile userInfo = {studentDetail}/>)}>
+        <Button
+          onClick={() =>
+            changeExtraInformation(
+              <EditUserProfile userInfo={studentDetail} onReload={onReload} />,
+            )
+          }
+        >
           Editar Perfil
         </Button>
         <Button
@@ -124,22 +137,5 @@ export const UserDialogProfile = ({
         </Button>
       </CardFooter>
     </Card>
-  )
-}
-
-interface UserProfileRawInfoProps {
-  value?: string | undefined | null
-  icon?: any
-}
-export const UserProfileRawInfo = ({
-  value,
-  icon,
-}: UserProfileRawInfoProps) => {
-  if (!isValidString(value)) return <div></div>
-  return (
-    <div className="flex items-center gap-2">
-      {icon}
-      <span>{value}</span>
-    </div>
   )
 }
