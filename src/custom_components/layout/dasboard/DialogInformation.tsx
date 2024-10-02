@@ -12,7 +12,7 @@ import { useInformationStore } from '@/store/useInformationStore'
 export const DialogInformation = () => {
   const { dialogContent } = useInformationStore()
   const { changeDialogInformation } = useInformationStore()
-
+  console.log(`sm:max-w-[${dialogContent.maxWidth}px]`)
   return (
     <Dialog
       open={dialogContent.isDialogOpen}
@@ -28,7 +28,8 @@ export const DialogInformation = () => {
       <DialogTrigger asChild>
         {/* <Button variant="outline">Ver Perfil de Usuario</Button> */}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      {/* fix size bug */}
+      <DialogContent className={`sm:max-w-[${dialogContent.maxWidth}px]`}>
         <DialogHeader>
           <DialogTitle>{dialogContent.title}</DialogTitle>
           <DialogDescription>{dialogContent.subtitle}</DialogDescription>

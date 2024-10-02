@@ -7,6 +7,8 @@
   status:               string;
   transactionReference: string | null;
   voucherImageUrl:      string | null;
+  paymentMethod:        string | null;
+  description:          string | null;
   formId:               number;
   studentId:            number;
   fullName:             string;

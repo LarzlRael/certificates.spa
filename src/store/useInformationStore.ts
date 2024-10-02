@@ -5,6 +5,7 @@ interface DialogInformation {
   title?: string
   subtitle?: string
   content: React.ReactNode | undefined
+  maxWidth?: string
 }
 
 interface DialogState {
@@ -19,6 +20,7 @@ export const useInformationStore = create<DialogState>((set) => ({
     isDialogOpen: false,
     title: '',
     subtitle: '',
+    maxWidth: '425',
     content: undefined,
   },
   extraInformation: undefined,
@@ -27,6 +29,7 @@ export const useInformationStore = create<DialogState>((set) => ({
   changeDialogInformation: (info) =>
     set({
       dialogContent: {
+        maxWidth: info.maxWidth || '425',
         isDialogOpen: info.isDialogOpen,
         title: info.title,
         subtitle: info.subtitle,

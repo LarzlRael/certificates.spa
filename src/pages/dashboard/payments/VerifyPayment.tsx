@@ -23,18 +23,17 @@ import {
   GraduationCapIcon,
   CreditCardIcon,
   CalendarIcon,
+  HashIcon,
+  DollarSignIcon,
+  FileTextIcon,
 } from 'lucide-react'
 import { useInformationStore } from '@/store/useInformationStore'
 import { convertDate } from '@/utils/dates'
 import { putAction } from '@/provider/action/ActionAuthorization'
-import { isValidStatus } from '@/utils/validation/validation'
+import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
-/* 
-"idPayment":1,
-	"amount":70,
-	"paymentMethod":"Transaction",
-	"status":"CONFIRMED",
-	"description":"Pago realizado de forma correcta" */
+
+
 export const formVerifySchema = z.object({
   idPayment: z.number().positive(),
   amount: z.string(),
@@ -48,14 +47,15 @@ interface VerifyPaymentProps {
 
 export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore()
+  /* TODO, fix this not changed error */
   const form = useForm<z.infer<typeof formVerifySchema>>({
     resolver: zodResolver(formVerifySchema),
     defaultValues: {
       idPayment: payment.id,
       amount: payment.amount.toString(),
-      /* paymentMethod: '', */
+      paymentMethod: payment.paymentMethod || '',
       status: payment.status,
-      description: '',
+      description: payment.description || '',
     },
   })
 
@@ -85,42 +85,50 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-          <div className="flex items-center space-x-3">
+          {/* <div className="flex items-center space-x-3">
             <BookOpenIcon className="h-5 w-5 text-primary" />
             <div>
               <p className="text-sm font-medium text-muted-foreground">Curso</p>
               <p className="font-semibold">{payment.courseName}</p>
             </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <GraduationCapIcon className="h-5 w-5 text-primary" />
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">
-                Estudiante
-              </p>
-              <p className="font-semibold">{payment.fullName}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <CreditCardIcon className="h-5 w-5 text-primary" />
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">
-                Monto Pagado
-              </p>
-              <p className="font-semibold">{payment.amount}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <CalendarIcon className="h-5 w-5 text-primary" />
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">
-                Fecha de Pago
-              </p>
-              <p className="font-semibold">
-                {convertDate(payment.createdAt, 'LLLL')}
-              </p>
-            </div>
-          </div>
+          </div> */}
+          <PaymentInfoRow
+            label="Curso"
+            value={payment.courseName}
+            icon={<BookOpenIcon className="h-5 w-5 text-primary" />}
+          />
+          <PaymentInfoRow
+            label="Estudiante"
+            value={payment.fullName}
+            icon={<GraduationCapIcon className="h-5 w-5 text-primary" />}
+          />
+
+          <PaymentInfoRow
+            label="Monto Pagado"
+            value={payment.amount}
+            icon={<CreditCardIcon className="h-5 w-5 text-primary" />}
+          />
+          <PaymentInfoRow
+            label="Fecha de pago"
+            value={convertDate(payment.createdAt, 'LLLL')}
+            icon={<CalendarIcon className="h-5 w-5 text-primary" />}
+          />
+          <PaymentInfoRow
+            label="Descripcion (Por el supervisor de pagos)"
+            value={payment.description}
+            icon={<FileTextIcon  className="h-5 w-5 text-primary" />}
+          />
+          <PaymentInfoRow
+            label="Referencia"
+            value={payment.transactionReference}
+            icon={<HashIcon className="h-5 w-5 text-primary" />}
+          />
+
+          <PaymentInfoRow
+            label="Metodo de pago"
+            value={payment.paymentMethod}
+            icon={<DollarSignIcon  className="h-5 w-5 text-primary" />}
+          />
         </div>
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
@@ -169,6 +177,7 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
                       onClick={() => {
                         changeDialogInformation({
                           isDialogOpen: true,
+                          maxWidth: '800',
                           title: 'Comprobante de pago',
                           content: (
                             <div className="w-full h-full">
@@ -219,5 +228,23 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
         </FormProvider>
       </CardContent>
     </Card>
+  )
+}
+
+interface PaymentInfoProps {
+  label: string
+  value: string | null | undefined
+  icon: React.ReactNode
+}
+const PaymentInfoRow = ({ label, value, icon }: PaymentInfoProps) => {
+  if (!isValidString(value)) return <div></div>
+  return (
+    <div className="flex items-center space-x-3">
+      {icon}
+      <div>
+        <p className="text-sm font-medium text-muted-foreground">{label}</p>
+        <p className="font-semibold">{value}</p>
+      </div>
+    </div>
   )
 }
