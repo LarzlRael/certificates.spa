@@ -48,6 +48,7 @@ interface VerifyPaymentProps {
 
 export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore()
+  const { clearDialogInformation } = useInformationStore()
 
   const form = useForm<z.infer<typeof formVerifySchema>>({
     resolver: zodResolver(formVerifySchema),
@@ -76,11 +77,18 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   }, [payment, reset])
 
   const handleSubmit = async (values) => {
-    console.log(values)
+    changeDialogInformation({
+      isDialogOpen: true,
+      /* TODO improve this view */
+      content: <div>Cargando...</div>,
+    })
     const res = await putAction('/payment/verify-payment', {
       ...values,
       amount: parseInt(values.amount),
     })
+
+    clearDialogInformation()
+
     if (!isValidStatus(res.status)) {
       toast.error('Error al guardar los datos')
       return
@@ -94,8 +102,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   }
 
   return (
-    <Card /* className="w-full max-w-2xl mx-auto max-h-[80vh] overflow-y-auto" */
-    >
+    <Card>
       <CardHeader>
         <CardTitle>Verificación de Pago del Curso</CardTitle>
       </CardHeader>
@@ -142,18 +149,6 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
             <CustomSelect
-              fieldName="status"
-              isLoading={false}
-              control={form.control}
-              label="Estado "
-              placeholder="Selecciona una opción"
-              options={[
-                { key: 'Pendiente', value: 'PENDING' },
-                { key: 'Confirmado', value: 'CONFIRMED' },
-                { key: 'Rechazado', value: 'REJECTED' },
-              ]}
-            />
-            <CustomSelect
               fieldName="paymentMethod"
               isLoading={false}
               control={form.control}
@@ -171,6 +166,18 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
               control={form.control}
               label="Description"
               placeholder="Descripcion"
+            />
+            <CustomSelect
+              fieldName="status"
+              isLoading={false}
+              control={form.control}
+              label="Estado "
+              placeholder="Selecciona una opción"
+              options={[
+                { key: 'Pendiente', value: 'PENDING' },
+                { key: 'Confirmado', value: 'CONFIRMED' },
+                { key: 'Rechazado', value: 'REJECTED' },
+              ]}
             />
             <div>
               {/* TODO: CHANGE THIS */}

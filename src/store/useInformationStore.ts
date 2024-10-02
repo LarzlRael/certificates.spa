@@ -22,9 +22,12 @@ interface DialogState {
   dialogContent: DialogInformation
   alertDialogContent: AlertDialogInformation
   extraInformation: React.ReactNode | undefined
-  changeAlertDialogInformation: (alertDialogInformation: AlertDialogInformation) => void
+  changeAlertDialogInformation: (
+    alertDialogInformation: AlertDialogInformation,
+  ) => void
   changeExtraInformation: (extraInformation: React.ReactNode) => void
   changeDialogInformation: (dialogInformation: DialogInformation) => void
+  clearDialogInformation: () => void
 }
 
 export const useInformationStore = create<DialogState>((set) => ({
@@ -42,6 +45,8 @@ export const useInformationStore = create<DialogState>((set) => ({
     subtitle: '',
     content: undefined,
   },
+  clearDialogInformation: () =>
+    set({ dialogContent: { isDialogOpen: false, content: undefined } }),
   changeAlertDialogInformation: (alertDialogInformation) =>
     set({ alertDialogContent: alertDialogInformation }),
   changeExtraInformation: (extraInformation) => set({ extraInformation }),

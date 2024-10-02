@@ -25,28 +25,9 @@ export const StudentsPage = () => {
   /*
   const { changeDialogInformation } = useThemeStore() */
   /* const { setProfileDialog } = useThemeStore() */
-  const [
-    selectedStudent,
-    setSelectedStudent,
-  ] = useState<UserStudentDetail | null>(null)
 
-  /* useEffect(() => {
-    if (selectedStudent != null) {
-      changeExtraInformation({
-        isDialogOpen: true,
-        content: <UserDialogProfile idStudent={selectedStudent.id} />,
-        title: 'Perfil de Usuario',
-        subtitle: 'Información personal y de contacto',
-      })
-    }
-  }, [selectedStudent]) */
-  useEffect(() => {
-    if (selectedStudent != null) {
-      changeExtraInformation(
-        <UserDialogProfile studentDetail={selectedStudent} />,
-      )
-    }
-  }, [selectedStudent])
+  console.log('selectedStudent')
+
   return (
     <div>
       {isLoading ? (
@@ -61,7 +42,11 @@ export const StudentsPage = () => {
               columns={columns}
               data={data?.map((student) => student) || []}
               handleInfo={(rowData) => {
-                setSelectedStudent(rowData)
+                console.log(rowData)
+
+                changeExtraInformation(() => (
+                  <UserDialogProfile studentDetail={rowData} />
+                ))
                 /* setProfileDialog(true) */
                 /* changeDialogInformation({
                   subtitle: 'Información del estudiante',
