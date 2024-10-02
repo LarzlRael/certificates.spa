@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import {
   Card,
   CardContent,
@@ -26,6 +26,7 @@ import {
   HashIcon,
   DollarSignIcon,
   FileTextIcon,
+  Receipt,
 } from 'lucide-react'
 import { useInformationStore } from '@/store/useInformationStore'
 import { convertDate } from '@/utils/dates'
@@ -43,11 +44,12 @@ export const formVerifySchema = z.object({
 })
 interface VerifyPaymentProps {
   payment: PaymentTableInterface
+  onRefresh: () => void
 }
 
-export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
+export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore()
-  /* TODO, fix this not changed error */
+  /* TODO, fix this not changed method is not working changed error */
   const form = useForm<z.infer<typeof formVerifySchema>>({
     resolver: zodResolver(formVerifySchema),
     defaultValues: {
@@ -59,7 +61,20 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
     },
   })
 
-  // Simulación de datos pre-cargados
+  // load data 
+  const { reset } = form
+
+  // Usamos useEffect para actualizar los valores del formulario cada vez que cambia 'payment'
+  useEffect(() => {
+    // Reseteamos los valores del formulario cuando cambia el pago seleccionado
+    reset({
+      idPayment: payment.id,
+      amount: payment.amount.toString(),
+      paymentMethod: payment.paymentMethod || '',
+      status: payment.status,
+      description: payment.description || '',
+    })
+  }, [payment, reset])
 
   const handleSubmit = async (values) => {
     console.log(values)
@@ -72,6 +87,7 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
       return
     }
     // Si se envió correctamente, recarga la página
+    onRefresh()
     toast.success('Datos guardados correctamente')
   }
   const handleError = (errors) => {
@@ -175,6 +191,7 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
 
                     <Button
                       type="button"
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 flex items-center space-x-2"
                       onClick={() => {
                         changeDialogInformation({
                           isDialogOpen: true,
@@ -200,6 +217,7 @@ export const VerifyPayment = ({ payment }: VerifyPaymentProps) => {
                         })
                       }}
                     >
+                      <Receipt className="w-5 h-5" />
                       Ver Comprobante
                     </Button>
                     <br />

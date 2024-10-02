@@ -202,7 +202,10 @@ export const PaymentView = () => {
           data={filteredPayments}
           handleInfo={(element) => {
             changeExtraInformation (
-              <VerifyPayment  payment ={element}/>
+              <VerifyPayment
+                payment ={element}
+                onRefresh = {reload}
+              />
             )
           }}
         />
