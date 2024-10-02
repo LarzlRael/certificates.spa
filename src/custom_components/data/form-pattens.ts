@@ -1,58 +1,41 @@
-import { InputJsonI } from "../forms/form-formik/interfaces/form-interface";
 import * as Yup from 'yup'
-export const storeAddOrEditForm: InputJsonI[] = [
+import { InputJsonI } from '@/custom_components/forms/react-form-hooks/interfaces/form-interface'
+export const updateUserInformationForm: InputJsonI[] = [
   {
-    name: 'storeName',
     type: 'text',
-    placeholder: 'Ingrese el nombre de la Tienda',
-    label: 'Nombre de la Tienda',
+    fieldName: 'firstName',
+    placeholder: 'Nombre de usuario',
+    label: 'Nombre',
     initialValue: '',
-    validate: Yup.string().required('Campo requerido'),
   },
   {
-    type: 'url',
-    name: 'storeUrl',
-    placeholder: 'Ingrese la url de la tienda',
-    label: 'URL de la tienda',
-    initialValue: '',
-    validate: Yup.string().required('Campo requerido').url('URL invalida'),
-  },
-  {
-    type: 'url',
-    name: 'imageUrl',
-    placeholder: 'Ingrese la url de la imagen de la tienda',
-    label: 'URL de la imagen de la tienda',
-    initialValue: '',
-    validate: Yup.string().url('URL invalida'),
-  },
-  {
-    name: 'storeDescription',
-    type: 'area',
-    placeholder: 'Ingrese una descripcion',
-    label: 'Descripción',
-    initialValue: '',
-    validate: null,
-  },
-  {
-    name: 'storeAddress',
     type: 'text',
-    placeholder: 'Ingrese la direccion',
-    label: 'Dirección',
+    fieldName: 'lastName',
+    placeholder: 'Apellido de usuario',
+    label: 'Apellido',
     initialValue: '',
-    validate: null,
+  },
+
+  {
+    type: 'text',
+    fieldName: 'address',
+    placeholder: 'Direccion',
+    label: 'Ubicación de usuario',
+    initialValue: '',
+  },
+
+  {
+    fieldName: 'shippingAddress',
+    type: 'text',
+    placeholder: 'Direccion de envio',
+    label: 'Direccion de envio de usuario',
+    initialValue: '',
   },
   {
-    name: 'storePhone',
-    type: 'tel',
-    placeholder: 'Ingrese el telefono',
+    fieldName: 'phone',
+    type: 'number',
+    placeholder: 'Teléfono del usuario',
     label: 'Telefono',
-    initialValue: '',
-  },
-  {
-    name: 'image',
-    type: 'file',
-    placeholder: 'Ingrese la imagen (opcional)',
-    label: 'Subir imagen',
     initialValue: '',
   },
 ]

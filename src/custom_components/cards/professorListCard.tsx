@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import {
   Card,
@@ -34,15 +32,12 @@ interface ProfessorListCardProps {
   professorList: ProfessorInterface[]
   onEdit: (selectProfessor: ProfessorInterface) => void
 }
+
 export const ProfessorsListCard = ({
   professorList,
   onEdit,
 }: ProfessorListCardProps) => {
   const [searchTerm, setSearchTerm] = useState('')
-
-  /* const filteredProfessors = professorList.filter((professor) =>
-    professor.user!.username.toLowerCase().includes(searchTerm.toLowerCase()),
-  ) */
 
   return (
     <div className="container mx-auto p-4">
@@ -61,10 +56,7 @@ export const ProfessorsListCard = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {professorList.map((user) => (
-          <OneProfessorCard 
-            key={user.id}
-            user={user}
-            onEdit={onEdit} />
+          <OneProfessorCard key={user.id} user={user} onEdit={onEdit} />
         ))}
       </div>
     </div>
@@ -75,9 +67,10 @@ interface OneProfessorCardProps {
   user: ProfessorInterface
   onEdit: (selectProfessor: ProfessorInterface) => void
 }
+
 export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
   return (
-    <Card key={user.id} className="flex flex-col">
+    <Card className="flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-4">
           <Avatar className="w-12 h-12">
@@ -96,7 +89,7 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
             <CardDescription>{user.email}</CardDescription>
           </div>
         </div>
-        {/* Drop start */}
+        {/* Dropdown start */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -116,12 +109,15 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* Drop end */}
+        {/* Dropdown end */}
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <GraduationCapIcon className="w-4 h-4" />
-          <span>Profesor desde<br /> {convertDate(user.createdAt,'LLLL')}</span>
+          <span>
+            Profesor desde
+            <br /> {convertDate(user.createdAt, 'LLLL')}
+          </span>
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-500 mt-2">
           <BookOpenIcon className="w-4 h-4" />

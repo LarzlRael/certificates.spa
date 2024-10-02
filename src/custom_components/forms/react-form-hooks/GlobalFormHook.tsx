@@ -27,7 +27,9 @@ export const GlobalFormHook = ({
     resolver: zodResolver(schema),
     defaultValues, // Usamos los valores predeterminados, basados en data o inputJson
   })
-
+  const enError = (err) => {
+    console.log(err)
+  }
   return (
     <div className="mt-10 sm:w-full sm:max-w-lg w-full">
       <Card>
@@ -38,7 +40,10 @@ export const GlobalFormHook = ({
         </CardHeader>
 
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit, enError)}
+            className="space-y-8"
+          >
             <CardContent>
               {inputJson.map((item) => {
                 switch (item.type) {

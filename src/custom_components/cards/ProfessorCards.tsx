@@ -46,12 +46,8 @@ export default function ProfessorsCard({
     (prof) =>
       prof.professionalTitle.toLowerCase().includes(filter.toLowerCase()) ||
       prof.username.toLowerCase().includes(filter.toLowerCase()) ||
-      (prof.firstName?.toLowerCase() ?? '').includes(
-        filter.toLowerCase(),
-      ) || // Maneja null
-      (prof.lastName?.toLowerCase() ?? '').includes(
-        filter.toLowerCase(),
-      ) || // Maneja null
+      (prof.firstName?.toLowerCase() ?? '').includes(filter.toLowerCase()) || // Maneja null
+      (prof.lastName?.toLowerCase() ?? '').includes(filter.toLowerCase()) || // Maneja null
       prof.expertise.toLowerCase().includes(filter.toLowerCase()),
   )
 
@@ -174,16 +170,4 @@ export const ProfessorCardMini = ({
       ))}
     </div>
   )
-}
-
-{
-  /* <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-1 right-1 h-6 w-6"
-             onClick={() => eliminarProfesor(profesor.id)} 
-            aria-label={`Eliminar a ${profesor.user.firstName} ${profesor.user.lastName}`}
-          >
-            <X className="h-4 w-4" /> 
-          </Button> */
 }

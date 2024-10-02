@@ -107,7 +107,7 @@ export const UserDialogProfile = ({
         ))}
       </CardContent>
       <CardFooter className="">
-        <Button onClick={() => changeExtraInformation(<EditUserProfile />)}>
+        <Button onClick={() => changeExtraInformation(<EditUserProfile userInfo = {studentDetail}/>)}>
           Editar Perfil
         </Button>
         <Button

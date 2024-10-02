@@ -22,32 +22,7 @@ export const ProfessorsPage = () => {
         <div>
           <ProfessorsListCard
             professorList={data!}
-            onEdit={(selectProfessor) => {
-              changeDialogInformation({
-                isDialogOpen: true,
-                title: 'Editar profesor',
-                subtitle: 'Información personal y de contacto',
-                content: (
-                  <BecomeProfessor
-                    expertise={selectProfessor.expertise}
-                    professionalTitle={selectProfessor.professionalTitle}
-                    userStudent={{
-                      id: selectProfessor.id,
-                      idStudent: 0,
-                      firstName: selectProfessor.firstName || '',
-                      lastName: selectProfessor.lastName || '',
-                      username: selectProfessor.username,
-                      profileImageUrl: selectProfessor.profileImageUrl || '',
-                      email: '',
-                      phone: '',
-                      address: '',
-                      createdAt: new Date(),
-                      roles: [],
-                    }}
-                  />
-                ),
-              })
-            }}
+            onEdit={()=>{}}
           />
         </div>
       )}
