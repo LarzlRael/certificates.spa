@@ -37,9 +37,6 @@ export const CustomSelect = ({
   control,
   placeHolder,
 }: SelectProps) => {
-  console.log(fieldName)
-  console.log(options)
-  console.log(control)
   return (
     <FormField
       control={control}

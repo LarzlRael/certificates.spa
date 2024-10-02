@@ -63,7 +63,7 @@ export const CreateCoursePage = () => {
   }
 
   function selectProfessors(ids) {
-    setSelectProfessor(data.filter((professor) => ids.includes(professor.id)))
+    setSelectProfessor(data.filter((professor) => ids.includes(professor.idProfessor)))
   }
 
   return (
@@ -173,24 +173,6 @@ export const CreateCoursePage = () => {
                   { key: 'Presencial', value: 'PRESENTIAL' },
                 ]}
               />
-              {/* <Controller
-                name="modality" // Nombre del campo en el schema del form
-                control={form.control}
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-[240px]">
-                      <SelectValue placeholder="Modalidad" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Modalidad</SelectLabel>
-                        <SelectItem value="VIRTUAL">Virtual</SelectItem>
-                        <SelectItem value="PRESENTIAL">Presencial</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                )}
-              /> */}
 
               <FormCustomArea
                 fieldName="notes"

@@ -6,19 +6,16 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card'
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-
 import { Checkbox } from '@/components/ui/checkbox'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ProfessorInterface } from '@/pages/dashboard/interfaces/professors.interface'
 import { FormLabel } from '@/components/ui/form'
-/* import { Badge } from '@/components/ui/badge' */
 
 interface ProfessorsProps {
   professorsList: ProfessorInterface[] | undefined
@@ -29,18 +26,19 @@ export default function ProfessorsCard({
   professorsList,
   selectProfessors,
 }: ProfessorsProps) {
-  const [selected, isSelected] = useState<number[]>([])
+  const [selected, setSelected] = useState<number[]>([])
   const [filter, setFilter] = useState<string>('')
 
   const toggleSelection = (id: number) => {
-    isSelected((prev) =>
+    setSelected((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     )
-    /* selectProfessors(selected) */
   }
+
+  // Este efecto solo se ejecutará cuando selected cambie
   useEffect(() => {
-    selectProfessors(selected) // Llama a la función `selectProfessors` con el estado actualizado
-  }, [selected, selectProfessors])
+    selectProfessors(selected)
+  }, [selected])
 
   const filteredProfessors = professorsList.filter(
     (prof) =>
@@ -91,29 +89,17 @@ export default function ProfessorsCard({
                         {profesor.professionalTitle} {profesor.firstName}{' '}
                         {profesor.lastName}
                       </CardTitle>
-                      {/*   <CardDescription className="text-sm text-muted-foreground">
-                  {profesor.expertise}
-                </CardDescription> */}
                     </div>
                     <Checkbox
                       id={`select-${profesor.idProfessor}`}
                       checked={selected.includes(profesor.idProfessor)}
-                      onCheckedChange={() =>
-                        toggleSelection(profesor.idProfessor)
-                      }
+                      onCheckedChange={() => toggleSelection(profesor.idProfessor)}
                     />
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm mb-2">
                       Experiencia: {profesor.expertise}
                     </p>
-                    {/* <div className="flex flex-wrap gap-1">
-                {profesor.especialidades.map((esp, index) => (
-                  <Badge key={index} variant="secondary">
-                    {esp}
-                  </Badge>
-                ))}
-              </div> */}
                   </CardContent>
                 </Card>
               ))}
@@ -140,30 +126,26 @@ interface ProfessorsPropsMini {
   selectProfessors: (professors: ProfessorInterface[]) => void
 }
 
+// Componente mini para mostrar profesores seleccionados
 export const ProfessorCardMini = ({
   professorsList,
   selectProfessors,
 }: ProfessorsPropsMini) => {
+  console.log(professorsList)
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
       {professorsList.map((profesor) => (
         <Card key={profesor.id} className="relative">
-          {/* button */}
           <CardContent className="flex flex-col items-center p-4">
             <Avatar className="h-16 w-16 mb-2">
               <AvatarImage
-                src={profesor.user.profileImageUrl || undefined}
-                alt={`${profesor.user.firstName} ${profesor.user.lastName}`}
+                src={profesor.profileImageUrl || undefined}
+                alt={`${profesor.firstName} ${profesor.lastName}`}
               />
-              <AvatarFallback>{`${profesor.user.firstName?.[0] || ''}${
-                profesor.user.lastName?.[0] || ''
-              }`}</AvatarFallback>
+              <AvatarFallback>{`${profesor.firstName?.[0] || ''}${profesor.lastName?.[0] || ''}`}</AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <p className="font-medium text-sm">{`${profesor.professionalTitle} ${profesor.user.firstName} ${profesor.user.lastName}`}</p>
-              {/* <p className="text-xs text-muted-foreground">
-                {profesor.expertise}
-              </p> */}
+              <p className="font-medium text-sm">{`${profesor.professionalTitle} ${profesor.firstName} ${profesor.lastName}`}</p>
             </div>
           </CardContent>
         </Card>

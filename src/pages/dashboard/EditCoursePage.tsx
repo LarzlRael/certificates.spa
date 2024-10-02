@@ -4,17 +4,12 @@ import { z } from 'zod'
 import { FormProvider, useForm, Controller } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { FormCustomInput } from '@/custom_components/forms/react-form-hooks/FormCustomInput'
-import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 import {
-  Select,
-  SelectLabel,
-  SelectItem,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-} from '@/components/ui/select'
+  FormCustomInput,
+  FormCustomArea,
+  CustomSelect,
+} from '@/custom_components/forms/react-form-hooks/'
+import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 
 import { getDifferenceBetweenDates } from '@/utils/convertDate'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
@@ -32,6 +27,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { FormLabel } from '@/components/ui/form'
 import { postAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
+import { PreviewCourseCardPresentation } from '@/custom_components/cards/PreviewCourseCardPresentation'
 
 export const EditCoursePage = () => {
   const [isPending, setisPending] = useState(false)
@@ -67,6 +63,7 @@ export const EditCoursePage = () => {
       imageCourse: undefined,
     },
   })
+  const watchedFormValues = form.watch()
   async function handleSubmit(values) {
     const sendData = await postAction('/course', processAddCourseData(values))
     if (isValidStatus(sendData.status)) {
@@ -77,7 +74,8 @@ export const EditCoursePage = () => {
 
   function selectProfessors(ids) {
     console.log(ids)
-    setSelectProfessor(data.filter((professor) => ids.includes(professor.id)))
+
+    setSelectProfessor(data.filter((professor) => ids.includes(professor.idProfessor)))
   }
 
   useEffect(() => {
@@ -99,7 +97,7 @@ export const EditCoursePage = () => {
         imageCourse: undefined, // Esto dependerá de cómo manejes las imágenes
         professorsIds: courseData.professors?.map((prof) => prof.id) || [],
       })
-      setSelectProfessor(courseData.professors || [])
+      /* setSelectProfessor(courseData.professors || []) */
     }
   }, [courseData])
 
@@ -110,144 +108,182 @@ export const EditCoursePage = () => {
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>Crear nuevo curso</CardTitle>
+            <CardTitle>Editar informacion del curso</CardTitle>
           </CardHeader>
           <CardContent>
-            <FormProvider {...form}>
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className="space-y-2"
-              >
-                <FormCustomInput
-                  isLoading={isPending}
-                  control={form.control}
-                  fieldName="courseName"
-                  label="Nombre del curso"
-                  placeholder="Nombre del curso"
-                />
+            <div className="flex w-full flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <FormProvider {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="space-y-2"
+                  >
+                    <FormCustomInput
+                      isLoading={isPending}
+                      control={form.control}
+                      fieldName="courseName"
+                      label="Nombre del curso"
+                      placeholder="Nombre del curso"
+                    />
 
-                {isLoading ? (
-                  <div>cargando</div>
-                ) : (
-                  <ProfessorsCard
-                    professorsList={data}
-                    selectProfessors={(ids) => {
-                      form.setValue('professorsIds', ids)
-                      /* selectProfessors(ids) */
-                    }}
-                  />
-                )}
-                <ProfessorCardMini
-                  professorsList={selectProfessor}
-                  selectProfessors={(professor) => {}}
-                />
-                <Controller
-                  name="imageCourse"
-                  control={form.control}
-                  render={({ field }) => (
-                    <div className="flex flex-col">
-                      <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                        Subir imagen del curso
-                      </FormLabel>
-                      <input
-                        type="file"
-                        accept="image/*" // Solo acepta imágenes
-                        onChange={(e) => {
-                          const file = e.target.files[0] // Tomar solo el primer archivo
-                          field.onChange(file) // Actualiza el estado del formulario con el archivo seleccionado
+                    {isLoading ? (
+                      <div>cargando</div>
+                    ) : (
+                      <ProfessorsCard
+                        professorsList={data}
+                        selectProfessors={(ids) => {
+                          form.setValue('professorsIds', ids)
+                          selectProfessors(ids)
                         }}
-                        className="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
                       />
-                      {field.value && (
-                        <div className="relative w-full max-w-sm">
-                          <img
-                            src={URL.createObjectURL(field.value)} // Crea una URL temporal para mostrar la imagen
-                            alt={field.value.name}
-                            className="w-full h-auto rounded-lg shadow-md"
+                    )}
+                    <ProfessorCardMini
+                      professorsList={selectProfessor}
+                      selectProfessors={(professor) => {}}
+                    />
+                    <Controller
+                      name="imageCourse"
+                      control={form.control}
+                      render={({ field }) => (
+                        <div className="flex flex-col">
+                          <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
+                            Subir imagen del curso
+                          </FormLabel>
+                          <input
+                            type="file"
+                            accept="image/*" // Solo acepta imágenes
+                            onChange={(e) => {
+                              const file = e.target.files[0] // Tomar solo el primer archivo
+                              field.onChange(file) // Actualiza el estado del formulario con el archivo seleccionado
+                            }}
+                            className="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
                           />
-                          <p className="mt-2 text-center text-gray-500">
-                            {field.value.name}
-                          </p>
+                          {field.value && (
+                            <div className="relative w-full max-w-sm">
+                              <img
+                                src={URL.createObjectURL(field.value)} // Crea una URL temporal para mostrar la imagen
+                                alt={field.value.name}
+                                className="w-full h-auto rounded-lg shadow-md"
+                              />
+                              <p className="mt-2 text-center text-gray-500">
+                                {field.value.name}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       )}
-                    </div>
-                  )}
-                />
-                <FormCustomInput
-                  isLoading={isPending}
-                  control={form.control}
-                  fieldName="courseDescription"
-                  label="Descripción"
-                  placeholder="Descripción"
-                />
+                    />
+                    <FormCustomInput
+                      isLoading={isPending}
+                      control={form.control}
+                      fieldName="courseDescription"
+                      label="Descripción"
+                      placeholder="Descripción"
+                    />
 
-                <DatePickerWithRange
-                  control={form.control}
-                  fieldName="dateRange"
-                />
+                    <DatePickerWithRange
+                      control={form.control}
+                      fieldName="dateRange"
+                    />
 
-                <FormCustomInput
-                  isLoading={isPending}
-                  control={form.control}
-                  fieldName="requirements"
-                  label="Requisitos"
-                  placeholder="Requisitos"
-                />
-                <FormCustomInput
-                  fieldName="coursePrice"
-                  inputType="number"
-                  isLoading={isPending}
-                  control={form.control}
-                  label="Precio del curso"
-                  placeholder="Precio del curso"
-                />
+                    <FormCustomInput
+                      isLoading={isPending}
+                      control={form.control}
+                      fieldName="requirements"
+                      label="Requisitos"
+                      placeholder="Requisitos"
+                    />
+                    <FormCustomInput
+                      fieldName="coursePrice"
+                      inputType="number"
+                      isLoading={isPending}
+                      control={form.control}
+                      label="Precio del curso"
+                      placeholder="Precio del curso"
+                    />
 
-                <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                  Modalidad
-                </FormLabel>
-                <Controller
-                  name="modality" // Nombre del campo en el schema del form
-                  control={form.control}
-                  render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-[240px]">
-                        <SelectValue placeholder="Modalidad" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Modalidad</SelectLabel>
-                          <SelectItem value="VIRTUAL">Virtual</SelectItem>
-                          <SelectItem value="PRESENTIAL">Presencial</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
+                    {/* <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
+                      Modalidad
+                    </FormLabel>
+                    <Controller
+                      name="modality" // Nombre del campo en el schema del form
+                      control={form.control}
+                      render={({ field }) => (
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger className="w-[240px]">
+                            <SelectValue placeholder="Modalidad" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Modalidad</SelectLabel>
+                              <SelectItem value="VIRTUAL">Virtual</SelectItem>
+                              <SelectItem value="PRESENTIAL">
+                                Presencial
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    /> */}
+                    <CustomSelect
+                      fieldName="modality"
+                      isLoading={false}
+                      control={form.control}
+                      label="Modalidad"
+                      placeholder="Selecciona una opcion"
+                      options={[
+                        { key: 'Virual', value: 'VIRTUAL' },
+                        { key: 'Presencial', value: 'PRESENTIAL' },
+                      ]}
+                    />
 
-                <FormCustomInput
-                  fieldName="notes"
-                  isLoading={isPending}
-                  control={form.control}
-                  label="Notas"
-                  placeholder="Notas"
-                />
-                <FormCustomInput
-                  fieldName="informationContact"
-                  isLoading={isPending}
-                  control={form.control}
-                  label="Informacion de contacto"
-                  placeholder="Informacion de contacto"
-                />
+                    <FormCustomArea
+                      fieldName="notes"
+                      isLoading={isPending}
+                      control={form.control}
+                      label="Notas"
+                      placeholder="Notas"
+                    />
+                    <FormCustomInput
+                      fieldName="informationContact"
+                      isLoading={isPending}
+                      control={form.control}
+                      label="Informacion de contacto"
+                      placeholder="Informacion de contacto"
+                    />
 
-                <Button
-                  className="flex w-full justify-center rounded-full bg-primary px-3 py-6 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
-                  disabled={isPending}
-                  type="submit"
-                >
-                  Crear curso
-                </Button>
-              </form>
-            </FormProvider>
+                    <Button
+                      className="flex w-full justify-center rounded-full bg-primary px-3 py-6 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+                      disabled={isPending}
+                      type="submit"
+                    >
+                      Crear curso
+                    </Button>
+                  </form>
+                </FormProvider>
+              </div>
+              <div className="flex-1">
+                {/* Segundo componente */}
+                <PreviewCourseCardPresentation
+                  courseInfo={{
+                    ...watchedFormValues,
+                    professors: selectProfessor.map((prof) => ({
+                      id: prof.id,
+                      professionalTitle: prof.professionalTitle,
+                      expertise: prof.expertise,
+                      user: {
+                        firstName: prof.firstName,
+                        lastName: prof.lastName,
+                        profileImageUrl: prof.profileImageUrl,
+                      },
+                    })),
+                  }}
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}
