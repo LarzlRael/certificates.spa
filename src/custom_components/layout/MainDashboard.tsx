@@ -17,6 +17,8 @@ import { useNavigate, Link, Outlet } from 'react-router-dom'
 import { ExtraInformation } from './ExtraInformation'
 import { Button } from '@/components/ui/button'
 import { DialogInformation } from './dasboard/DialogInformation'
+import { AlertDialogInformation } from './dasboard/AlertDialogInformation'
+import { useInformationStore } from '@/store/useInformationStore'
 
 interface MenuItems {
   icon: any
@@ -30,6 +32,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   /* const navigate = useNavigate() */
+  const { changeAlertDialogInformation } = useInformationStore()
 
   const menuItems: MenuItems[] = [
     { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
@@ -108,6 +111,28 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
             >
               <Bell className="h-4 w-4" />
             </Button>
+            {/* <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                changeAlertDialogInformation({
+                  isAlertDialogOpen: true,
+                  title: 'test',
+                  subtitle: 'test',
+                  confirmText: 'Aceptar',
+                  cancelText: 'Cancelar',
+                  onConfirm: () => {
+                    console.log('confirm')
+                  },
+                  onCancel: () => {
+                    console.log('cancel')
+                  },
+                  content: <h2>Soy un h2 gente que no ves?</h2>,
+                })
+              }}
+            >
+              test dialong
+            </Button> */}
           </div>
         </div>
         <Outlet />
@@ -124,8 +149,9 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
           <ExtraInformation />
         </div>
       </aside>
-      {/* Didalong component */}
+      {/* Dialogs and AlertDialogs components */}
       <DialogInformation />
+      <AlertDialogInformation />
     </div>
   )
 }
