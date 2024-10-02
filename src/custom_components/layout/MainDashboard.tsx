@@ -31,9 +31,6 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
   const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
-  /* const navigate = useNavigate() */
-  /* const { changeAlertDialogInformation } = useInformationStore() */
-
   const menuItems: MenuItems[] = [
     { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
     { icon: Users, label: 'Estudiantes', path: '/estudiantes' },
@@ -92,7 +89,11 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
       </aside>
 
       {/* Contenido principal */}
-      <main className="flex-1 py-8 px-8 overflow-y-auto">
+      <main
+        className={`flex-1 py-8 px-8 overflow-y-auto transition-all duration-300 ${
+          rightSidebarOpen ? 'mr-96' : ''
+        }`}
+      >
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">{selectedLabel}</h1>
           <div>
@@ -111,43 +112,21 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
             >
               <Bell className="h-4 w-4" />
             </Button>
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                changeAlertDialogInformation({
-                  isAlertDialogOpen: true,
-                  title: 'test',
-                  subtitle: 'test',
-                  confirmText: 'Aceptar',
-                  cancelText: 'Cancelar',
-                  onConfirm: () => {
-                    console.log('confirm')
-                  },
-                  onCancel: () => {
-                    console.log('cancel')
-                  },
-                  content: <h2>Soy un h2 gente que no ves?</h2>,
-                })
-              }}
-            >
-              test dialong
-            </Button> */}
           </div>
         </div>
         <Outlet />
       </main>
 
-      {/* Sidebar derecho */}
       <aside
         className={`bg-white w-96 min-h-screen p-4 transition-all duration-300 ${
-          rightSidebarOpen ? '' : 'translate-x-64'
+          rightSidebarOpen ? 'flex flex-col' : 'hidden'
         }`}
       >
-        <div className="space-y-4">
+        <div className="flex-1 overflow-auto">
           <ExtraInformation />
         </div>
       </aside>
+
       {/* Dialogs and AlertDialogs components */}
       <DialogInformation />
       <AlertDialogInformation />

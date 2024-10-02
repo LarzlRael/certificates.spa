@@ -34,7 +34,6 @@ import { putAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
 
-
 export const formVerifySchema = z.object({
   idPayment: z.number().positive(),
   amount: z.string(),
@@ -47,7 +46,7 @@ interface VerifyPaymentProps {
   onRefresh: () => void
 }
 
-export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
+export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore()
   /* TODO, fix this not changed method is not working changed error */
   const form = useForm<z.infer<typeof formVerifySchema>>({
@@ -61,7 +60,7 @@ export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
     },
   })
 
-  // load data 
+  // load data
   const { reset } = form
 
   // Usamos useEffect para actualizar los valores del formulario cada vez que cambia 'payment'
@@ -95,19 +94,13 @@ export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto max-h-[80vh] overflow-y-auto">
+    <Card /* className="w-full max-w-2xl mx-auto max-h-[80vh] overflow-y-auto" */
+    >
       <CardHeader>
         <CardTitle>Verificación de Pago del Curso</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-          {/* <div className="flex items-center space-x-3">
-            <BookOpenIcon className="h-5 w-5 text-primary" />
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Curso</p>
-              <p className="font-semibold">{payment.courseName}</p>
-            </div>
-          </div> */}
           <PaymentInfoRow
             label="Curso"
             value={payment.courseName}
@@ -132,7 +125,7 @@ export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
           <PaymentInfoRow
             label="Descripcion (Por el supervisor de pagos)"
             value={payment.description}
-            icon={<FileTextIcon  className="h-5 w-5 text-primary" />}
+            icon={<FileTextIcon className="h-5 w-5 text-primary" />}
           />
           <PaymentInfoRow
             label="Referencia"
@@ -143,7 +136,7 @@ export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
           <PaymentInfoRow
             label="Metodo de pago"
             value={payment.paymentMethod}
-            icon={<DollarSignIcon  className="h-5 w-5 text-primary" />}
+            icon={<DollarSignIcon className="h-5 w-5 text-primary" />}
           />
         </div>
         <FormProvider {...form}>
@@ -184,7 +177,7 @@ export const VerifyPayment = ({ payment, onRefresh}: VerifyPaymentProps) => {
               <Label>Comprobante de Pago</Label>
               <br />
               <br />
-              <div className="mt-2 border rounded-md overflow-hidden">
+              <div className="mt-2 rounded-md overflow-hidden">
                 {payment.voucherImageUrl.includes('.pdf') ? (
                   <div>
                     <br />
