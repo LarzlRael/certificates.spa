@@ -37,6 +37,9 @@ export const CustomSelect = ({
   control,
   placeHolder,
 }: SelectProps) => {
+  console.log(fieldName)
+  console.log(options)
+  console.log(control)
   return (
     <FormField
       control={control}
@@ -44,10 +47,7 @@ export const CustomSelect = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select
-            onValueChange={(value) => field.onChange(value)}
-            defaultValue={field.value || ''} // Asegurar valor inicial
-          >
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue

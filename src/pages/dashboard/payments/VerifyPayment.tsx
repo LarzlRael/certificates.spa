@@ -48,7 +48,7 @@ interface VerifyPaymentProps {
 
 export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore()
-  /* TODO, fix this not changed method is not working changed error */
+
   const form = useForm<z.infer<typeof formVerifySchema>>({
     resolver: zodResolver(formVerifySchema),
     defaultValues: {
@@ -146,7 +146,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
               isLoading={false}
               control={form.control}
               label="Estado "
-              placeholder="Selecciona una opcion"
+              placeholder="Selecciona una opción"
               options={[
                 { key: 'Pendiente', value: 'PENDING' },
                 { key: 'Confirmado', value: 'CONFIRMED' },

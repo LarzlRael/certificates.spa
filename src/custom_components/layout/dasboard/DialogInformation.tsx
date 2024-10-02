@@ -12,7 +12,7 @@ import { useInformationStore } from '@/store/useInformationStore'
 export const DialogInformation = () => {
   const { dialogContent } = useInformationStore()
   const { changeDialogInformation } = useInformationStore()
-  console.log(`sm:max-w-[${dialogContent.maxWidth}px]`)
+
   return (
     <Dialog
       open={dialogContent.isDialogOpen}
