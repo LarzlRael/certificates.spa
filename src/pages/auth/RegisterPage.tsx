@@ -3,16 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthStatus, useAuthStore } from '@/store/authStore'
@@ -25,7 +16,7 @@ import {
   LabelClickable,
   LabelTitleSubTitleClickable,
 } from '@/custom_components/display-text'
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
+import { FormCustomInput } from '@/custom_components/forms/react-form-hooks/FormCustomInput'
 
 const formSchema = z
   .object({
@@ -78,31 +69,31 @@ export const RegisterPage = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // ✅ This will be type-safe and validated.
-
     setIsLoading(true)
 
-    /* const getUserLogging = await postAction<UserAuth>('auth/signin', {
+    const getUserLogging = await postAction<UserAuth>('auth/signup', {
       username: values.username,
       password: values.password,
+      passwordConfirm: values.confirmPassword,
       email: values.email,
-    }) */
+    })
     console.log(values)
-    /*  setIsLoading(false)
+    setIsLoading(false)
     if (validateStatus(getUserLogging!.status)) {
       window.localStorage.setItem('token', getUserLogging!.data!.accessToken)
       await refreshToken()
       toast.success('Login success', { duration: 2500, position: 'top-right' })
       return
     }
-    toast.error('Usuario o contraseña invalidos', {
+    toast.error('Error al crear ciemta', {
       duration: 2500,
       position: 'bottom-center',
-    }) */
+    })
   }
   useEffect(() => {
     console.log(authStatus)
     if (authStatus == AuthStatus.AUTHENTICATED) {
-      navigate('/dashboard')
+      navigate('/panel-administrativo')
     }
   }, [authStatus])
 
@@ -133,21 +124,21 @@ export const RegisterPage = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
               >
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isLoading}
                   control={form.control}
                   fieldName="username"
                   label="Nombre de usuario"
                   placeholder="Nombre de usuario"
                 />
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isLoading}
                   control={form.control}
                   fieldName="email"
                   label="Correo electrónico"
                   placeholder="Correo electrónico"
                 />
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isLoading}
                   control={form.control}
                   fieldName="password"
@@ -155,7 +146,7 @@ export const RegisterPage = () => {
                   isPasswordField
                   placeholder="Contraseña"
                 />
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isLoading}
                   control={form.control}
                   fieldName="confirmPassword"

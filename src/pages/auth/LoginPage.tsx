@@ -16,7 +16,7 @@ import {
   LabelClickable,
   LabelTitleSubTitleClickable,
 } from '@/custom_components/display-text'
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
+import { FormCustomInput } from '@/custom_components/forms/react-form-hooks/FormCustomInput'
 import { useMutationQuery } from '@/hooks/useMutationQuery'
 import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 
@@ -164,7 +164,7 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(loginUser)} className="space-y-8">
               {/* Campo de nombre de usuario */}
-              <FormCustomField
+              <FormCustomInput
                 isLoading={isPending}
                 control={form.control}
                 fieldName="username"
@@ -172,7 +172,7 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
                 placeholder="Usuario"
               />
               {/* Campo de contraseña */}
-              <FormCustomField
+              <FormCustomInput
                 isLoading={isPending}
                 isPasswordField
                 control={form.control}

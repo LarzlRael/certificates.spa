@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useState } from 'react';
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField';
+import { FormCustomInput } from '@/custom_components/forms/react-form-hooks/FormCustomInput';
 import { Button } from '@/components/ui/button';
 
 
@@ -39,7 +39,7 @@ export const ForgotPasswordPage = () => {
       </span>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormCustomField
+          <FormCustomInput
             isLoading={isLoading}
             control={form.control}
             fieldName="username"

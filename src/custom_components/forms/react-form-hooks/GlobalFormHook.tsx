@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { z } from 'zod'
-import { FormCustomField } from './FormCustomField'
+import { FormCustomInput } from './FormCustomInput'
 import { Button } from '@/components/ui/button'
 import { FormInterface } from './interfaces/form-interface'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
@@ -49,7 +49,7 @@ export const GlobalFormHook = ({
                   case 'tel':
                   case 'url':
                     return (
-                      <FormCustomField
+                      <FormCustomInput
                         key={item.fieldName}
                         isLoading={isLoading}
                         isPasswordField={item.type === 'password'}

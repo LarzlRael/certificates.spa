@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
-  FormCustomField,
+  FormCustomInput,
   FormCustomArea,
 } from '@/custom_components/forms/react-form-hooks/'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -92,7 +92,7 @@ export const BecomeProfessor = ({
       <UserProfileRawInfo user={userStudent} />
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
-          <FormCustomField
+          <FormCustomInput
             isLoading={isLoading}
             control={form.control}
             fieldName="professionalTitle"

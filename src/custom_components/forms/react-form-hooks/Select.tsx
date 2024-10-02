@@ -14,7 +14,7 @@ import {
   SelectGroup,
   SelectLabel,
   SelectItem,
-} from '@radix-ui/react-select'
+} from '@/components/ui/select'
 import { Controller } from 'react-hook-form'
 import { OptionsI } from './interfaces/form-interface'
 import { Select } from '@/components/ui/select'
@@ -37,7 +37,6 @@ export const CustomSelect = ({
   control,
   placeHolder,
 }: SelectProps) => {
-  console.log('options', options)
   return (
     <FormField
       control={control}
@@ -45,21 +44,32 @@ export const CustomSelect = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={(value) => field.onChange(value)}
+            defaultValue={field.value || ''} // Asegurar valor inicial
+          >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={placeHolder} />
+                <SelectValue
+                  placeholder={placeHolder || 'Selecciona una opción'}
+                />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {options.map((option: OptionsI) => (
-                <SelectItem key={option.key} value={option.value}>
-                  {option.key}
+              {options.length > 0 ? (
+                options.map((option: OptionsI) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.key}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem disabled value="">
+                  No hay opciones disponibles
                 </SelectItem>
-              ))}
+              )}
             </SelectContent>
           </Select>
-          {description && <FormDescription>description</FormDescription>}
+          {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}

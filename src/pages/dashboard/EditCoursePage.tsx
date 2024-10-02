@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { FormProvider, useForm, Controller } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
+import { FormCustomInput } from '@/custom_components/forms/react-form-hooks/FormCustomInput'
 import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 import {
   Select,
@@ -118,7 +118,7 @@ export const EditCoursePage = () => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-2"
               >
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isPending}
                   control={form.control}
                   fieldName="courseName"
@@ -173,7 +173,7 @@ export const EditCoursePage = () => {
                     </div>
                   )}
                 />
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isPending}
                   control={form.control}
                   fieldName="courseDescription"
@@ -186,14 +186,14 @@ export const EditCoursePage = () => {
                   fieldName="dateRange"
                 />
 
-                <FormCustomField
+                <FormCustomInput
                   isLoading={isPending}
                   control={form.control}
                   fieldName="requirements"
                   label="Requisitos"
                   placeholder="Requisitos"
                 />
-                <FormCustomField
+                <FormCustomInput
                   fieldName="coursePrice"
                   inputType="number"
                   isLoading={isPending}
@@ -224,14 +224,14 @@ export const EditCoursePage = () => {
                   )}
                 />
 
-                <FormCustomField
+                <FormCustomInput
                   fieldName="notes"
                   isLoading={isPending}
                   control={form.control}
                   label="Notas"
                   placeholder="Notas"
                 />
-                <FormCustomField
+                <FormCustomInput
                   fieldName="informationContact"
                   isLoading={isPending}
                   control={form.control}

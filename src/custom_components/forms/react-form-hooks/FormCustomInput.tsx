@@ -18,7 +18,7 @@ interface PasswordFieldProps {
   inputType?: string
 }
 
-export const FormCustomField = ({
+export const FormCustomInput = ({
   control,
   isLoading,
   label,

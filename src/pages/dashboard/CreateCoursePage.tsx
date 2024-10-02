@@ -4,19 +4,12 @@ import { z } from 'zod'
 import { FormProvider, useForm, Controller } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { FormCustomField } from '@/custom_components/forms/react-form-hooks/FormCustomField'
-import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 import {
-  Select,
-  SelectLabel,
-  SelectItem,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-} from '@/components/ui/select'
+  FormCustomInput,
+  FormCustomArea,
+} from '@/custom_components/forms/react-form-hooks/'
+import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 
-import { getDifferenceBetweenDates } from '@/utils/convertDate'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { ProfessorInterface } from './interfaces/professors.interface'
 import ProfessorsCard, {
@@ -27,22 +20,16 @@ import {
   processAddCourseData,
 } from './utils/processDataCourse'
 import { useParams } from 'react-router-dom'
-import { CourseEnrollInterface } from './interfaces/course-enroll.interface'
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { FormLabel } from '@/components/ui/form'
 import { postAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
+import { CustomSelect } from '@/custom_components/forms/react-form-hooks/Select'
 
 export const CreateCoursePage = () => {
   const [isPending, setisPending] = useState(false)
-  const params = useParams()
-  /*  const {
-    data: courseData,
-    isLoading: isLoadingCourse,
-    reload: reloadCourse,
-  } = useAxiosQueryAuth<CourseEnrollInterface>({
-    url: `/course/course-detail/${params.idCourse}`,
-  }) */
+
   const { data, isLoading, reload } = useAxiosQueryAuth<ProfessorInterface[]>({
     url: '/professor',
   })
@@ -56,7 +43,7 @@ export const CreateCoursePage = () => {
       courseName: '',
       courseDescription: '',
       requirements: '',
-      coursePrice: 0,
+      coursePrice: '0',
       modality: '',
       notes: '',
       informationContact: '',
@@ -79,29 +66,6 @@ export const CreateCoursePage = () => {
     setSelectProfessor(data.filter((professor) => ids.includes(professor.id)))
   }
 
-  /* useEffect(() => {
-    if (courseData != null || courseData != undefined) {
-      form.reset({
-        courseName: courseData.courseName || '',
-        courseDescription: courseData.courseDescription || '',
-        requirements: courseData.requirements || '',
-        coursePrice: courseData.coursePrice || '',
-        modality: courseData.modality || '',
-        notes: courseData.notes || '',
-        informationContact: courseData.informationContact || '',
-        dateRange: {
-          from: courseData.startDate
-            ? new Date(courseData.startDate)
-            : undefined,
-          to: courseData.endDate ? new Date(courseData.endDate) : undefined,
-        },
-        imageCourse: undefined, // Esto dependerá de cómo manejes las imágenes
-        professorsIds: courseData.professors?.map((prof) => prof.id) || [],
-      })
-      setSelectProfessor(courseData.professors || [])
-    }
-  }, [courseData, form]) */
-
   return (
     <div className="">
       <Card>
@@ -114,7 +78,7 @@ export const CreateCoursePage = () => {
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-2"
             >
-              <FormCustomField
+              <FormCustomInput
                 isLoading={isPending}
                 control={form.control}
                 fieldName="courseName"
@@ -169,7 +133,7 @@ export const CreateCoursePage = () => {
                   </div>
                 )}
               />
-              <FormCustomField
+              <FormCustomInput
                 isLoading={isPending}
                 control={form.control}
                 fieldName="courseDescription"
@@ -182,14 +146,14 @@ export const CreateCoursePage = () => {
                 fieldName="dateRange"
               />
 
-              <FormCustomField
+              <FormCustomInput
                 isLoading={isPending}
                 control={form.control}
                 fieldName="requirements"
                 label="Requisitos"
                 placeholder="Requisitos"
               />
-              <FormCustomField
+              <FormCustomInput
                 fieldName="coursePrice"
                 inputType="number"
                 isLoading={isPending}
@@ -198,10 +162,18 @@ export const CreateCoursePage = () => {
                 placeholder="Precio del curso"
               />
 
-              <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                Modalidad
-              </FormLabel>
-              <Controller
+              <CustomSelect
+                fieldName="modality"
+                isLoading={isPending}
+                control={form.control}
+                label="Modalidad"
+                placeholder="Selecciona una opcion"
+                options={[
+                  { key: 'Virtual', value: 'VIRTUAL' },
+                  { key: 'Presencial', value: 'PRESENTIAL' },
+                ]}
+              />
+              {/* <Controller
                 name="modality" // Nombre del campo en el schema del form
                 control={form.control}
                 render={({ field }) => (
@@ -218,16 +190,16 @@ export const CreateCoursePage = () => {
                     </SelectContent>
                   </Select>
                 )}
-              />
+              /> */}
 
-              <FormCustomField
+              <FormCustomArea
                 fieldName="notes"
                 isLoading={isPending}
                 control={form.control}
                 label="Notas"
                 placeholder="Notas"
               />
-              <FormCustomField
+              <FormCustomInput
                 fieldName="informationContact"
                 isLoading={isPending}
                 control={form.control}

@@ -32,6 +32,8 @@ import { convertDate } from '@/utils/dates'
 import { capitalizeString } from '@/utils/utils'
 import { useNavigate } from 'react-router-dom'
 import { TableMain } from '@/table'
+import { useInformationStore } from '@/store/useInformationStore'
+import { VerifyPayment } from './payments/VerifyPayment'
 
 export const PaymentsPage = () => {
   return (
@@ -51,6 +53,9 @@ export const PaymentView = () => {
   >({
     url: `/payment/get-payments`,
   })
+
+  const { changeExtraInformation } = useInformationStore()
+
   const navigate = useNavigate()
   const filteredPayments = data
     ? data.filter((flatPayment) => {
@@ -196,7 +201,9 @@ export const PaymentView = () => {
           ]}
           data={filteredPayments}
           handleInfo={(element) => {
-            console.log(element)
+            changeExtraInformation (
+              <VerifyPayment  payment ={element}/>
+            )
           }}
         />
       )}
