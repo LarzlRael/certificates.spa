@@ -28,8 +28,12 @@ interface MenuItems {
 const rootPath = '/panel-administrativo'
 
 const MainAdminDashboard = ({ logout }: WithAuthProps) => {
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
-  const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
+  /* const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(true) */
+
+  const { isOpenLeftSidebar, isOpenRightSidebar } = useInformationStore()
+  const { toggleRightSidebar } = useInformationStore()
+  const { toggleLeftSidebar } = useInformationStore()
 
   const menuItems: MenuItems[] = [
     { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
@@ -48,7 +52,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
       {/* Sidebar izquierdo */}
       <aside
         className={`bg-white w-64 min-h-screen p-4 transition-all duration-300 ${
-          leftSidebarOpen ? '' : '-ml-64'
+          isOpenLeftSidebar ? '' : '-ml-64'
         }`}
       >
         <div className="flex items-center justify-between mb-8">
@@ -56,7 +60,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setLeftSidebarOpen(false)}
+            onClick={toggleLeftSidebar}
             className="lg:hidden"
           >
             <Menu className="h-6 w-6" />
@@ -91,7 +95,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
       {/* Contenido principal */}
       <main
         className={`flex-1 py-8 px-8 overflow-y-auto transition-all duration-300 ${
-          rightSidebarOpen ? 'mr-96' : ''
+          isOpenRightSidebar ? 'mr-0' : ''
         }`}
       >
         <div className="flex justify-between items-center mb-8">
@@ -100,16 +104,12 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
+              onClick={toggleLeftSidebar}
               className="mr-2"
             >
               <Menu className="h-4 w-4" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
-            >
+            <Button variant="ghost" size="icon" onClick={toggleRightSidebar}>
               <Bell className="h-4 w-4" />
             </Button>
           </div>
@@ -119,7 +119,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
 
       <aside
         className={`bg-white w-96 min-h-screen p-4 transition-all duration-300 ${
-          rightSidebarOpen ? 'flex flex-col' : 'hidden'
+          isOpenRightSidebar ? 'flex flex-col' : 'hidden'
         }`}
       >
         <div className="flex-1 overflow-auto">

@@ -44,9 +44,9 @@ export const StudentsPage = () => {
               handleInfo={(rowData) => {
                 console.log(rowData)
 
-                changeExtraInformation(() => (
-                  <UserDialogProfile studentDetail={rowData} />
-                ))
+                changeExtraInformation(
+                  <UserDialogProfile studentDetail={rowData} />,
+                )
                 /* setProfileDialog(true) */
                 /* changeDialogInformation({
                   subtitle: 'Información del estudiante',

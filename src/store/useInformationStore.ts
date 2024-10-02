@@ -28,9 +28,21 @@ interface DialogState {
   changeExtraInformation: (extraInformation: React.ReactNode) => void
   changeDialogInformation: (dialogInformation: DialogInformation) => void
   clearDialogInformation: () => void
+  isOpenLeftSidebar: boolean
+  isOpenRightSidebar: boolean
+
+  toggleRightSidebar: () => void // Nuevo método para abrir el sidebar
+  toggleLeftSidebar: () => void // Método para cerrar el sidebar
 }
 
 export const useInformationStore = create<DialogState>((set) => ({
+  isOpenLeftSidebar: true,
+  isOpenRightSidebar: true,
+
+  toggleRightSidebar: () =>
+    set((state) => ({ isOpenRightSidebar: !state.isOpenRightSidebar })),
+  toggleLeftSidebar: () =>
+    set((state) => ({ isOpenLeftSidebar: !state.isOpenLeftSidebar })),
   dialogContent: {
     isDialogOpen: false,
     title: '',
@@ -49,7 +61,16 @@ export const useInformationStore = create<DialogState>((set) => ({
     set({ dialogContent: { isDialogOpen: false, content: undefined } }),
   changeAlertDialogInformation: (alertDialogInformation) =>
     set({ alertDialogContent: alertDialogInformation }),
-  changeExtraInformation: (extraInformation) => set({ extraInformation }),
+  changeExtraInformation: (extraInformation) => {
+    set((state) => {
+      // Verifica si el sidebar derecho está cerrado
+      if (!state.isOpenRightSidebar) {
+        // Abre el sidebar derecho si está cerrado
+        state.isOpenRightSidebar = true
+      }
+      return { extraInformation } // Devuelve el nuevo valor de extraInformation
+    })
+  },
 
   changeDialogInformation: (info) =>
     set({
