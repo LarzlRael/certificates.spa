@@ -27,6 +27,7 @@ export const formAddCourseSchema = z.object({
   professorsIds: z.array(z.number().positive()).optional(),
 })
 export const formEditCourseSchema = z.object({
+  id: z.number().positive(),
   courseName: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
@@ -76,16 +77,12 @@ export const processAddCourseData = (
   delete courseData.dateRange
   delete courseData.imageCourseUrl
   console.log(courseData)
-  preProcessFormData(courseData)
+
   return courseData
 }
 
-export const preProcessFormData = (data:any) => {
+export const sendFileFormData = (fieldName: string, file: any) => {
   const formData = new FormData()
-  formData.append('data', JSON.stringify(data))
-  formData.append('xd', 'otro')
-  console.log(formData)
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value} \n`);
-  }
+  formData.append(fieldName, file)
+  return formData
 }

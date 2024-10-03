@@ -20,6 +20,7 @@ import ProfessorsCard, {
 import {
   formAddCourseSchema,
   processAddCourseData,
+  sendFileFormData,
   formEditCourseSchema,
 } from './utils/processDataCourse'
 import { useParams } from 'react-router-dom'
@@ -50,6 +51,7 @@ export const EditCoursePage = () => {
   const form = useForm<z.infer<typeof formEditCourseSchema>>({
     resolver: zodResolver(formEditCourseSchema),
     defaultValues: {
+      id: parseInt(params.idCourse || '0'),
       courseName: '',
       courseDescription: '',
       requirements: '',
@@ -69,12 +71,21 @@ export const EditCoursePage = () => {
 
   async function handleSubmit(values) {
     /* console.log(values) */
-    console.log(processAddCourseData(values))
-    /* const sendData = await postAction('/course', processAddCourseData(values))
+    const data = processAddCourseData(values)
+    const sendData = await putAction(
+      `/course/update-course-info/${values.id}`,
+      data,
+    )
+    if (values.imageCourse != undefined) {
+      const sendData = await putAction(
+        `/course/update-course-image-info/${values.id}`,
+        sendFileFormData('imageCourse', values.imageCourse),
+      )
+    }
     if (isValidStatus(sendData.status)) {
       // Si se envió correctamente, recarga la página
       /* reloadCourse() */
-    /* } */
+    }
   }
 
   function selectProfessors(ids) {
@@ -88,6 +99,7 @@ export const EditCoursePage = () => {
   useEffect(() => {
     if (courseData != null) {
       form.reset({
+        id: courseData.id || 0,
         courseName: courseData.courseName || '',
         courseDescription: courseData.courseDescription || '',
         requirements: courseData.requirements || '',
