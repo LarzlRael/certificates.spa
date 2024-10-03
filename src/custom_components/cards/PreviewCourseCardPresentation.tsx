@@ -22,6 +22,7 @@ export const PreviewCourseCardPresentation = ({
   courseInfo,
   imageBlog,
 }: CourseCardPresentationProps) => {
+  console.log(courseInfo)
   return (
     <Card
       className="
@@ -34,6 +35,8 @@ export const PreviewCourseCardPresentation = ({
           src={
             isValidString(imageBlog)
               ? imageBlog
+              : isValidString(courseInfo.imageCourseUrl)
+              ? courseInfo.imageCourseUrl
               : 'https://res.cloudinary.com/heyset/image/upload/v1689582418/buukmenow-folder/no-image-icon-0.jpg'
           }
           alt="Imagen del curso"

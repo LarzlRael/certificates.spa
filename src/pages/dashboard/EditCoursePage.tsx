@@ -19,6 +19,7 @@ import ProfessorsCard, {
 } from '@/custom_components/cards/ProfessorCards'
 import {
   formAddCourseSchema,
+  formEditCourseSchema,
   processAddCourseData,
 } from './utils/processDataCourse'
 import { useParams } from 'react-router-dom'
@@ -46,8 +47,8 @@ export const EditCoursePage = () => {
     [],
   )
 
-  const form = useForm<z.infer<typeof formAddCourseSchema>>({
-    resolver: zodResolver(formAddCourseSchema),
+  const form = useForm<z.infer<typeof formEditCourseSchema>>({
+    resolver: zodResolver(formEditCourseSchema),
     defaultValues: {
       courseName: '',
       courseDescription: '',
@@ -55,6 +56,7 @@ export const EditCoursePage = () => {
       coursePrice: '',
       modality: '',
       notes: '',
+      imageCourseUrl: '',
       informationContact: '',
       dateRange: {
         from: undefined,
@@ -99,6 +101,7 @@ export const EditCoursePage = () => {
         },
         imageCourse: undefined, // Esto dependerá de cómo manejes las imágenes
         professorsIds: courseData.professors?.map((prof) => prof.id) || [],
+        imageCourseUrl: courseData.imageUrl || '',
       })
       /* setSelectProfessor(courseData.professors || []) */
     }
@@ -122,7 +125,7 @@ export const EditCoursePage = () => {
                     onSubmit={form.handleSubmit(handleSubmit)}
                     className="space-y-2"
                   >
-                    <FormCustomInput
+                    <FormCustomArea
                       isLoading={isPending}
                       control={form.control}
                       fieldName="courseName"
@@ -228,6 +231,7 @@ export const EditCoursePage = () => {
                       ? ''
                       : URL.createObjectURL(watchedFormValues.imageCourse)
                   }
+                  
                   courseInfo={{
                     ...watchedFormValues,
 

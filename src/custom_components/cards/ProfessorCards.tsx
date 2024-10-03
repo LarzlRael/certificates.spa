@@ -133,7 +133,7 @@ export const ProfessorCardMini = ({
 }: ProfessorsPropsMini) => {
   console.log(professorsList)
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
       {professorsList.map((profesor) => (
         <Card key={profesor.id} className="relative">
           <CardContent className="flex flex-col items-center p-4">
