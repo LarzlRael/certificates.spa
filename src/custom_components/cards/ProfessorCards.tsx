@@ -131,7 +131,6 @@ export const ProfessorCardMini = ({
   professorsList,
   selectProfessors,
 }: ProfessorsPropsMini) => {
-  console.log(professorsList)
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
       {professorsList.map((profesor) => (

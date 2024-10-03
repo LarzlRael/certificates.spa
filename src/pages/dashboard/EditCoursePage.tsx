@@ -19,14 +19,14 @@ import ProfessorsCard, {
 } from '@/custom_components/cards/ProfessorCards'
 import {
   formAddCourseSchema,
-  formEditCourseSchema,
   processAddCourseData,
+  formEditCourseSchema,
 } from './utils/processDataCourse'
 import { useParams } from 'react-router-dom'
 import { CourseEnrollInterface } from './interfaces/course-enroll.interface'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { FormLabel } from '@/components/ui/form'
-import { postAction } from '@/provider/action/ActionAuthorization'
+import { putAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
 import { PreviewCourseCardPresentation } from '@/custom_components/cards/PreviewCourseCardPresentation'
 
@@ -68,11 +68,13 @@ export const EditCoursePage = () => {
   const watchedFormValues = form.watch()
 
   async function handleSubmit(values) {
-    const sendData = await postAction('/course', processAddCourseData(values))
+    /* console.log(values) */
+    console.log(processAddCourseData(values))
+    /* const sendData = await postAction('/course', processAddCourseData(values))
     if (isValidStatus(sendData.status)) {
       // Si se envió correctamente, recarga la página
       /* reloadCourse() */
-    }
+    /* } */
   }
 
   function selectProfessors(ids) {
@@ -128,6 +130,7 @@ export const EditCoursePage = () => {
                     <FormCustomArea
                       isLoading={isPending}
                       control={form.control}
+                      rows={2}
                       fieldName="courseName"
                       label="Nombre del curso"
                       placeholder="Nombre del curso"
@@ -203,6 +206,7 @@ export const EditCoursePage = () => {
                       control={form.control}
                       label="Notas"
                       placeholder="Notas"
+                      rows={4}
                     />
                     <FormCustomInput
                       fieldName="informationContact"
@@ -231,7 +235,6 @@ export const EditCoursePage = () => {
                       ? ''
                       : URL.createObjectURL(watchedFormValues.imageCourse)
                   }
-                  
                   courseInfo={{
                     ...watchedFormValues,
 

@@ -73,6 +73,19 @@ export const processAddCourseData = (
     /* duration: days,
     durationUnit: 'DAYS', */
   }
+  delete courseData.dateRange
+  delete courseData.imageCourseUrl
   console.log(courseData)
+  preProcessFormData(courseData)
   return courseData
+}
+
+export const preProcessFormData = (data:any) => {
+  const formData = new FormData()
+  formData.append('data', JSON.stringify(data))
+  formData.append('xd', 'otro')
+  console.log(formData)
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value} \n`);
+  }
 }
