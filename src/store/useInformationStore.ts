@@ -33,7 +33,7 @@ interface DialogState {
 
 export const useInformationStore = create<DialogState>((set) => ({
   isOpenLeftSidebar: true,
-  isOpenRightSidebar: true,
+  isOpenRightSidebar: false,
 
   dialogContent: {
     isDialogOpen: false,

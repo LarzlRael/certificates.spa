@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from '@/components/ui/card'
 import {
   Popover,
@@ -16,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ProfessorInterface } from '@/pages/dashboard/interfaces/professors.interface'
 import { FormLabel } from '@/components/ui/form'
+import { isValidArray } from '@/utils/validation/validation'
 
 interface ProfessorsProps {
   professorsList: ProfessorInterface[] | undefined
@@ -68,9 +70,17 @@ export default function ProfessorsCard({
                 onChange={(e) => setFilter(e.target.value)}
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
               {filteredProfessors.map((profesor) => (
-                <Card key={profesor.idProfessor} className="flex flex-col">
+                <Card
+                  className={`flex flex-col cursor-pointer ${
+                    selected.includes(profesor.idProfessor)
+                      ? 'bg-blue-100'
+                      : 'hover:bg-blue-50'
+                  }`}
+                  onClick={() => toggleSelection(profesor.idProfessor)}
+                  key={profesor.idProfessor}
+                >
                   <CardHeader className="flex flex-row items-center space-y-0 pb-2">
                     <Avatar className="h-16 w-16 mr-4">
                       <AvatarImage
@@ -90,30 +100,20 @@ export default function ProfessorsCard({
                         {profesor.lastName}
                       </CardTitle>
                     </div>
-                    <Checkbox
+                    {/* <Checkbox
                       id={`select-${profesor.idProfessor}`}
                       checked={selected.includes(profesor.idProfessor)}
-                      onCheckedChange={() => toggleSelection(profesor.idProfessor)}
-                    />
+                      onCheckedChange={() =>
+                        toggleSelection(profesor.idProfessor)
+                      }
+                    /> */}
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm mb-2">
-                      Experiencia: {profesor.expertise}
-                    </p>
-                  </CardContent>
                 </Card>
               ))}
             </div>
-            <div className="mt-4">
-              <Button
-                onClick={() =>
-                  console.log('Profesores seleccionados:', selected)
-                }
-                disabled={selected.length === 0}
-              >
-                Contactar Seleccionados ({selected.length})
-              </Button>
-            </div>
+            {isValidArray(selected) && (
+              <span>Profesores seleccionados: {selected.length}</span>
+            )}
           </div>
         </PopoverContent>
       </Popover>
@@ -142,7 +142,9 @@ export const ProfessorCardMini = ({
                 src={profesor.profileImageUrl || undefined}
                 alt={`${profesor.firstName} ${profesor.lastName}`}
               />
-              <AvatarFallback>{`${profesor.firstName?.[0] || ''}${profesor.lastName?.[0] || ''}`}</AvatarFallback>
+              <AvatarFallback>{`${profesor.firstName?.[0] || ''}${
+                profesor.lastName?.[0] || ''
+              }`}</AvatarFallback>
             </Avatar>
             <div className="text-center">
               <p className="font-medium text-sm">{`${profesor.professionalTitle} ${profesor.firstName} ${profesor.lastName}`}</p>

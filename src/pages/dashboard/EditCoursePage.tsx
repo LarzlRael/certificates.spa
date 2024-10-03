@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { FormProvider, useForm, Controller } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
   FormCustomInput,
   FormCustomArea,
   CustomSelect,
+  FileUploadInput,
 } from '@/custom_components/forms/react-form-hooks/'
 import { DatePickerWithRange } from '@/custom_components/forms/react-form-hooks/CalendarRange'
 
-import { getDifferenceBetweenDates } from '@/utils/convertDate'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { ProfessorInterface } from './interfaces/professors.interface'
 import ProfessorsCard, {
@@ -64,6 +64,7 @@ export const EditCoursePage = () => {
     },
   })
   const watchedFormValues = form.watch()
+
   async function handleSubmit(values) {
     const sendData = await postAction('/course', processAddCourseData(values))
     if (isValidStatus(sendData.status)) {
@@ -75,7 +76,9 @@ export const EditCoursePage = () => {
   function selectProfessors(ids) {
     console.log(ids)
 
-    setSelectProfessor(data.filter((professor) => ids.includes(professor.idProfessor)))
+    setSelectProfessor(
+      data.filter((professor) => ids.includes(professor.idProfessor)),
+    )
   }
 
   useEffect(() => {
@@ -102,17 +105,18 @@ export const EditCoursePage = () => {
   }, [courseData])
 
   return (
-    <div className="">
+    <div className="w-full">
       {isLoadingCourse ? (
         <div>Cargando</div>
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>Editar informacion del curso</CardTitle>
+            <CardTitle>Editar información del curso</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex w-full flex-col md:flex-row gap-4">
-              <div className="flex-1">
+            <div className="flex flex-col lg:flex-row w-full gap-4">
+              {/* El formulario ocupará 1/4 en pantallas grandes */}
+              <div className="w-full lg:w-1/4">
                 <FormProvider {...form}>
                   <form
                     onSubmit={form.handleSubmit(handleSubmit)}
@@ -127,7 +131,7 @@ export const EditCoursePage = () => {
                     />
 
                     {isLoading ? (
-                      <div>cargando</div>
+                      <div>Cargando</div>
                     ) : (
                       <ProfessorsCard
                         professorsList={data}
@@ -141,38 +145,14 @@ export const EditCoursePage = () => {
                       professorsList={selectProfessor}
                       selectProfessors={(professor) => {}}
                     />
-                    <Controller
-                      name="imageCourse"
+
+                    <FileUploadInput
+                      fieldName="imageCourse"
                       control={form.control}
-                      render={({ field }) => (
-                        <div className="flex flex-col">
-                          <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                            Subir imagen del curso
-                          </FormLabel>
-                          <input
-                            type="file"
-                            accept="image/*" // Solo acepta imágenes
-                            onChange={(e) => {
-                              const file = e.target.files[0] // Tomar solo el primer archivo
-                              field.onChange(file) // Actualiza el estado del formulario con el archivo seleccionado
-                            }}
-                            className="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-                          />
-                          {field.value && (
-                            <div className="relative w-full max-w-sm">
-                              <img
-                                src={URL.createObjectURL(field.value)} // Crea una URL temporal para mostrar la imagen
-                                alt={field.value.name}
-                                className="w-full h-auto rounded-lg shadow-md"
-                              />
-                              <p className="mt-2 text-center text-gray-500">
-                                {field.value.name}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      isLoading={isPending}
+                      label="Subir imagen del curso"
                     />
+
                     <FormCustomInput
                       isLoading={isPending}
                       control={form.control}
@@ -202,40 +182,14 @@ export const EditCoursePage = () => {
                       placeholder="Precio del curso"
                     />
 
-                    {/* <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                      Modalidad
-                    </FormLabel>
-                    <Controller
-                      name="modality" // Nombre del campo en el schema del form
-                      control={form.control}
-                      render={({ field }) => (
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="w-[240px]">
-                            <SelectValue placeholder="Modalidad" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Modalidad</SelectLabel>
-                              <SelectItem value="VIRTUAL">Virtual</SelectItem>
-                              <SelectItem value="PRESENTIAL">
-                                Presencial
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      )}
-                    /> */}
                     <CustomSelect
                       fieldName="modality"
                       isLoading={false}
                       control={form.control}
                       label="Modalidad"
-                      placeholder="Selecciona una opcion"
+                      placeholder="Selecciona una opción"
                       options={[
-                        { key: 'Virual', value: 'VIRTUAL' },
+                        { key: 'Virtual', value: 'VIRTUAL' },
                         { key: 'Presencial', value: 'PRESENTIAL' },
                       ]}
                     />
@@ -251,8 +205,8 @@ export const EditCoursePage = () => {
                       fieldName="informationContact"
                       isLoading={isPending}
                       control={form.control}
-                      label="Informacion de contacto"
-                      placeholder="Informacion de contacto"
+                      label="Información de contacto"
+                      placeholder="Información de contacto"
                     />
 
                     <Button
@@ -265,11 +219,18 @@ export const EditCoursePage = () => {
                   </form>
                 </FormProvider>
               </div>
-              <div className="flex-1">
-                {/* Segundo componente */}
+
+              {/* La previsualización ocupará 3/4 en pantallas grandes */}
+              <div className="w-full lg:w-3/4">
                 <PreviewCourseCardPresentation
+                  imageBlog={
+                    watchedFormValues.imageCourse == undefined
+                      ? ''
+                      : URL.createObjectURL(watchedFormValues.imageCourse)
+                  }
                   courseInfo={{
                     ...watchedFormValues,
+
                     professors: selectProfessor.map((prof) => ({
                       id: prof.id,
                       professionalTitle: prof.professionalTitle,
