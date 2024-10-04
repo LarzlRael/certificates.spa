@@ -204,6 +204,7 @@ export const CourseList = ({
                     className="flex flex-col space-y-2"
                     key={`${index}-${professor.id}`}
                   >
+                    {/* /* Validad this metod null values*/ }
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={professor.user.profileImageUrl} />
                       <AvatarFallback>

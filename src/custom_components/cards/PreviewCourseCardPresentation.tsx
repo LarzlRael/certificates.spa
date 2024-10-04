@@ -14,6 +14,7 @@ import { isValidString } from '@/utils/validation/validation'
 import { capitalizeString } from '@/utils/utils'
 import { convertDate, getDifferenceBetweenDates } from '@/utils/dates'
 import { translate } from '@/constants/web-constants'
+import { InfoLabelPresentationCard } from './RawInfomation'
 
 interface CourseCardPresentationProps {
   courseInfo: CourseEnrollInterface
@@ -120,7 +121,7 @@ export const PreviewCourseCardPresentation = ({
               </div>
             )}
 
-            <InfoLabel
+            <InfoLabelPresentationCard
               title="Modilidad"
               value={courseInfo.modality}
               child={
@@ -140,8 +141,8 @@ export const PreviewCourseCardPresentation = ({
                 </div>
               }
             />
-            <InfoLabel title="Material" value={courseInfo.material} />
-            <InfoLabel
+            <InfoLabelPresentationCard title="Material" value={courseInfo.material} />
+            <InfoLabelPresentationCard
               title="Mas informacion"
               value={courseInfo.informationContact}
               child={
@@ -186,27 +187,3 @@ export const PreviewCourseCardPresentation = ({
   )
 }
 
-interface InfoLabelProps {
-  title: string
-  value?: string | undefined | null
-  child?: React.ReactNode
-}
-
-const InfoLabel = ({ title, value, child }: InfoLabelProps) => {
-  if (!isValidString(value)) {
-    return <div></div>
-  }
-
-  return (
-    <Card className="w-full mb-4 p-4">
-      <div className="grid grid-cols-[150px_1fr] items-center gap-4">
-        <h3 className="text-lg font-semibold truncate" title={title}>
-          {title}
-        </h3>
-        <div className="min-w-0">
-          {child ? child : <span className="font-normal">{value}</span>}
-        </div>
-      </div>
-    </Card>
-  )
-}

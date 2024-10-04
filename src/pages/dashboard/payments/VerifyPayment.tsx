@@ -37,7 +37,7 @@ import { ContentRawInformation } from '@/custom_components/cards/RawInfomation'
 
 export const formVerifySchema = z.object({
   idPayment: z.number().positive(),
-  amount: z.string(),
+  amount: z.number().positive(),
   paymentMethod: z.string(),
   status: z.string(),
   description: z.string(),
@@ -55,7 +55,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
     resolver: zodResolver(formVerifySchema),
     defaultValues: {
       idPayment: payment.id,
-      amount: payment.amount.toString(),
+      amount: payment.amount || 0,
       paymentMethod: payment.paymentMethod || '',
       status: payment.status,
       description: payment.description || '',
@@ -70,7 +70,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
     // Reseteamos los valores del formulario cuando cambia el pago seleccionado
     reset({
       idPayment: payment.id,
-      amount: payment.amount.toString(),
+      amount: payment.amount || 0,
       paymentMethod: payment.paymentMethod || '',
       status: payment.status,
       description: payment.description || '',
@@ -169,6 +169,14 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
               label="Description"
               placeholder="Descripcion"
             />
+            <FormCustomInput
+              fieldName="amount"
+              inputType='number'
+              isLoading={false}
+              control={form.control}
+              label="Monto"
+              placeholder="Monto"
+            />
             <CustomSelect
               fieldName="status"
               isLoading={false}
@@ -186,64 +194,69 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
               <Label>Comprobante de Pago</Label>
               <br />
               <br />
-              <div className="mt-2 rounded-md overflow-hidden">
-                {payment.voucherImageUrl.includes('.pdf') ? (
-                  <div>
-                    <br />
+              {isValidString(payment.voucherImageUrl) && (
+                <div className="mt-2 rounded-md overflow-hidden">
+                  {payment.voucherImageUrl?.includes('.pdf') ? (
+                    <div>
+                      <br />
 
-                    <Button
-                      type="button"
-                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 flex items-center space-x-2"
-                      onClick={() => {
-                        changeDialogInformation({
-                          isDialogOpen: true,
-                          isClosable: true,
-                          maxWidth: '800',
-                          title: 'Comprobante de pago',
-                          content: (
-                            <div className="w-full h-full">
-                              {payment.voucherImageUrl.includes('.pdf') ? (
-                                <iframe
-                                  src="https://www.orimi.com/pdf-test.pdf"
-                                  className="w-full h-96"
-                                  title="Comprobante de pago PDF"
-                                ></iframe>
-                              ) : (
-                                <img
-                                  src="payment.voucherImageUrl"
-                                  alt="Comprobante de pago"
-                                  className="max-w-full h-auto"
-                                />
-                              )}
-                            </div>
-                          ),
-                        })
-                      }}
-                    >
-                      <Receipt className="w-5 h-5" />
-                      Ver Comprobante
-                    </Button>
-                    <br />
-                    <iframe
-                      src="https://www.orimi.com/pdf-test.pdf"
-                      className="w-full h-96"
-                      title="Comprobante de pago PDF"
-                      onClick={() =>
-                        window.open(
-                          'https://www.orimi.com/pdf-test.pdf',
-                          '_blank',
-                        )
-                      }
-                    ></iframe>
-                  </div>
-                ) : (
-                  <img
-                    src={payment.voucherImageUrl}
-                    alt="Comprobante de pago"
-                    className="max-w-full h-auto"
-                  />
-                )}
-              </div>
+                      <Button
+                        type="button"
+                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 flex items-center space-x-2"
+                        onClick={() => {
+                          if (isValidString(payment.voucherImageUrl)) {
+                            return
+                          }
+                          changeDialogInformation({
+                            isDialogOpen: true,
+                            isClosable: true,
+                            maxWidth: '800',
+                            title: 'Comprobante de pago',
+                            content: (
+                              <div className="w-full h-full">
+                                {payment.voucherImageUrl.includes('.pdf') ? (
+                                  <iframe
+                                    src="https://www.orimi.com/pdf-test.pdf"
+                                    className="w-full h-96"
+                                    title="Comprobante de pago PDF"
+                                  ></iframe>
+                                ) : (
+                                  <img
+                                    src="payment.voucherImageUrl"
+                                    alt="Comprobante de pago"
+                                    className="max-w-full h-auto"
+                                  />
+                                )}
+                              </div>
+                            ),
+                          })
+                        }}
+                      >
+                        <Receipt className="w-5 h-5" />
+                        Ver Comprobante
+                      </Button>
+                      <br />
+                      <iframe
+                        src="https://www.orimi.com/pdf-test.pdf"
+                        className="w-full h-96"
+                        title="Comprobante de pago PDF"
+                        onClick={() =>
+                          window.open(
+                            'https://www.orimi.com/pdf-test.pdf',
+                            '_blank',
+                          )
+                        }
+                      ></iframe>
+                    </div>
+                  ) : (
+                    <img
+                      src={payment.voucherImageUrl}
+                      alt="Comprobante de pago"
+                      className="max-w-full h-auto"
+                    />
+                  )}
+                </div>
+              )}
             </div>
             <Button className="w-full">Guardar Cambios</Button>
           </form>
@@ -252,4 +265,3 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
     </Card>
   )
 }
-

@@ -14,6 +14,8 @@ import { Clock, Users, Star, ChevronRight } from 'lucide-react'
 import { CourseEnrollInterface } from '@/pages/dashboard/interfaces/course-enroll.interface'
 import { isValidString } from '@/utils/validation/validation'
 import { capitalizeString } from '../../utils/utils'
+import { InfoLabelPresentationCard } from './RawInfomation'
+import { convertDate, getDifferenceBetweenDates } from '@/utils/dates'
 
 interface CourseCardPresentationProps {
   courseInfo: CourseEnrollInterface
@@ -37,9 +39,9 @@ export const CourseCardPresentation = ({
             alt="Imagen del curso"
             className="w-full h-full object-contain" // Aseguramos que no se recorte
           />
-          <Badge className="absolute top-4 right-4 bg-yellow-400 text-yellow-900">
+          {/*    <Badge className="absolute top-4 right-4 bg-yellow-400 text-yellow-900">
             Destacado
-          </Badge>
+          </Badge> */}
         </div>
 
         {/* Contenido del curso */}
@@ -62,7 +64,8 @@ export const CourseCardPresentation = ({
           </CardHeader>
 
           <CardContent>
-            <div className="flex justify-between items-center mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-2">
+
               {courseInfo.professors.map(({ user, ...rest }) => (
                 <div className="flex items-center space-x-4" key={rest.id}>
                   <Avatar>
@@ -73,28 +76,39 @@ export const CourseCardPresentation = ({
                     <p className="font-semibold">
                       {rest.professionalTitle} {user.firstName} {user.lastName}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    {/* <p className="text-sm text-muted-foreground">
                       Instructor Senior
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               ))}
+            </div>
+
+            {courseInfo.startDate && courseInfo.endDate && (
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
                   <Clock className="w-4 h-4 mr-2 text-muted-foreground" />
                   <span>
-                    {courseInfo.duration} {courseInfo.durationUnit}
+                    Del {convertDate(courseInfo.startDate, 'dddd D')}
+                    {' al '}
+                    {convertDate(courseInfo.endDate, 'dddd D [de] MMMM')}
+                    {' los '}{' '}
+                    {getDifferenceBetweenDates(
+                      courseInfo.startDate,
+                      courseInfo.endDate,
+                    ).days + 1}{' '}
+                    días
                   </span>
                 </div>
               </div>
-            </div>
+            )}
             <p className="text-muted-foreground mb-6">
               {courseInfo.courseDescription}
             </p>
 
             {isValidString(courseInfo.notes) && (
               <div className="grid grid-cols-2 gap-4 mb-6">
-                {courseInfo.notes.split(',').map((note, index) => (
+                {courseInfo.notes.split('\n').map((note, index) => (
                   <div className="flex items-center" key={index}>
                     <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
                     <span>{capitalizeString(note.trim())}</span>
@@ -103,25 +117,32 @@ export const CourseCardPresentation = ({
               </div>
             )}
 
-            <InfoLabel
+            <InfoLabelPresentationCard
               title="Modilidad"
               value={courseInfo.modality}
               child={
-                <div className="flex flex-row">
-                  <span className="font-semibold">
-                    {courseInfo.modality} Via{' '}
-                  </span>
-                  <img
-                    src="/logos/zoom-logo.png"
-                    alt="Modalidad"
-                    className="w-20 h-12 ml-2"
-                  />
+                <div className="flex flex-row align-middle items-center">
+                  {courseInfo.modality === 'VIRTUAL' ? (
+                    <>
+                      <span>Via</span>
+                      <img
+                        src="/logos/zoom-logo.png"
+                        alt="Modalidad"
+                        className="w-20 h-12 ml-2"
+                      />
+                    </>
+                  ) : (
+                    <span>{translate[courseInfo.modality]}</span>
+                  )}
                 </div>
               }
             />
-            <InfoLabel title="Material" value={courseInfo.material} />
-            <InfoLabel
-              title="Más información"
+            <InfoLabelPresentationCard
+              title="Material"
+              value={courseInfo.material}
+            />
+            <InfoLabelPresentationCard
+              title="Mas informacion"
               value={courseInfo.informationContact}
               child={
                 <div
@@ -130,10 +151,13 @@ export const CourseCardPresentation = ({
                       `https://wa.me/${courseInfo.informationContact}`,
                     )
                   }
-                  className="flex items-center cursor-pointer"
+                  className=""
                 >
-                  <FaWhatsapp className="w-20 h-12 " color="#25D366" />
-                  <span>{courseInfo.informationContact}</span>
+                  <FaWhatsapp size={30} color="#25D366" />
+
+                  <span className="mx-2 text-blue-600  underline cursor-pointer">
+                    {courseInfo.informationContact}
+                  </span>
                 </div>
               }
             />
@@ -143,12 +167,12 @@ export const CourseCardPresentation = ({
               <span className="text-3xl font-bold">
                 {courseInfo.coursePrice} Bs.
               </span>
-              <span className="text-muted-foreground ml-2 line-through">
+              {/* <span className="text-muted-foreground ml-2 line-through">
                 {courseInfo.coursePrice}
-              </span>
+              </span> */}
             </div>
             <Button size="lg" className="font-semibold">
-              Inscribirse
+              <span>Inscribirse</span>
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </CardFooter>
@@ -156,50 +180,4 @@ export const CourseCardPresentation = ({
       </div>
     </Card>
   )
-}
-
-interface InfoLabelProps {
-  title: string
-  value?: string | undefined | null
-  child?: React.ReactNode
-}
-const InfoLabel = ({ title, value, child }: InfoLabelProps) => {
-  if (!isValidString(value)) {
-    return <div></div>
-  }
-
-  {
-    /* <div className="flex flex-row items-center">
-    <span className="text-sm text-muted-foreground">{title}</span>
-    {child ? child : <span className="font-semibold">{value}</span>}
-  </div> */
-  }
-  return (
-    <Card className="w-full mb-4 p-4">
-      <div className="grid grid-cols-[150px_1fr_3fr] items-center gap-4">
-        <h3 className="text-lg font-semibold truncate" title={title}>
-          {title}
-        </h3>
-        <div className="min-w-0">
-          {/* <Contenido content={contenido} /> */}
-          {child ? child : <span className="font-normal">{value}</span>}
-        </div>
-      </div>
-    </Card>
-  )
-}
-
-{
-  /* <div className="flex items-center">
-            <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
-            <span>Proyectos del mundo real</span>
-          </div>
-          <div className="flex items-center">
-            <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
-            <span>Certificado al completar</span>
-          </div>
-          <div className="flex items-center">
-            <ChevronRight className="w-5 h-5 mr-2 text-green-500" />
-            <span>Acceso de por vida</span>
-          </div> */
 }

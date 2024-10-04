@@ -6,6 +6,7 @@ import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { CourseEnrollInterface } from './dashboard/interfaces/course-enroll.interface'
 import { CourseCardPresentation } from '@/custom_components/cards/CourseCardPresentation'
 import { LoadingWithLogo } from '@/custom_components/loading/LoadingWithLogo'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
 export const CourseEnrollmentPage = () => {
   const params = useParams<{ idCourse: string; courseName?: string }>()
@@ -26,6 +27,8 @@ export const CourseEnrollmentPage = () => {
       navigate(newUrl, { replace: true }) // Reemplaza para no guardar la URL anterior en el historial
     }
   }, [data, params, navigate])
+  
+  useDocumentTitle(data?.courseName)
 
   return (
     <div>

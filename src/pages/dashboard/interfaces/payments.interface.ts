@@ -1,7 +1,7 @@
 
  export interface PaymentTableInterface {
   id:                   number;
-  amount:               string;
+  amount:               number;
   createdAt:            Date;
   enrollmentId:         number;
   status:               string;
