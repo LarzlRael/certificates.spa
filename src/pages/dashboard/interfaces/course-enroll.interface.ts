@@ -10,6 +10,7 @@ export interface CourseEnrollInterface {
   modality:           null | string;
   imageUrl:           null | string;
   material:           null | string
+  requirements:       null | string
   informationContact: null | string;
   notes:              string | string;
   virtualPlatform:    string;

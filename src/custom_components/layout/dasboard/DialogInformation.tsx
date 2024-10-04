@@ -16,13 +16,17 @@ export const DialogInformation = () => {
   return (
     <Dialog
       open={dialogContent.isDialogOpen}
+      modal={!dialogContent.isClosable}
       onOpenChange={() => {
-        changeDialogInformation({
-          isDialogOpen: false,
-          content: undefined,
-          title: '',
-          subtitle: '',
-        })
+        if (!dialogContent.isClosable) {
+          changeDialogInformation({
+            isDialogOpen: false,
+            isClosable: true,
+            content: undefined,
+            title: '',
+            subtitle: '',
+          })
+        }
       }}
     >
       <DialogTrigger asChild>

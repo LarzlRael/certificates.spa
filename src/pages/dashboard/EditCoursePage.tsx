@@ -30,8 +30,15 @@ import { FormLabel } from '@/components/ui/form'
 import { putAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
 import { PreviewCourseCardPresentation } from '@/custom_components/cards/PreviewCourseCardPresentation'
+import {
+  WithSidebarAndInfoProps,
+  withHandleInformation,
+} from '@/HOC/withHandleInformation'
+import { Loading3dots } from '@/custom_components/loading/Loading3dots'
 
-export const EditCoursePage = () => {
+ const EditCoursePageHoc = (
+  informationHandleProps: WithSidebarAndInfoProps,
+) => {
   const [isPending, setisPending] = useState(false)
   const params = useParams()
   const {
@@ -55,7 +62,7 @@ export const EditCoursePage = () => {
       courseName: '',
       courseDescription: '',
       requirements: '',
-      coursePrice: '',
+      coursePrice: 0,
       modality: '',
       notes: '',
       imageCourseUrl: '',
@@ -103,7 +110,7 @@ export const EditCoursePage = () => {
         courseName: courseData.courseName || '',
         courseDescription: courseData.courseDescription || '',
         requirements: courseData.requirements || '',
-        coursePrice: courseData.coursePrice || '',
+        coursePrice: courseData.coursePrice || 0,
         modality: courseData.modality || '',
         notes: courseData.notes || '',
         informationContact: courseData.informationContact || '',
@@ -139,6 +146,15 @@ export const EditCoursePage = () => {
                     onSubmit={form.handleSubmit(handleSubmit)}
                     className="space-y-2"
                   >
+                    <Button type="button" onClick={() => {
+                      informationHandleProps.changeDialogInformation({
+                        isDialogOpen:true,
+                        /* isPreventClose: false, */
+                        content: <Loading3dots />,
+                      })
+                    }}>
+                      Probar loading
+                    </Button>
                     <FormCustomArea
                       isLoading={isPending}
                       control={form.control}
@@ -270,3 +286,5 @@ export const EditCoursePage = () => {
     </div>
   )
 }
+
+export const EditCoursePage = withHandleInformation(EditCoursePageHoc)

@@ -17,6 +17,7 @@ import { useMutationQuery } from '@/hooks/useMutationQuery'
 
 import { getAuthAction } from '@/provider/action/ActionAuthorization'
 import { toast } from 'sonner'
+import { Bell } from 'lucide-react'
 export const EnrollmentByCourse = () => {
   const params = useParams()
   const { data, isLoading, reload } = useAxiosQueryAuth<EnrollmentsByCourse>({
@@ -48,8 +49,18 @@ export const EnrollmentByCourse = () => {
     <Card>
       <CardHeader>
         <CardTitle>Lista de estudiantes</CardTitle>
-        <Button onClick={sendNotificationCourse}>
+        {/* <Button onClick={sendNotificationCourse}>
           Mandar notificaciones para este curso
+        </Button> */}
+        <Button 
+          onClick={sendNotificationCourse} 
+          disabled={false}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded
+          w-80
+          "
+        >
+          <Bell className="mr-2 h-4 w-4" />
+          {false ? "Enviando..." : "Enviar notificación del curso"}
         </Button>
       </CardHeader>
       <CardContent>

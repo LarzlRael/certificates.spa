@@ -3,13 +3,13 @@ import { z } from 'zod'
 
 export const formAddCourseSchema = z.object({
   courseName: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: 'El nombre del curso debe tener al menos 2 caracteres.',
   }),
   courseDescription: z.string().min(3),
   requirements: z.string().min(3).optional(),
 
   // Convertimos el precio de string a número
-  coursePrice: z.string(),
+  coursePrice: z.number(),
 
   modality: z.string(),
   notes: z.string().optional(),
@@ -32,10 +32,10 @@ export const formEditCourseSchema = z.object({
     message: 'Username must be at least 2 characters.',
   }),
   courseDescription: z.string().min(3),
-  requirements: z.string().min(3).optional(),
+  requirements: z.string().optional(),
 
   // Convertimos el precio de string a número
-  coursePrice: z.string(),
+  coursePrice: z.number().positive(),
 
   modality: z.string(),
   notes: z.string().optional(),

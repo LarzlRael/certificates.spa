@@ -1,11 +1,15 @@
 import { ComponentType, FC } from 'react'
-import { useInformationStore } from '@/store/informationStore' // O el nombre que corresponda a tu store
-import { useDashboardStore } from '@/store/dashboardStore' // O el nombre que corresponda a tu store
+import {
+  useInformationStore,
+  DialogInformation,
+} from '@/store/useInformationStore' // O el nombre que corresponda a tu store
+import { useDashboardStore } from '@/store/useDashBoardStore' // O el nombre que corresponda a tu store
 
 export interface WithSidebarAndInfoProps {
   extraInformation: React.ReactNode | undefined
   isLeftSidebarOpen: boolean
   isRightSidebarOpen: boolean
+  changeDialogInformation: (dialogInformation: DialogInformation) => void
   clearExtraInformation: () => void
   toggleLeftSidebar: (newState: boolean) => void
   toggleRightSidebar: (newState: boolean) => void
@@ -15,21 +19,34 @@ export interface WithSidebarAndInfoProps {
 export function withHandleInformation<T extends WithSidebarAndInfoProps>(
   Component: ComponentType<T>,
 ): FC<Omit<T, keyof WithSidebarAndInfoProps>> {
-  return function WithSidebarAndInfo(props: Omit<T, keyof WithSidebarAndInfoProps>) {
+  return function WithSidebarAndInfo(
+    props: Omit<T, keyof WithSidebarAndInfoProps>,
+  ) {
     // Obtener valores y funciones del store de información
-    const { clearExtraInformation, extraInformation } = useInformationStore()
-    
+    const {
+      clearExtraInformation,
+      extraInformation,
+      changeDialogInformation,
+    } = useInformationStore()
+
     // Obtener valores y funciones del store de dashboard (sidebars)
-    const { isLeftSidebarOpen, isRightSidebarOpen, toggleLeftSidebar, toggleRightSidebar } = useDashboardStore()
+    const {
+      isLeftSidebarOpen,
+      isRightSidebarOpen,
+      toggleLeftSidebar,
+      toggleRightSidebar,
+    } = useDashboardStore()
 
     // Combina todas las propiedades
     const combinedProps = {
       clearExtraInformation,
+      changeDialogInformation,
       extraInformation,
       isLeftSidebarOpen,
       isRightSidebarOpen,
       toggleLeftSidebar,
       toggleRightSidebar,
+
       ...props, // Mantener otras props que se pasen al componente
     }
 

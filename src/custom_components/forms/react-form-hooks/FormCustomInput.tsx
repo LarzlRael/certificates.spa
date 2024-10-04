@@ -37,7 +37,7 @@ export const FormCustomInput = ({
     <FormField
       control={control}
       name={fieldName}
-      render={({ field }) => (
+      render={({ field: { onChange: onChangeField, ...rest } }) => (
         <FormItem>
           <FormLabel className="block text-sm font-medium leading-6 text-gray-900 text-left">
             {label}
@@ -54,8 +54,12 @@ export const FormCustomInput = ({
                       : 'password'
                     : inputType
                 }
+                onChange={(e) => {
+                  const value = e.target.value
+                  onChangeField(inputType === 'number' ? +value : value)
+                }}
                 placeholder={placeholder}
-                {...field}
+                {...rest}
               />
 
               {isPasswordField && (

@@ -80,6 +80,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   const handleSubmit = async (values) => {
     changeDialogInformation({
       isDialogOpen: true,
+
       /* TODO improve this view */
       content: <div>Cargando...</div>,
     })
@@ -196,6 +197,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
                       onClick={() => {
                         changeDialogInformation({
                           isDialogOpen: true,
+                          isClosable: true,
                           maxWidth: '800',
                           title: 'Comprobante de pago',
                           content: (

@@ -142,14 +142,15 @@ export const PreviewCourseCardPresentation = ({
               }
             />
           </CardContent>
-          <CardFooter className="flex justify-between items-center bg-muted">
-            <div>
+          <CardFooter className="flex justify-between items-center bg-muted py-4">
+            <div className="flex items-center">
               <span className="text-3xl font-bold">
                 {courseInfo.coursePrice} Bs.
               </span>
-              <span className="text-muted-foreground ml-2 line-through">
-                {courseInfo.coursePrice}
-              </span>
+              {/* Puedes descomentar esto si deseas mostrar el precio original
+    <span className="text-muted-foreground ml-2 line-through">
+      {courseInfo.coursePrice}
+    </span> */}
             </div>
             <Button size="lg" className="font-semibold">
               Inscribirse

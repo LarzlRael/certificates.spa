@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 import { useDashboardStore } from './useDashBoardStore'
-interface DialogInformation {
+export interface DialogInformation {
   isDialogOpen: boolean
   title?: string
   subtitle?: string
   content: React.ReactNode | undefined
   maxWidth?: string
+  isClosable?: boolean
 }
 interface AlertDialogInformation {
   isAlertDialogOpen: boolean
@@ -18,7 +19,7 @@ interface AlertDialogInformation {
   cancelText?: string
 }
 
-interface DialogState {
+export interface DialogState {
   dialogContent: DialogInformation
   alertDialogContent: AlertDialogInformation
   extraInformation: React.ReactNode | undefined
@@ -41,6 +42,7 @@ export const useInformationStore = create<DialogState>((set) => ({
     subtitle: '',
     maxWidth: '425',
     content: undefined,
+    isClosable: true,
   },
   extraInformation: undefined,
   alertDialogContent: {
