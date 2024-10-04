@@ -1,9 +1,10 @@
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 
 import { ProfessorInterface } from './interfaces/professors.interface'
-import { ProfessorsListCard } from '@/custom_components/cards/ProfessorListCard'
+
 import { useInformationStore } from '@/store/useInformationStore'
 import { BecomeProfessor } from './BecomeProfessor'
+import { ProfessorsListCard } from '@/custom_components/cards/professorListCard'
 
 export const ProfessorsPage = () => {
   const { data, isLoading, error, reload } = useAxiosQueryAuth<

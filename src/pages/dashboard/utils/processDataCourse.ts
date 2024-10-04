@@ -36,6 +36,10 @@ export const formEditCourseSchema = z.object({
 
   // Convertimos el precio de string a número
   coursePrice: z.number().positive(),
+  duration: z.number().positive().optional(),
+  durationUnit: z.string().optional(),
+  start: z.date().optional(),
+  end: z.date().optional(),
 
   modality: z.string(),
   notes: z.string().optional(),

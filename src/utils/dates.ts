@@ -1,12 +1,29 @@
 import moment from 'moment'
-import 'moment/locale/es'
+import 'moment/dist/locale/es';
+moment.locale('es');
+console.log(moment.locale()); // en
+/**
+ * Convierte una fecha en distintos formatos.
+ * @param {FormatDateType} formatDate - El formato deseado para la fecha.
+ * @param {Date | string} dateToConvert - La fecha a convertir.
+ * @returns {string | Date | null} La fecha formateada, o null si la fecha es inválida.
+ * 
+ * Formatos disponibles:
+ * - 'LLLL': Formato completo de fecha y hora.
+ * - 'utc': Devuelve la fecha en UTC.
+ * - 'dddd D [de] MMMM': Día de la semana, día y mes en español.
+ * - 'DD/MM': Día y mes en formato numérico.
+ * - 'dayMonthVerbose': Día y mes con formato largo.
+ * - 'fullDayMonth': Día de la semana completo con el día y el mes.
+ */
+
 
 export function convertDate(dateToConvert?: Date | string, formatDate: string) {
   // Si no hay fecha, retorna null
   if (!dateToConvert) return null
 
   // Intenta crear un objeto moment a partir de dateConv
-  const dateMoment = moment(dateToConvert) // Moment acepta ISO 8601 sin especificar el formato
+  const dateMoment = moment(dateToConvert).locale('es') // Moment acepta ISO 8601 sin especificar el formato
 
   // Manejo de error si dateConv no es una fecha válida
   if (!dateMoment.isValid()) {

@@ -12,6 +12,8 @@ import { Clock, Star, ChevronRight } from 'lucide-react'
 import { CourseEnrollInterface } from '@/pages/dashboard/interfaces/course-enroll.interface'
 import { isValidString } from '@/utils/validation/validation'
 import { capitalizeString } from '@/utils/utils'
+import { convertDate, getDifferenceBetweenDates } from '@/utils/dates'
+import { translate } from '@/constants/web-constants'
 
 interface CourseCardPresentationProps {
   courseInfo: CourseEnrollInterface
@@ -22,6 +24,7 @@ export const PreviewCourseCardPresentation = ({
   courseInfo,
   imageBlog,
 }: CourseCardPresentationProps) => {
+  console.log(courseInfo)
   return (
     <Card
       className="
@@ -74,23 +77,33 @@ export const PreviewCourseCardPresentation = ({
                     <p className="font-semibold">
                       {rest.professionalTitle} {user.firstName} {user.lastName}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    {/* <p className="text-sm text-muted-foreground">
                       Instructor Senior
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               ))}
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center">
-                  <Clock className="w-4 h-4 mr-2 text-muted-foreground" />
-                  <span>
-                    {courseInfo.duration} {courseInfo.durationUnit}
-                  </span>
-                </div>
+              <div className="flex items-center space-x-4"></div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2 text-muted-foreground" />
+                <span>
+                  Del {convertDate(courseInfo.startDate, 'dddd D')}
+                  {' al '}
+                  {convertDate(courseInfo.endDate, 'dddd D [de] MMMM')}
+                  {' los '}{' '}
+                  {getDifferenceBetweenDates(
+                    courseInfo.startDate,
+                    courseInfo.endDate,
+                  ).days + 1}{' '}
+                  días
+                </span>
               </div>
             </div>
             <p className="text-muted-foreground mb-6">
-              {courseInfo.courseDescription}
+              {capitalizeString(courseInfo.courseDescription)}
             </p>
 
             {isValidString(courseInfo.notes) && (
@@ -111,15 +124,19 @@ export const PreviewCourseCardPresentation = ({
               title="Modilidad"
               value={courseInfo.modality}
               child={
-                <div className="flex flex-row">
-                  <span className="font-semibold">
-                    {courseInfo.modality} Via
-                  </span>
-                  <img
-                    src="/logos/zoom-logo.png"
-                    alt="Modalidad"
-                    className="w-20 h-12 ml-2"
-                  />
+                <div className="flex flex-row align-middle items-center">
+                  {courseInfo.modality === 'VIRTUAL' ? (
+                    <>
+                      <span>Via</span>
+                      <img
+                        src="/logos/zoom-logo.png"
+                        alt="Modalidad"
+                        className="w-20 h-12 ml-2"
+                      />
+                    </>
+                  ) : (
+                    <span>{translate[courseInfo.modality]}</span>
+                  )}
                 </div>
               }
             />
@@ -134,10 +151,13 @@ export const PreviewCourseCardPresentation = ({
                       `https://wa.me/${courseInfo.informationContact}`,
                     )
                   }
-                  className="flex items-center cursor-pointer"
+                  className="flex items-center cursor-pointer  hover:bg-primary text-white p-4 rounded-lg cursor-pointer transition duration-300 ease-in-out"
                 >
-                  <FaWhatsapp className="w-20 h-12" color="#25D366" />
-                  <span>{courseInfo.informationContact}</span>
+                  <FaWhatsapp size={30} color="#25D366" />
+
+                  <span className="mx-2 text-blue-600  underline cursor-pointer">
+                    {courseInfo.informationContact}
+                  </span>
                 </div>
               }
             />
@@ -152,8 +172,11 @@ export const PreviewCourseCardPresentation = ({
       {courseInfo.coursePrice}
     </span> */}
             </div>
-            <Button size="lg" className="font-semibold">
+            <Button size="lg" className="font-semibold py-7">
+              <span className='text-lg'>
               Inscribirse
+
+              </span>
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </CardFooter>
@@ -176,7 +199,7 @@ const InfoLabel = ({ title, value, child }: InfoLabelProps) => {
 
   return (
     <Card className="w-full mb-4 p-4">
-      <div className="grid grid-cols-[150px_1fr_3fr] items-center gap-4">
+      <div className="grid grid-cols-[150px_1fr] items-center gap-4">
         <h3 className="text-lg font-semibold truncate" title={title}>
           {title}
         </h3>

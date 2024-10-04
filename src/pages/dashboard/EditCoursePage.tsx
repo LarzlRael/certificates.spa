@@ -111,6 +111,10 @@ import { Loading3dots } from '@/custom_components/loading/Loading3dots'
         courseDescription: courseData.courseDescription || '',
         requirements: courseData.requirements || '',
         coursePrice: courseData.coursePrice || 0,
+        duration: courseData.duration || 0,
+        durationUnit: courseData.durationUnit || '',
+        startDate: courseData.startDate || new Date(),
+        endDate: courseData.endDate || new Date(),
         modality: courseData.modality || '',
         notes: courseData.notes || '',
         informationContact: courseData.informationContact || '',
@@ -265,6 +269,8 @@ import { Loading3dots } from '@/custom_components/loading/Loading3dots'
                   }
                   courseInfo={{
                     ...watchedFormValues,
+                    startDate: watchedFormValues.dateRange?.from,
+                    endDate: watchedFormValues.dateRange?.to,
 
                     professors: selectProfessor.map((prof) => ({
                       id: prof.id,
