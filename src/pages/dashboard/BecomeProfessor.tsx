@@ -8,6 +8,7 @@ import { CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
   FormCustomInput,
   FormCustomArea,
+  GlobalFormHook,
 } from '@/custom_components/forms/react-form-hooks/'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserStudentDetail } from './interfaces/students.interface'
@@ -17,13 +18,25 @@ import { Button } from '@/components/ui/button'
 
 import { postAction, putAction } from '@/provider/action/ActionAuthorization'
 import { useInformationStore } from '@/store/useInformationStore'
+import { addOrEditProfessor } from '@/custom_components/data/form-pattens'
 
 const professorSchema = z.object({
   professionalTitle: z.string().min(2, {
     message: 'Debe tener al menos 2 caracteres.',
   }),
-  expertise: z.string().min(5),
-  idUser: z.number().positive(),
+  phone: z
+    .string()
+    .min(8, {
+      message: 'Debe tener al menos 3 caracteres.',
+    })
+    .optional(),
+  fullName: z
+    .string()
+    .min(8, {
+      message: 'Debe tener al menos 3 caracteres.',
+    })
+    .optional(),
+  description: z.string().min(3, {}).optional(),
 })
 interface BecomeProfessorProps {
   userStudent: UserStudentDetail | undefined
@@ -35,12 +48,14 @@ export const BecomeProfessor = () => {
   const { changeExtraInformation } = useInformationStore()
 
   const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof professorSchema>>({
     resolver: zodResolver(professorSchema),
     defaultValues: {
-      professionalTitle:'',
-      expertise: '',
-      idUser: 0,
+      professionalTitle: '',
+      phone: '',
+      fullName: '',
+      description: '',
     },
   })
 
@@ -81,35 +96,18 @@ export const BecomeProfessor = () => {
       toast.error('Ha ocurrido un error al actualizar la información')
     }
   }
+
   return (
     <>
       {/* <UserProfileRawInfo user={userStudent} /> */}
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
-          <FormCustomInput
-            isLoading={isLoading}
-            control={form.control}
-            fieldName="professionalTitle"
-            label="Titulo profesional"
-            placeholder="Titulo profesional"
-          />
-          <FormCustomArea
-            isLoading={isLoading}
-            control={form.control}
-            fieldName="expertise"
-            label="Especialidad"
-            placeholder="Especialidad"
-          />
-
-          <Button
-            className="flex w-full justify-center rounded-full bg-primary px-3 py-6 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
-            disabled={isLoading}
-            type="submit"
-          >
-            Convertir en profesor
-          </Button>
-        </form>
-      </FormProvider>
+      <GlobalFormHook
+        inputJson={addOrEditProfessor}
+        onSubmit={handleSubmit}
+        formTitle="Editar información de Perfil"
+        isLoading={false}
+        schema={professorSchema}
+        titleButton="Guardar cambios"
+      />
     </>
   )
 }

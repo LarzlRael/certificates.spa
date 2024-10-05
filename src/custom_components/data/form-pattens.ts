@@ -39,3 +39,41 @@ export const updateUserInformationForm: InputJsonI[] = [
     initialValue: '',
   },
 ]
+
+/* 
+fullName
+expertise
+phone
+academicRecord
+description*/
+export const addOrEditProfessor: InputJsonI[] = [
+  {
+    type: 'text',
+    fieldName: 'fullName',
+    placeholder: 'Nombre de profesor',
+    label: 'profesor',
+  },
+  {
+    type: 'text',
+    fieldName: 'phone',
+    placeholder: 'Telefono',
+    label: 'Telefono',
+    initialValue: '',
+  },
+
+  {
+    type: 'text',
+    fieldName: 'academicRecord',
+    placeholder: 'academicRecord',
+    label: 'Record academico',
+    initialValue: '',
+  },
+
+  {
+    type: 'area',
+    fieldName: 'description',
+    placeholder: 'Description',
+    label: 'Descripcion',
+    initialValue: '',
+  },
+]

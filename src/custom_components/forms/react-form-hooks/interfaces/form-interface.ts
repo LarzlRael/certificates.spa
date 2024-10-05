@@ -13,7 +13,7 @@ export interface FormInterface {
   schema: z.ZodType<any>
 }
 export interface InputJsonI {
-  type?: string | 'text' | 'number' | 'email' | 'area' | 'select' | 'checkbox'
+  type: 'text' | 'number' | 'email' | 'area' | 'select' | 'checkbox'| 'tel' | 'url' | 'password'
   fieldName: string
   placeholder?: string
   label?: string
