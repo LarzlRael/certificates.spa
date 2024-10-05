@@ -194,7 +194,7 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
                 disabled={isPending}
                 type="submit"
               >
-                Submit
+                Ingresar
               </Button>
 
               {/* Google Login */}

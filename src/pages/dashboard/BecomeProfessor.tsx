@@ -30,11 +30,7 @@ interface BecomeProfessorProps {
   professionalTitle?: string | undefined
   expertise?: string | undefined
 }
-export const BecomeProfessor = ({
-  userStudent,
-  professionalTitle,
-  expertise,
-}: BecomeProfessorProps) => {
+export const BecomeProfessor = () => {
   const { changeDialogInformation } = useInformationStore()
   const { changeExtraInformation } = useInformationStore()
 
@@ -42,11 +38,9 @@ export const BecomeProfessor = ({
   const form = useForm<z.infer<typeof professorSchema>>({
     resolver: zodResolver(professorSchema),
     defaultValues: {
-      professionalTitle: isValidString(professionalTitle)
-        ? professionalTitle
-        : '',
-      expertise: isValidString(expertise) ? expertise : '',
-      idUser: userStudent?.id,
+      professionalTitle:'',
+      expertise: '',
+      idUser: 0,
     },
   })
 
@@ -89,7 +83,7 @@ export const BecomeProfessor = ({
   }
   return (
     <>
-      <UserProfileRawInfo user={userStudent} />
+      {/* <UserProfileRawInfo user={userStudent} /> */}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
           <FormCustomInput

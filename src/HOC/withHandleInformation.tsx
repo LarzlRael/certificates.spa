@@ -10,6 +10,7 @@ export interface WithSidebarAndInfoProps {
   isLeftSidebarOpen: boolean
   isRightSidebarOpen: boolean
   changeDialogInformation: (dialogInformation: DialogInformation) => void
+  changeExtraInformation: (dialogInformation: DialogInformation) => void
   clearExtraInformation: () => void
   toggleLeftSidebar: (newState: boolean) => void
   toggleRightSidebar: (newState: boolean) => void
@@ -27,6 +28,7 @@ export function withHandleInformation<T extends WithSidebarAndInfoProps>(
       clearExtraInformation,
       extraInformation,
       changeDialogInformation,
+      changeExtraInformation,
     } = useInformationStore()
 
     // Obtener valores y funciones del store de dashboard (sidebars)
@@ -46,6 +48,7 @@ export function withHandleInformation<T extends WithSidebarAndInfoProps>(
       isRightSidebarOpen,
       toggleLeftSidebar,
       toggleRightSidebar,
+      changeExtraInformation,
 
       ...props, // Mantener otras props que se pasen al componente
     }

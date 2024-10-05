@@ -2,18 +2,25 @@ import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 
 import { ProfessorInterface } from './interfaces/professors.interface'
 
-import { useInformationStore } from '@/store/useInformationStore'
 import { BecomeProfessor } from './BecomeProfessor'
 import { ProfessorsListCard } from '@/custom_components/cards/professorListCard'
+import { Button } from '@/components/ui/button'
 
-export const ProfessorsPage = () => {
+import {
+  withHandleInformation,
+  WithSidebarAndInfoProps,
+} from '@/HOC/withHandleInformation'
+
+const ProfessorsPageWithHandleInformation = (
+  withSidebarAndInfoProps: WithSidebarAndInfoProps,
+) => {
+  const { changeExtraInformation } = withSidebarAndInfoProps
   const { data, isLoading, error, reload } = useAxiosQueryAuth<
     ProfessorInterface[]
   >({
     url: `/professor`,
     method: 'GET',
   })
-  const { changeDialogInformation } = useInformationStore()
 
   return (
     <>
@@ -21,12 +28,20 @@ export const ProfessorsPage = () => {
         <div>cargando</div>
       ) : (
         <div>
-          <ProfessorsListCard
-            professorList={data!}
-            onEdit={()=>{}}
-          />
+          <ProfessorsListCard professorList={data!} onEdit={() => {}} />
+          <Button
+            onClick={() => {
+              changeExtraInformation(<BecomeProfessor />)
+            }}
+          >
+            Agregar profesor
+          </Button>
         </div>
       )}
     </>
   )
 }
+
+export const ProfessorsPage = withHandleInformation(
+  ProfessorsPageWithHandleInformation,
+)
