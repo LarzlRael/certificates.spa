@@ -8,14 +8,9 @@ import {
   FormField,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-interface PasswordFieldProps {
-  control: any
+import { CommonInputI } from './interfaces/form-interface'
+interface PasswordFieldProps extends CommonInputI {
   isLoading: boolean
-  label?: string
-  fieldName: string
-  placeholder?: string
-  isPasswordField?: boolean
-  inputType?: string
 }
 
 export const FormCustomInput = ({
@@ -24,10 +19,9 @@ export const FormCustomInput = ({
   label,
   fieldName,
   placeholder,
-  inputType = 'text',
-  isPasswordField = false,
+  inputType,
 }: PasswordFieldProps) => {
-  const [showPassword, setShowPassword] = useState(!isPasswordField)
+  const [showPassword, setShowPassword] = useState(!inputType === 'password')
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -48,7 +42,7 @@ export const FormCustomInput = ({
                 disabled={isLoading}
                 className="block w-full pr-10 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-left"
                 type={
-                  isPasswordField
+                  inputType == 'password'
                     ? showPassword
                       ? 'text'
                       : 'password'
@@ -62,7 +56,7 @@ export const FormCustomInput = ({
                 {...rest}
               />
 
-              {isPasswordField && (
+              {inputType == 'password' && (
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 flex items-center pr-3"

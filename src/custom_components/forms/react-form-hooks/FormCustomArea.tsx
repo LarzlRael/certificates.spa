@@ -8,30 +8,26 @@ import {
 } from '@/components/ui/form'
 
 import { Textarea } from '@/components/ui/textarea'
+import { CommonInputI } from './interfaces/form-interface'
 
-interface PasswordFieldProps {
-  control: any
-  isLoading: boolean
-  label?: string
-  fieldName: string
-  placeholder?: string
-  description?: string
+interface TextAreaProps extends CommonInputI {
   size?: string // Nuevo prop para tamaño
   rows?: number // Controla el número de filas
   cols?: number // Controla el número de columnas
+  isLoading: boolean
 }
 
 export const FormCustomArea = ({
   control,
   isLoading,
+  description,
   label,
   fieldName,
-  description,
   placeholder,
-  size = '100%', // Valor predeterminado
-  rows = 4, // Filas predeterminadas
+  size = '100%',
+  rows = 4,
   cols,
-}: PasswordFieldProps) => {
+}: TextAreaProps) => {
   return (
     <FormField
       control={control}

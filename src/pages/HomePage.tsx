@@ -12,21 +12,21 @@ const formSchema = z.object({
 
 const inputJson: InputJsonI[] = [
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'username',
     placeholder: 'Nombre de usuario',
     label: 'Nombre de usuario',
     initialValue: '', // Este valor aparecerá por defecto si data no existe
   },
   {
-    type: 'password',
+    inputType: 'password',
     fieldName: 'password',
     placeholder: 'Contraseña',
     label: 'Contraseña',
     initialValue: '', // El campo de contraseña estará vacío si data no existe
   },
   {
-    type: 'select',
+    inputType: 'select',
     fieldName: 'contries',
     placeholder: 'Paises',
     label: 'Paises',

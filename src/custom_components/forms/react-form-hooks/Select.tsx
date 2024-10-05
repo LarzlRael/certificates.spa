@@ -11,22 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectGroup,
-  SelectLabel,
   SelectItem,
 } from '@/components/ui/select'
-import { Controller } from 'react-hook-form'
-import { OptionsI } from './interfaces/form-interface'
+
+import { CommonInputI, OptionsI } from './interfaces/form-interface'
 import { Select } from '@/components/ui/select'
 
-interface SelectProps {
-  label: string
-  fieldName: string
-  [x: string]: any
+interface SelectProps extends CommonInputI {
   options: OptionsI[]
-  control: any
-  description?: string
-  placeHolder?: string
+  isLoading: boolean
 }
 
 export const CustomSelect = ({
@@ -35,12 +28,14 @@ export const CustomSelect = ({
   fieldName,
   description,
   control,
-  placeHolder,
+  placeholder,
+  isLoading,
 }: SelectProps) => {
   return (
     <FormField
       control={control}
       name={fieldName}
+      disabled={isLoading}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
@@ -48,7 +43,7 @@ export const CustomSelect = ({
             <FormControl>
               <SelectTrigger>
                 <SelectValue
-                  placeholder={placeHolder || 'Selecciona una opción'}
+                  placeholder={placeholder || 'Selecciona una opción'}
                 />
               </SelectTrigger>
             </FormControl>

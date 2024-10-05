@@ -2,11 +2,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { z } from 'zod'
-import { FormCustomInput } from './FormCustomInput'
+import {
+  FormCustomInput,
+  CustomSelect,
+  FormCustomArea,
+  FileUploadInput,
+} from './'
 import { Button } from '@/components/ui/button'
 import { FormInterface } from './interfaces/form-interface'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { CustomSelect } from './Select'
 
 export const GlobalFormHook = ({
   inputJson,
@@ -53,7 +57,7 @@ export const GlobalFormHook = ({
                 extraComponentPosition === 'top' &&
                 ExtraComponent}
               {inputJson.map((item) => {
-                switch (item.type) {
+                switch (item.inputType) {
                   case 'text':
                   case 'password':
                   case 'email':
@@ -62,25 +66,38 @@ export const GlobalFormHook = ({
                   case 'url':
                     return (
                       <FormCustomInput
+                        inputType={item.inputType}
                         key={item.fieldName}
-                        isLoading={isLoading}
-                        isPasswordField={item.type === 'password'}
                         control={form.control}
                         fieldName={item.fieldName}
                         label={item.label}
                         placeholder={item.placeholder}
+                        isLoading={isLoading}
                       />
                     )
                   case 'select':
                     return (
                       <CustomSelect
+                        inputType={item.inputType}
                         key={item.fieldName}
                         isLoading={isLoading}
                         control={form.control}
-                        placeHolder={item.placeholder}
+                        placeholder={item.placeholder}
                         fieldName={item.fieldName}
                         label={item.label!}
                         options={item.options!}
+                      />
+                    )
+                  case 'area':
+                    return (
+                      <FormCustomArea
+                        inputType="text"
+                        key={item.fieldName}
+                        isLoading={isLoading}
+                        control={form.control}
+                        placeholder={item.placeholder}
+                        fieldName={item.fieldName}
+                        label={item.label!}
                       />
                     )
                 }

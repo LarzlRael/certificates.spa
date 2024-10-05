@@ -2,14 +2,14 @@ import * as Yup from 'yup'
 import { InputJsonI } from '@/custom_components/forms/react-form-hooks/interfaces/form-interface'
 export const updateUserInformationForm: InputJsonI[] = [
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'firstName',
     placeholder: 'Nombre de usuario',
     label: 'Nombre',
     initialValue: '',
   },
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'lastName',
     placeholder: 'Apellido de usuario',
     label: 'Apellido',
@@ -17,7 +17,7 @@ export const updateUserInformationForm: InputJsonI[] = [
   },
 
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'address',
     placeholder: 'Direccion',
     label: 'Ubicación de usuario',
@@ -26,14 +26,14 @@ export const updateUserInformationForm: InputJsonI[] = [
 
   {
     fieldName: 'shippingAddress',
-    type: 'text',
+    inputType: 'text',
     placeholder: 'Direccion de envio',
     label: 'Direccion de envio de usuario',
     initialValue: '',
   },
   {
     fieldName: 'phone',
-    type: 'number',
+    inputType: 'number',
     placeholder: 'Teléfono del usuario',
     label: 'Telefono',
     initialValue: '',
@@ -48,13 +48,13 @@ academicRecord
 description*/
 export const addOrEditProfessor: InputJsonI[] = [
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'fullName',
     placeholder: 'Nombre de profesor',
     label: 'profesor',
   },
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'phone',
     placeholder: 'Telefono',
     label: 'Telefono',
@@ -62,15 +62,15 @@ export const addOrEditProfessor: InputJsonI[] = [
   },
 
   {
-    type: 'text',
+    inputType: 'text',
     fieldName: 'academicRecord',
-    placeholder: 'academicRecord',
+    placeholder: 'Record academico',
     label: 'Record academico',
     initialValue: '',
   },
 
   {
-    type: 'area',
+    inputType: 'area',
     fieldName: 'description',
     placeholder: 'Description',
     label: 'Descripcion',
