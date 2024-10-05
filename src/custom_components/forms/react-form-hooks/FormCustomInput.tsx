@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { CommonInputI } from './interfaces/form-interface'
-interface PasswordFieldProps extends CommonInputI {
+interface FormCustomInputProps extends CommonInputI {
   isLoading: boolean
 }
 
@@ -19,8 +19,8 @@ export const FormCustomInput = ({
   label,
   fieldName,
   placeholder,
-  inputType,
-}: PasswordFieldProps) => {
+  inputType = 'text',
+}: FormCustomInputProps) => {
   const [showPassword, setShowPassword] = useState(!inputType === 'password')
 
   const togglePasswordVisibility = () => {

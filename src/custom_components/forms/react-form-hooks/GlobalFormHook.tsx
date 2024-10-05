@@ -7,6 +7,7 @@ import {
   CustomSelect,
   FormCustomArea,
   FileUploadInput,
+  CalendarField,
 } from './'
 import { Button } from '@/components/ui/button'
 import { FormInterface } from './interfaces/form-interface'
@@ -91,6 +92,18 @@ export const GlobalFormHook = ({
                   case 'area':
                     return (
                       <FormCustomArea
+                        inputType="text"
+                        key={item.fieldName}
+                        isLoading={isLoading}
+                        control={form.control}
+                        placeholder={item.placeholder}
+                        fieldName={item.fieldName}
+                        label={item.label!}
+                      />
+                    )
+                    case 'datePicker':
+                    return (
+                      <CalendarField
                         inputType="text"
                         key={item.fieldName}
                         isLoading={isLoading}

@@ -21,6 +21,7 @@ export type typeInput =
   | 'tel'
   | 'url'
   | 'password'
+  | 'datePicker'
 export interface CommonInputI {
   inputType: typeInput
   fieldName: string

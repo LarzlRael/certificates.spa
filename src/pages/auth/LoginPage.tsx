@@ -165,6 +165,7 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
             <form onSubmit={form.handleSubmit(loginUser)} className="space-y-8">
               {/* Campo de nombre de usuario */}
               <FormCustomInput
+                inputType='text'
                 isLoading={isPending}
                 control={form.control}
                 fieldName="username"
@@ -174,7 +175,7 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
               {/* Campo de contraseña */}
               <FormCustomInput
                 isLoading={isPending}
-                isPasswordField
+                inputType='password'
                 control={form.control}
                 fieldName="password"
                 label="Contraseña"

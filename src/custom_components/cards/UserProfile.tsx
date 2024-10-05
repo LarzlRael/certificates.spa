@@ -123,7 +123,7 @@ export const UserDialogProfile = ({
         >
           Editar Perfil
         </Button>
-        <Button
+        {/* <Button
           onClick={() =>
             changeDialogInformation({
               isDialogOpen: true,
@@ -134,7 +134,7 @@ export const UserDialogProfile = ({
           }
         >
           Convertir en profesor
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   )

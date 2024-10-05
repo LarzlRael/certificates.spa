@@ -32,6 +32,20 @@ export const updateUserInformationForm: InputJsonI[] = [
     initialValue: '',
   },
   {
+    inputType: 'text',
+    fieldName: 'dni',
+    placeholder: 'Carnet de identidad',
+    label: 'Carnet de identidad',
+    initialValue: '',
+  },
+  {
+    inputType: 'text',
+    fieldName: 'dni',
+    placeholder: 'Fecha de nacimiento',
+    label: 'Fecha de nacimiento',
+    initialValue: '',
+  },
+  {
     fieldName: 'phone',
     inputType: 'number',
     placeholder: 'Teléfono del usuario',
