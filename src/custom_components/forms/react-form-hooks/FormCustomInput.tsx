@@ -21,7 +21,7 @@ export const FormCustomInput = ({
   placeholder,
   inputType = 'text',
 }: FormCustomInputProps) => {
-  const [showPassword, setShowPassword] = useState(!inputType === 'password')
+  const [showPassword, setShowPassword] = useState<boolean>(inputType === 'password')
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)

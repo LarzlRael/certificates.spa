@@ -18,10 +18,19 @@ export type typeInput =
   | 'area'
   | 'select'
   | 'checkbox'
+  | 'arrayCheckbox'
   | 'tel'
   | 'url'
   | 'password'
   | 'datePicker'
+
+
+export interface CheckboxInterface {
+  label: string
+  id: number
+  checked?: boolean
+}
+
 export interface CommonInputI {
   inputType: typeInput
   fieldName: string
@@ -31,6 +40,8 @@ export interface CommonInputI {
   label?: string
   initialValue?: string | boolean | any[]
   validate?: any
+  arrayCheckbox?: CheckboxInterface[]
+  
 }
 export interface InputJsonI {
   inputType: typeInput
@@ -40,6 +51,7 @@ export interface InputJsonI {
   initialValue?: string | boolean | any[]
   validate?: any
   options?: OptionsI[]
+  arrayCheckbox?: CheckboxInterface[]
   reference?: string
   condition?: string
 }

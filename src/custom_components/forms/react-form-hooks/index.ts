@@ -5,4 +5,7 @@ export { CustomSelect } from './Select'
 export { GlobalFormHook } from './GlobalFormHook'
 export { FileUploadInput } from './FileUploadInput'
 export { CalendarField } from './CalendarField'
+export { CheckboxField } from './CheckboxField'
+export { CheckboxMultiple } from './CheckboxMultiple'
+
 
