@@ -13,6 +13,7 @@ interface CheckboxMultipleProps extends CommonInputI {
   isLoading: boolean;
   items: CheckboxInterface[];
 }
+
 export const CheckboxMultiple = ({
   control,
   fieldName,
@@ -26,39 +27,34 @@ export const CheckboxMultiple = ({
       control={control}
       name={fieldName}
       disabled={isLoading}
-      render={() => (
+      render={({ field }) => (
         <FormItem>
           <div className='mb-4'>
             <FormLabel className='text-base'>{label}</FormLabel>
             {description && <FormDescription>{description}</FormDescription>}
           </div>
-          {items.map((item) => (
-            <FormField
-              key={item.id}
-              control={control}
-              name={fieldName} // Usamos fieldName para guardar el valor correctamente en el form
-              render={({ field }) => {
-                const currentValue = field.value ?? []; // Aseguramos que `field.value` sea un array
-                const isChecked = currentValue.includes(item.id) || item.checked;
+          {items.map((item) => {
+            // Esto está correctamente enlazado con el estado del form, no usamos `item.checked` aquí.
+            const currentValue = field.value ?? [];
+            const isChecked = currentValue.includes(item.id);
 
-                return (
-                  <FormItem
-                    key={item.id}
-                    className='flex flex-row items-start space-x-3 space-y-0'
-                  >
+            return (
+              <FormField
+                key={item.id}
+                control={control}
+                name={fieldName}
+                render={({ field }) => (
+                  <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
                     <FormControl>
                       <Checkbox
                         checked={isChecked}
                         onCheckedChange={(checked) => {
-                          if (checked) {
-                            // Agregamos el item.id al array si el checkbox está marcado
-                            field.onChange([...currentValue, item.id]);
-                          } else {
-                            // Filtramos para remover el item.id si el checkbox está desmarcado
-                            field.onChange(
-                              currentValue.filter((value) => value !== item.id)
-                            );
-                          }
+                          const newValue = checked
+                            ? [...currentValue, item.id]
+                            : currentValue.filter(
+                                (value: number) => value !== item.id
+                              );
+                          field.onChange(newValue); // Actualizamos el valor en el form
                         }}
                       />
                     </FormControl>
@@ -66,10 +62,10 @@ export const CheckboxMultiple = ({
                       {item.label}
                     </FormLabel>
                   </FormItem>
-                );
-              }}
-            />
-          ))}
+                )}
+              />
+            );
+          })}
           <FormMessage />
         </FormItem>
       )}
