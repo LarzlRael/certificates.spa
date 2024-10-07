@@ -3,7 +3,7 @@ import './style.css'
 import GridContainer from './GridContainer'
 
 import { useThemeStore } from '@/store/useThemeStore'
-import { ExtraInformation } from './ExtraInformation'
+import { ExtraInformation } from './information-components/ExtraInformation'
 import { useEffect } from 'react'
 import { Sidebar } from './dasboard/Sidebar'
 import { HeaderDashBoard } from './dasboard/HeaderDashBoard'

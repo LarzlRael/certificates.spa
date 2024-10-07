@@ -8,7 +8,7 @@ import { CourseCardPresentation } from '@/custom_components/cards/CourseCardPres
 import { LoadingWithLogo } from '@/custom_components/loading/LoadingWithLogo'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
-export const CourseEnrollmentPage = () => {
+ export const CourseEnrollmentPage = () => {
   const params = useParams<{ idCourse: string; courseName?: string }>()
   const navigate = useNavigate()
 
@@ -28,7 +28,7 @@ export const CourseEnrollmentPage = () => {
     }
   }, [data, params, navigate])
   
-  useDocumentTitle(data?.courseName)
+  useDocumentTitle(data?.courseName || '')
 
   return (
     <div>
@@ -42,3 +42,4 @@ export const CourseEnrollmentPage = () => {
     </div>
   )
 }
+

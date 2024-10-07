@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   FormControl,
   FormDescription,
@@ -6,20 +6,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
 import {
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 
-import { CommonInputI, OptionsI } from './interfaces/form-interface'
-import { Select } from '@/components/ui/select'
+import { CommonInputI, OptionsI } from "./interfaces/form-interface";
+import { Select } from "@/components/ui/select";
+/* import { FormCustomInput } from "./FormCustomInput"; */
 
 interface SelectProps extends CommonInputI {
-  options: OptionsI[]
-  isLoading: boolean
+  options: OptionsI[];
+  isLoading: boolean;
 }
 
 export const CustomSelect = ({
@@ -43,7 +44,7 @@ export const CustomSelect = ({
             <FormControl>
               <SelectTrigger>
                 <SelectValue
-                  placeholder={placeholder || 'Selecciona una opción'}
+                  placeholder={placeholder || "Selecciona una opción"}
                 />
               </SelectTrigger>
             </FormControl>
@@ -55,16 +56,26 @@ export const CustomSelect = ({
                   </SelectItem>
                 ))
               ) : (
-                <SelectItem disabled value="">
+                <SelectItem disabled value=''>
                   No hay opciones disponibles
                 </SelectItem>
               )}
             </SelectContent>
           </Select>
           {description && <FormDescription>{description}</FormDescription>}
+          {/*  {field.value === "Otro" && (
+            <FormCustomInput
+              inputType='text'
+              isLoading={isLoading}
+              control={control}
+              fieldName='district'
+              label='Distrito'
+              placeholder='Distrito'
+            />
+          )} */}
           <FormMessage />
         </FormItem>
       )}
     />
-  )
-}
+  );
+};

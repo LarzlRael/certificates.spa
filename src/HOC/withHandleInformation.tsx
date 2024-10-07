@@ -2,6 +2,7 @@ import { ComponentType, FC } from 'react'
 import {
   useInformationStore,
   DialogInformation,
+  SheetInformation
 } from '@/store/useInformationStore' // O el nombre que corresponda a tu store
 import { useDashboardStore } from '@/store/useDashBoardStore' // O el nombre que corresponda a tu store
 
@@ -14,6 +15,9 @@ export interface WithSidebarAndInfoProps {
   clearExtraInformation: () => void
   toggleLeftSidebar: (newState: boolean) => void
   toggleRightSidebar: (newState: boolean) => void
+  changeSheetInformation: (sheetInformation: SheetInformation) => void;
+
+
 }
 
 // HOC para añadir lógica de sidebar e información extra a un componente
@@ -29,6 +33,7 @@ export function withHandleInformation<T extends WithSidebarAndInfoProps>(
       extraInformation,
       changeDialogInformation,
       changeExtraInformation,
+      changeSheetInformation
     } = useInformationStore()
 
     // Obtener valores y funciones del store de dashboard (sidebars)
@@ -49,7 +54,7 @@ export function withHandleInformation<T extends WithSidebarAndInfoProps>(
       toggleLeftSidebar,
       toggleRightSidebar,
       changeExtraInformation,
-
+      changeSheetInformation,
       ...props, // Mantener otras props que se pasen al componente
     }
 

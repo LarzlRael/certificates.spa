@@ -38,7 +38,7 @@ import {
   Bell,
 } from 'lucide-react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { ExtraInformation } from './ExtraInformation'
+import { ExtraInformation } from './information-components/ExtraInformation'
 import { useAuthStore } from '@/store/authStore'
 import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 import PieChart from '../charts/PieChart'

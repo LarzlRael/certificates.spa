@@ -8,14 +8,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
-import { useInformationStore } from '@/store/useInformationStore'
+import { useInformationStore } from "@/store/useInformationStore";
 
 export const AlertDialogInformation = () => {
-  const { alertDialogContent } = useInformationStore()
-  const { changeAlertDialogInformation } = useInformationStore()
+  const { alertDialogContent } = useInformationStore();
+  const { changeAlertDialogInformation } = useInformationStore();
   const {
     content,
     isAlertDialogOpen,
@@ -25,22 +25,24 @@ export const AlertDialogInformation = () => {
     cancelText,
     onCancel,
     onConfirm,
-  } = alertDialogContent
+  } = alertDialogContent;
 
   return (
     <AlertDialog
       open={isAlertDialogOpen}
       onOpenChange={() => {
-        changeAlertDialogInformation({
-          isAlertDialogOpen: false,
-          content: undefined,
-          title: '',
-          subtitle: '',
-          onConfirm: undefined,
-          onCancel: undefined,
-          confirmText: '',
-          cancelText: '',
-        })
+        if (isAlertDialogOpen) {
+          changeAlertDialogInformation({
+            isAlertDialogOpen: false,
+            content: undefined,
+            title: "",
+            subtitle: "",
+            onConfirm: undefined,
+            onCancel: undefined,
+            confirmText: "",
+            cancelText: "",
+          });
+        }
       }}
     >
       {/* <AlertDialogTrigger asChild>
@@ -55,23 +57,23 @@ export const AlertDialogInformation = () => {
           <AlertDialogCancel
             onClick={() => {
               if (onCancel) {
-                onCancel()
+                onCancel();
               }
             }}
           >
-            {cancelText || 'Cancelar'}
+            {cancelText || "Cancelar"}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               if (onConfirm) {
-                onConfirm()
+                onConfirm();
               }
             }}
           >
-            {confirmText || 'Aceptar'}
+            {confirmText || "Aceptar"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
-}
+  );
+};

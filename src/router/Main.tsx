@@ -3,14 +3,14 @@ import {
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom'
-import { HomePage } from '../pages/HomePage'
+} from "react-router-dom";
+import { HomePage } from "../pages/HomePage";
 
 import {
   LoginPageWithAuth,
   RegisterPage,
   ForgotPasswordPage,
-} from '@/pages/auth/'
+} from "@/pages/auth/";
 
 import {
   DashBoardHomePage,
@@ -25,13 +25,19 @@ import {
   SettingsPage,
   ProfileStudentPage,
   PaymentsDetailPage,
-  EditCoursePage
-} from '@/pages/dashboard'
-import DashboardLayout from '@/custom_components/layout/DashboardLayout'
-import { PrivateRoutes } from './PrivateRoutes'
-import DashboardConSidebars from '@/custom_components/layout/DashboardLayout2'
-import { MainAdminDashboardWithAuth } from '@/custom_components/layout/MainDashboard'
-import Template from '@/custom_components/layout/Template'
+  EditCoursePage,
+} from "@/pages/dashboard";
+import DashboardLayout from "@/custom_components/layout/DashboardLayout";
+import { PrivateRoutes } from "./PrivateRoutes";
+import DashboardConSidebars from "@/custom_components/layout/DashboardLayout2";
+import { MainAdminDashboardWithAuth } from "@/custom_components/layout/MainDashboard";
+import Template from "@/custom_components/layout/Template";
+import {
+  DialogInformation,
+  AlertDialogInformation,
+  SheetInformation,
+  ExtraInformation,
+} from "@/custom_components/layout/information-components";
 
 /* import { PublicRoutes } from './PublicRoute' */
 
@@ -40,25 +46,25 @@ export const Main = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/template-test" element={<Template />} />
-        <Route path="/ingreso" element={<LoginPageWithAuth />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/template-test' element={<Template />} />
+        <Route path='/ingreso' element={<LoginPageWithAuth />} />
         {/* <Route path="/ingreso" element={<LoginPageWithAuth />} /> */}
-        <Route path="/registro" element={<RegisterPage />} />
-        <Route path="/olvide-mi-contraseña" element={<ForgotPasswordPage />} />
+        <Route path='/registro' element={<RegisterPage />} />
+        <Route path='/olvide-mi-contraseña' element={<ForgotPasswordPage />} />
         <Route
-          path="/inscripcion/:idCourse"
+          path='/inscripcion/:idCourse'
           element={<CourseEnrollmentPage />}
         />
         <Route
-          path="/inscripcion/:courseName/:idCourse"
+          path='/inscripcion/:courseName/:idCourse'
           element={<CourseEnrollmentPage />}
         />
-        <Route path="/dash2" element={<DashboardConSidebars />} />
+        <Route path='/dash2' element={<DashboardConSidebars />} />
         {/* <Route path="/dash3" element={<AdminDashboardEducativo />} /> */}
 
         <Route
-          path="panel-administrativo"
+          path='panel-administrativo'
           element={
             <PrivateRoutes>
               <MainAdminDashboardWithAuth />
@@ -66,29 +72,29 @@ export const Main = () => {
           }
         >
           {/* Redirige la raíz de "panel-administrativo" a "inicio" */}
-          <Route index element={<Navigate to="inicio" />} />
-          <Route path="inicio" element={<DashBoardHomePage />} />
-          <Route path="cursos" element={<CoursePage />} />
-          <Route path="cursos/:idCourse" element={<EnrollmentByCourse />} />
-          <Route path="cursos/crear-curso" element={<CreateCoursePage />} />
+          <Route index element={<Navigate to='inicio' />} />
+          <Route path='inicio' element={<DashBoardHomePage />} />
+          <Route path='cursos' element={<CoursePage />} />
+          <Route path='cursos/:idCourse' element={<EnrollmentByCourse />} />
+          <Route path='cursos/crear-curso' element={<CreateCoursePage />} />
           <Route
-            path="cursos/modificar-curso/:idCourse"
+            path='cursos/modificar-curso/:idCourse'
             element={<EditCoursePage />}
           />
-          <Route path="cursos/:idCourse" element={<EnrollmentByCourse />} />
-          <Route path="notificaciones" element={<NotificationsPage />} />
-          <Route path="estudiantes" element={<StudentsPage />} />
-          <Route path="profesores" element={<ProfessorsPage />} />
-          <Route path="pagos" element={<PaymentsPage />} />
-          <Route path="pagos/:idPayment" element={<PaymentsDetailPage />} />
-          <Route path="configuraciones" element={<SettingsPage />} />
-          <Route path="notificaciones" element={<NotificationsPage />} />
+          <Route path='cursos/:idCourse' element={<EnrollmentByCourse />} />
+          <Route path='notificaciones' element={<NotificationsPage />} />
+          <Route path='estudiantes' element={<StudentsPage />} />
+          <Route path='profesores' element={<ProfessorsPage />} />
+          <Route path='pagos' element={<PaymentsPage />} />
+          <Route path='pagos/:idPayment' element={<PaymentsDetailPage />} />
+          <Route path='configuraciones' element={<SettingsPage />} />
+          <Route path='notificaciones' element={<NotificationsPage />} />
           <Route
-            path="perfil-estudiante/:idStudent"
+            path='perfil-estudiante/:idStudent'
             element={<ProfileStudentPage />}
           />
 
-          <Route path="*" element={<Navigate to="inicio" />} />
+          <Route path='*' element={<Navigate to='inicio' />} />
         </Route>
 
         {/* <Route
@@ -108,6 +114,11 @@ export const Main = () => {
           <Route path="estudiantes" element={<StudentsPage />} />
         </Route> */}
       </Routes>
+
+      <DialogInformation />
+      <AlertDialogInformation />
+      <SheetInformation />
+      <ExtraInformation />
     </Router>
-  )
-}
+  );
+};

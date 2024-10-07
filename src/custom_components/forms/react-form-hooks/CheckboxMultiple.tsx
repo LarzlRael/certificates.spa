@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CommonInputI, CheckboxInterface } from "./interfaces/form-interface";
+import { isValidArray } from "@/utils/validation/validation";
 
 interface CheckboxMultipleProps extends CommonInputI {
   isLoading: boolean;
@@ -26,49 +27,59 @@ export const CheckboxMultiple = ({
     <FormField
       control={control}
       name={fieldName}
-      disabled={isLoading}
-      render={({ field }) => (
-        <FormItem>
-          <div className='mb-4'>
-            <FormLabel className='text-base'>{label}</FormLabel>
-            {description && <FormDescription>{description}</FormDescription>}
-          </div>
-          {items.map((item) => {
-            // Esto está correctamente enlazado con el estado del form, no usamos `item.checked` aquí.
-            const currentValue = field.value ?? [];
-            const isChecked = currentValue.includes(item.id);
+      render={({ field }) => {
+        // Obtener el valor actual (IDs seleccionados) o filtrar por `checked`
+        const currentValue = isValidArray(field.value)
+          ? field.value
+          : items.filter(item => item.checked).map(item => item.id);
 
-            return (
-              <FormField
+        return (
+          <FormItem>
+            <div className="mb-4">
+              <FormLabel className="text-base">{label}</FormLabel>
+              {description && <FormDescription>{description}</FormDescription>}
+            </div>
+
+            {items.map(item => {
+              const isChecked = currentValue.includes(item.id);
+
+              return (
+                <FormField
                 key={item.id}
                 control={control}
-                name={fieldName}
-                render={({ field }) => (
-                  <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
-                    <FormControl>
-                      <Checkbox
-                        checked={isChecked}
-                        onCheckedChange={(checked) => {
-                          const newValue = checked
-                            ? [...currentValue, item.id]
-                            : currentValue.filter(
-                                (value: number) => value !== item.id
-                              );
-                          field.onChange(newValue); // Actualizamos el valor en el form
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel className='text-sm font-normal'>
-                      {item.label}
-                    </FormLabel>
-                  </FormItem>
-                )}
+                name="items"
+                render={({ field }) => {
+                  return (
+                    <FormItem
+                      key={item.id}
+                      className="flex flex-row items-start space-x-3 space-y-0"
+                    >
+                       <FormControl>
+                  <Checkbox
+                    checked={isChecked}
+                    onCheckedChange={checked => {
+                      // Actualiza el array del valor en el formulario
+                      const newValue = checked
+                        ? [...currentValue, item.id]
+                        : currentValue.filter(id => id !== item.id);
+                      field.onChange(newValue);
+                    }}
+                  />
+                </FormControl>
+                      <FormLabel className="text-sm font-normal">
+                        {item.label}
+                      </FormLabel>
+                    </FormItem>
+                  )
+                }}
               />
-            );
-          })}
-          <FormMessage />
-        </FormItem>
-      )}
+              );
+            })}
+
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

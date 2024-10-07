@@ -14,13 +14,14 @@ import {
 import { useState } from 'react'
 
 import { useNavigate, Link, Outlet } from 'react-router-dom'
-import { ExtraInformation } from './ExtraInformation'
+import { ExtraInformation } from './information-components/ExtraInformation'
 import { Button } from '@/components/ui/button'
-import { DialogInformation } from './dasboard/DialogInformation'
-import { AlertDialogInformation } from './dasboard/AlertDialogInformation'
+import { DialogInformation } from './information-components/DialogInformation'
+import { AlertDialogInformation } from './information-components/AlertDialogInformation'
 import { useInformationStore } from '@/store/useInformationStore'
 import { useDashboardStore } from '@/store/useDashBoardStore'
 import { SideBar } from './dasboard/SideBar'
+import { SheetInformation } from './information-components/SheetInformation'
 
 interface MenuItems {
   icon: any
@@ -98,6 +99,8 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
       {/* Dialogs and AlertDialogs components */}
       <DialogInformation />
       <AlertDialogInformation />
+      <SheetInformation />
+      
     </div>
   )
 }

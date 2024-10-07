@@ -3,7 +3,7 @@ import { webName } from '../../constants/web-constants'
 import { AuthStatus, useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ExtraInformation } from './ExtraInformation'
+import { ExtraInformation } from './information-components/ExtraInformation'
 
 interface LinkButton {
   name: string
