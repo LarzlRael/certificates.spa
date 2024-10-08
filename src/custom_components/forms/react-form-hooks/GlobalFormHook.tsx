@@ -19,6 +19,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { isValidString } from "@/utils/validation/validation";
 
 export const GlobalFormHook = ({
   inputJson,
@@ -49,11 +50,13 @@ export const GlobalFormHook = ({
       <Card>
         {/* <h2 margin="1rem 0" color="var(--color-text)" fontWeight="600"> */}
         {/* add tailwind classes */}
-        <CardHeader>
+        {
+          isValidString(formTitle) && <CardHeader>
           <h2 className='text-2xl font-bold text-center mt-4 text-gray-700'>
             {formTitle}
           </h2>
         </CardHeader>
+        }
 
         <FormProvider {...form}>
           <form

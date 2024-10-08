@@ -1,14 +1,14 @@
-import { z } from 'zod'
-import { isValidStatus } from '@/utils/validation/validation'
-import { updateUserInformationForm } from '../data/form-pattens'
-import { GlobalFormHook } from '../forms/react-form-hooks'
+import { z } from "zod";
+import { isValidStatus } from "@/utils/validation/validation";
+import { updateUserInformationForm } from "../data/form-pattens";
+import { GlobalFormHook } from "../forms/react-form-hooks";
 
-import { UserStudentDetail } from '@/pages/dashboard/interfaces/students.interface'
-import { putAction } from '@/provider/action/ActionAuthorization'
-import { toast } from 'sonner'
-import { ContentRawInformation } from './RawInfomation'
-import { Mail } from 'lucide-react'
-import { AvatarEditable } from '../images/AvatarEditable'
+import { putAction } from "@/provider/action/ActionAuthorization";
+import { toast } from "sonner";
+import { ContentRawInformation } from "./RawInfomation";
+import { Mail } from "lucide-react";
+import { UserAuth } from "@/interfaces/auth.interface";
+import { AvatarEditable } from "../images/AvatarEditable";
 
 export const updateUserProfileSchema = z.object({
   firstName: z.string().min(3).max(50).optional(),
@@ -22,50 +22,57 @@ export const updateUserProfileSchema = z.object({
       longitude: z.string(),
     })
     .optional(), // Hacemos que este campo sea opcional */
-})
+});
 interface UserProfileProps {
-  userInfo: UserStudentDetail | undefined
-  onReload?: () => void
+  userInfo: UserAuth | undefined;
+  onReload?: () => void;
 }
-export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
-  console.log(userInfo)
+export const UserEditUserProfile = ({
+  userInfo,
+  onReload,
+}: UserProfileProps) => {
+  console.log(userInfo);
   const handleUpdateProfile = async (values) => {
-    const res = await putAction('users/update-profile-information-from-admin', {
+    const res = await putAction("users/update-profile-information-from-admin", {
       idUser: userInfo?.id,
       ...values,
-    })
+    });
     if (!isValidStatus(res.status)) {
-      return
+      return;
     }
-    if (onReload) onReload()
-    toast.success('Información actualizada correctamente')
-  }
+    if (onReload) onReload();
+    toast.success("Información actualizada correctamente");
+  };
   return (
     <GlobalFormHook
       inputJson={updateUserInformationForm}
       ExtraComponent={
         <>
-          <ContentRawInformation
-            label="Correo electrónico"
-            value={userInfo?.email}
-            icon={<Mail className="h-4 w-4 text-muted-foreground" />}
+          <AvatarEditable
+            profileImage={userInfo?.profileImageUrl}
+            reload={onReload}
           />
           <ContentRawInformation
-            label="Nombre de usuario"
+            label='Correo electrónico'
+            value={userInfo?.email}
+            icon={<Mail className='h-4 w-4 text-muted-foreground' />}
+          />
+          <ContentRawInformation
+            label='Nombre de usuario'
             value={userInfo?.username}
-            icon={<Mail className="h-4 w-4 text-muted-foreground" />}
+            icon={<Mail className='h-4 w-4 text-muted-foreground' />}
           />
         </>
       }
       onSubmit={handleUpdateProfile}
-      formTitle="Editar información de Perfil"
+      /* formTitle="" */
       isLoading={false}
       data={userInfo}
       schema={updateUserProfileSchema}
-      titleButton="Editar información"
+      titleButton='Actualizar perfil'
     />
-  )
-}
+  );
+};
 
 /* interface UserProfileRawInfoProps {
   value?: string | undefined | null
