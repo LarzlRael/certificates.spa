@@ -7,6 +7,9 @@ export interface UserAuth {
   location: string | null;
   createdAt: string; // Puedes usar Date si prefieres manejarlo como objeto Date
   phone: string | null;
+  dateBirth: string | null;
+  dni: string | null;
+
   profileImageUrl: string | null;
   profileImageId: string | null;
   shippingAddress: string | null;
@@ -20,3 +23,4 @@ export interface RolesInterface {
   name:        string;
   description: string;
 }
+

@@ -5,8 +5,8 @@ import GridContainer from './GridContainer'
 import { useThemeStore } from '@/store/useThemeStore'
 import { ExtraInformation } from './information-components/ExtraInformation'
 import { useEffect } from 'react'
-import { Sidebar } from './dasboard/Sidebar'
-import { HeaderDashBoard } from './dasboard/HeaderDashBoard'
+import { Sidebar } from './admin-dasboard/Sidebar'
+import { HeaderDashBoard } from './admin-dasboard/HeaderDashBoard'
 import { Card, CardContent } from '@/components/ui/card'
 
 const Template = () => {

@@ -122,7 +122,7 @@ export const PreviewCourseCardPresentation = ({
             )}
 
             <InfoLabelPresentationCard
-              title="Modilidad"
+              title="Modalidad"
               value={courseInfo.modality}
               child={
                 <div className="flex flex-row align-middle items-center">

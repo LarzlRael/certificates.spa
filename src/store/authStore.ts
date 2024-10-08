@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   authStatus: AuthStatus.CHECKING,
   login: async (username, password) => {
     console.log('login')
-    const getUserLogging = await postAction('auth/signin', {
+    const getUserLogging = await postAction<UserAuth>('auth/signin', {
       username,
       password,
     })

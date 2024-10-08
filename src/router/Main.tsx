@@ -38,6 +38,7 @@ import {
   SheetInformation,
   ExtraInformation,
 } from "@/custom_components/layout/information-components";
+import { AccountPage } from "@/pages/common-user";
 
 /* import { PublicRoutes } from './PublicRoute' */
 
@@ -62,6 +63,17 @@ export const Main = () => {
         />
         <Route path='/dash2' element={<DashboardConSidebars />} />
         {/* <Route path="/dash3" element={<AdminDashboardEducativo />} /> */}
+
+        {/* Common user pages */}
+
+        <Route
+          path='/mi-cuenta'
+          element={
+            <PrivateRoutes>
+              <AccountPage />
+            </PrivateRoutes>
+          }
+        />
 
         <Route
           path='panel-administrativo'

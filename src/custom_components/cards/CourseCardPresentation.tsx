@@ -18,6 +18,8 @@ import { InfoLabelPresentationCard } from "./RawInfomation";
 import { convertDate, getDifferenceBetweenDates } from "@/utils/dates";
 import { useInformationStore } from "@/store/useInformationStore";
 import { CourseEnrollmentFormPage } from "@/pages/CourseEnrollmentFormPage";
+import { AuthStatus, useAuthStore } from "@/store/authStore";
+import { LoginMiniContainer } from "@/pages/auth/LoginMiniContainer";
 
 interface CourseCardPresentationProps {
   courseInfo: CourseEnrollInterface;
@@ -26,7 +28,9 @@ interface CourseCardPresentationProps {
 export const CourseCardPresentation = ({
   courseInfo,
 }: CourseCardPresentationProps) => {
+  const { authStatus } = useAuthStore();
   const { changeSheetInformation } = useInformationStore();
+  const { changeDialogInformation } = useInformationStore();
   return (
     <Card className='w-full max-w-5xl mx-auto overflow-hidden'>
       <div className='flex flex-col lg:flex-row'>
@@ -119,7 +123,7 @@ export const CourseCardPresentation = ({
             )}
 
             <InfoLabelPresentationCard
-              title='Modilidad'
+              title='Modalidad'
               value={courseInfo.modality}
               child={
                 <div className='flex flex-row align-middle items-center'>
@@ -173,16 +177,27 @@ export const CourseCardPresentation = ({
               </span> */}
             </div>
             <Button
-              onClick={() =>
-                changeSheetInformation({
-                  side: "right",
+              onClick={() => {
+                console.log(authStatus)
+                if (authStatus != AuthStatus.AUTHENTICATED) {
+                  changeSheetInformation({
+                    side: "right",
+                    isDialogOpen: true,
+                    title: "Inscripción",
+                    description:
+                      "Complete el formulario para inscribirse en el curso",
+                    content: <CourseEnrollmentFormPage />,
+                  });
+                  return;
+                }
+                changeDialogInformation({
                   isDialogOpen: true,
-                  title: "Inscripción",
-                  description:
-                    "Complete el formulario para inscribirse en el curso",
-                  content:<CourseEnrollmentFormPage />,
-                })
-              }
+                  title: "Iniciar Sesión",
+                  subtitle:
+                    "Para inscribirse en este curso debe iniciar sesión",
+                  content: <LoginMiniContainer />,
+                });
+              }}
               size='lg'
               className='font-semibold'
             >

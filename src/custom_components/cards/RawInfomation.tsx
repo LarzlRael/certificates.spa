@@ -33,7 +33,7 @@ export const InfoLabelPresentationCard = ({ title, value, child }: InfoLabelProp
   return (
     <Card className="w-full mb-4 p-4">
       <div className="grid grid-cols-[150px_1fr] items-center gap-4">
-        <h3 className="text-lg font-semibold truncate" title={title}>
+        <h3 className="text-lg font-semibold truncate break-words whitespace-normal" title={title}>
           {title}
         </h3>
         <div className="min-w-0">

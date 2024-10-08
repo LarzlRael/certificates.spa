@@ -254,3 +254,4 @@ const LoginPage = ({ refreshToken, authStatus }: WithAuthProps) => {
   )
 }
 export const LoginPageWithAuth = withAuth(LoginPage)
+
