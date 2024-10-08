@@ -1,38 +1,30 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { useInformationStore } from "@/store/useInformationStore";
 
 export const SheetInformation = () => {
   const { sheetInformation } = useInformationStore();
   const { changeSheetInformation } = useInformationStore();
-  const { side, isDialogOpen, description, title, content } = sheetInformation;
+  const { side, isOpen, subtitle, title, content } = sheetInformation;
 
   return (
     <Sheet
-      open={isDialogOpen}
+      open={isOpen}
       onOpenChange={() => {
-        if (isDialogOpen) {
+        if (isOpen) {
           changeSheetInformation({
-            isDialogOpen: false,
+            isOpen: false,
             title: "",
-            description: "",
+            subtitle: "",
             content: undefined,
-            maxWidth: "425",
             side: "bottom",
-            isClosable: true,
           });
         }
       }}
@@ -45,9 +37,9 @@ export const SheetInformation = () => {
         <SheetHeader>
           {title && <SheetTitle>{title}</SheetTitle>}
 
-          {description && (
+          {subtitle && (
             <SheetDescription>
-              <Label>{description}</Label>
+              <Label>{subtitle}</Label>
             </SheetDescription>
           )}
         </SheetHeader>

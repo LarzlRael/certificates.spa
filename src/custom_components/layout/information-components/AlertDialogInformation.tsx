@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+
 
 import { useInformationStore } from "@/store/useInformationStore";
 
@@ -18,7 +18,7 @@ export const AlertDialogInformation = () => {
   const { changeAlertDialogInformation } = useInformationStore();
   const {
     content,
-    isAlertDialogOpen,
+    isOpen,
     subtitle,
     title,
     confirmText,
@@ -29,11 +29,11 @@ export const AlertDialogInformation = () => {
 
   return (
     <AlertDialog
-      open={isAlertDialogOpen}
+      open={isOpen}
       onOpenChange={() => {
-        if (isAlertDialogOpen) {
+        if (isOpen) {
           changeAlertDialogInformation({
-            isAlertDialogOpen: false,
+            isOpen: false,
             content: undefined,
             title: "",
             subtitle: "",

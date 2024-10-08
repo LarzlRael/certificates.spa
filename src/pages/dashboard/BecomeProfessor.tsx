@@ -85,7 +85,7 @@ export const BecomeProfessor = () => {
 
     if (res) {
       changeDialogInformation({
-        isDialogOpen: false,
+        isOpen: false,
         title: '',
         subtitle: '',
         content: null,

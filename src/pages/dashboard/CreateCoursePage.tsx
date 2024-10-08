@@ -126,7 +126,7 @@ const CreateCoursePageHoc = (
                     type="button"
                     onClick={() => {
                       informationHandleProps.changeDialogInformation({
-                        isDialogOpen: true,
+                        isOpen: true,
                         /* isPreventClose: false, */
                         content: <Loading3dots />,
                       })

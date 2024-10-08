@@ -152,7 +152,7 @@ import { Loading3dots } from '@/custom_components/loading/Loading3dots'
                   >
                     <Button type="button" onClick={() => {
                       informationHandleProps.changeDialogInformation({
-                        isDialogOpen:true,
+                        isOpen:true,
                         /* isPreventClose: false, */
                         content: <Loading3dots />,
                       })

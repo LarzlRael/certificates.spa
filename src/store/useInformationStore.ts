@@ -2,29 +2,24 @@ import { create } from "zustand";
 import { useDashboardStore } from "./useDashBoardStore";
 
 type Side = "top" | "right" | "bottom" | "left";
-export interface SheetInformation {
-  isDialogOpen: boolean;
+
+interface BaseInformationInterface {
+  isOpen: boolean;
   title?: string;
-  description?: string;
+  subtitle?: string;
   content: React.ReactNode | undefined;
   maxWidth?: string;
   isClosable?: boolean;
+}
+export interface SheetInformation extends BaseInformationInterface {
   side?: Side;
 }
 
-export interface DialogInformation {
-  isDialogOpen: boolean;
-  title?: string;
-  subtitle?: string;
-  content: React.ReactNode | undefined;
+export interface DialogInformation extends BaseInformationInterface {
   maxWidth?: string;
   isClosable?: boolean;
 }
-interface AlertDialogInformation {
-  isAlertDialogOpen: boolean;
-  title?: string;
-  subtitle?: string;
-  content: React.ReactNode | undefined;
+interface AlertDialogInformation extends BaseInformationInterface {
   onConfirm?: () => void;
   onCancel?: () => void;
   confirmText?: string;
@@ -50,16 +45,15 @@ export const useInformationStore = create<DialogState>((set) => ({
   isOpenLeftSidebar: true,
   isOpenRightSidebar: false,
   sheetInformation: {
-    isDialogOpen: false,
+    isOpen: false,
     title: "",
-    description: "",
+    subtitle: "",
     content: undefined,
-    maxWidth: "425",
     side: "bottom",
     isClosable: true,
   },
   dialogContent: {
-    isDialogOpen: false,
+    isOpen: false,
     title: "",
     subtitle: "",
     maxWidth: "425",
@@ -68,7 +62,8 @@ export const useInformationStore = create<DialogState>((set) => ({
   },
   extraInformation: undefined,
   alertDialogContent: {
-    isAlertDialogOpen: false,
+    isOpen: false,
+    isClosable: true,
     title: "",
     subtitle: "",
     content: undefined,
@@ -79,7 +74,7 @@ export const useInformationStore = create<DialogState>((set) => ({
     set({ extraInformation: undefined });
   },
   clearDialogInformation: () =>
-    set({ dialogContent: { isDialogOpen: false, content: undefined } }),
+    set({ dialogContent: { isOpen: false, content: undefined } }),
   changeAlertDialogInformation: (alertDialogInformation) =>
     set({ alertDialogContent: alertDialogInformation }),
   changeExtraInformation: (extraInformation) => {
@@ -93,7 +88,7 @@ export const useInformationStore = create<DialogState>((set) => ({
     set({
       dialogContent: {
         maxWidth: info.maxWidth || "425",
-        isDialogOpen: info.isDialogOpen,
+        isOpen: info.isOpen,
         title: info.title,
         subtitle: info.subtitle,
         content: info.content,

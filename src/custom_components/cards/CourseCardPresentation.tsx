@@ -178,20 +178,20 @@ export const CourseCardPresentation = ({
             </div>
             <Button
               onClick={() => {
-                console.log(authStatus)
+                console.log(authStatus);
                 if (authStatus != AuthStatus.AUTHENTICATED) {
                   changeSheetInformation({
                     side: "right",
-                    isDialogOpen: true,
+                    isOpen: true,
                     title: "Inscripción",
-                    description:
+                    subtitle:
                       "Complete el formulario para inscribirse en el curso",
                     content: <CourseEnrollmentFormPage />,
                   });
                   return;
                 }
                 changeDialogInformation({
-                  isDialogOpen: true,
+                  isOpen: true,
                   title: "Iniciar Sesión",
                   subtitle:
                     "Para inscribirse en este curso debe iniciar sesión",

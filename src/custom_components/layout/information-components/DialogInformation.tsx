@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -6,26 +6,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { useInformationStore } from '@/store/useInformationStore'
+} from "@/components/ui/dialog";
+import { useInformationStore } from "@/store/useInformationStore";
 
 export const DialogInformation = () => {
-  const { dialogContent } = useInformationStore()
-  const { changeDialogInformation } = useInformationStore()
+  const { dialogContent } = useInformationStore();
+  const { changeDialogInformation } = useInformationStore();
+  const { maxWidth, title, subtitle, content, isOpen, isClosable } =
+    dialogContent;
 
   return (
     <Dialog
-      open={dialogContent.isDialogOpen}
-      modal={!dialogContent.isClosable}
+      open={isOpen}
+      modal={!isClosable}
       onOpenChange={() => {
-        if (!dialogContent.isClosable) {
+        if (!isClosable) {
           changeDialogInformation({
-            isDialogOpen: false,
+            isOpen: false,
             isClosable: true,
             content: undefined,
-            title: '',
-            subtitle: '',
-          })
+            title: "",
+            subtitle: "",
+          });
         }
       }}
     >
@@ -33,13 +35,13 @@ export const DialogInformation = () => {
         {/* <Button variant="outline">Ver Perfil de Usuario</Button> */}
       </DialogTrigger>
       {/* fix size bug */}
-      <DialogContent className={`sm:max-w-[${dialogContent.maxWidth}px]`}>
+      <DialogContent className={`sm:max-w-[${maxWidth}px]`}>
         <DialogHeader>
-          <DialogTitle>{dialogContent.title}</DialogTitle>
-          <DialogDescription>{dialogContent.subtitle}</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{subtitle}</DialogDescription>
         </DialogHeader>
-        <Card className="w-full">{dialogContent.content}</Card>
+        <Card className='w-full'>{content}</Card>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
