@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
@@ -6,37 +7,34 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { useInformationStore } from "@/store/useInformationStore";
 
 export const SheetInformation = () => {
-  const { sheetInformation } = useInformationStore();
-  const { changeSheetInformation } = useInformationStore();
+  const { sheetInformation, changeSheetInformation } = useInformationStore();
   const { side, isOpen, subtitle, title, content } = sheetInformation;
+
+  // Función para cerrar el Sheet con animación
+  const handleClose = () => {
+    changeSheetInformation({
+      ...sheetInformation,
+      isOpen: false, // Cambia a false para iniciar la animación de cierre
+    });
+  };
 
   return (
     <Sheet
       open={isOpen}
-      onOpenChange={() => {
-        if (isOpen) {
-          changeSheetInformation({
-            isOpen: false,
-            title: "",
-            subtitle: "",
-            content: undefined,
-            side: "bottom",
-          });
+      onOpenChange={(open) => {
+        if (!open) {
+          handleClose(); // Llama a la función para manejar el cierre con animación
         }
       }}
-      key={side}
     >
-      {/* <SheetTrigger asChild>
-        <Button variant='outline'>{side}</Button>
-      </SheetTrigger> */}
       <SheetContent side={side}>
         <SheetHeader>
           {title && <SheetTitle>{title}</SheetTitle>}
-
           {subtitle && (
             <SheetDescription>
               <Label>{subtitle}</Label>
@@ -45,9 +43,9 @@ export const SheetInformation = () => {
         </SheetHeader>
         {content}
         <SheetFooter>
-          {/* <SheetClose asChild>
-            <Button type='submit'>Save changes</Button>
-          </SheetClose> */}
+          <SheetClose asChild>
+            <Button type="submit">Save changes</Button>
+          </SheetClose>
         </SheetFooter>
       </SheetContent>
     </Sheet>
