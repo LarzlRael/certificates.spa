@@ -13,6 +13,7 @@ import {
   mapEnrollment,
 } from '@/interfaces/enrollment.interface'
 import { useNavigate } from 'react-router-dom'
+import { isValidArray } from '@/utils/validation/validation'
 
 // Tipo para representar un curso
 
@@ -61,10 +62,21 @@ export const CourseListTile = ({ oneCourse }: CourseListTileProps) => {
         </div>
       </div>
       <div className="flex-shrink-0">
-        <Button className="w-full flex items-center justify-center bg-primary hover:bg-primary-dark transition-colors duration-200">
+        {isValidArray(oneCourse.payments) ? (
+          <Button className="w-full flex items-center justify-center bg-primary hover:bg-primary-dark transition-colors duration-200">
+            Ver pagos
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        ) : (
+          <Button className="w-full flex items-center justify-center bg-primary hover:bg-primary-dark transition-colors duration-200">
+            Completar plago
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        )}
+        {/* <Button className="w-full flex items-center justify-center bg-primary hover:bg-primary-dark transition-colors duration-200">
           Completar plago
           <ArrowRight className="ml-2 w-4 h-4" />
-        </Button>
+        </Button> */}
       </div>
     </Card>
   )

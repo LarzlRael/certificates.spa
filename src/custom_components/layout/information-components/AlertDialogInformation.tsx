@@ -51,7 +51,8 @@ export const AlertDialogInformation = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{content ?? subtitle}</AlertDialogDescription>
+          <AlertDialogDescription>{subtitle ?? subtitle}</AlertDialogDescription>
+          <AlertDialogDescription>{content ?? content}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel

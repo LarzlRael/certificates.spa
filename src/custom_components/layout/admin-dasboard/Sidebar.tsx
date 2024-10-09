@@ -16,12 +16,13 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useInformationStore } from '@/store/useInformationStore'
 import { useThemeStore } from '@/store/useThemeStore'
+import { withAuth, WithAuthProps } from '@/HOC/withAuth'
 interface MenuItems {
   icon: any
   label: string
   path: string
 }
-const rootPath = "/panel-administrativo";
+const rootPath = '/panel-administrativo'
 const menuItems: MenuItems[] = [
   { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
   { icon: Users, label: 'Estudiantes', path: '/estudiantes' },
@@ -33,9 +34,9 @@ const menuItems: MenuItems[] = [
   { icon: Bell, label: 'Notificaciones', path: '/notificaciones' },
 ]
 
-export const Sidebar = () => {
+export const SidebarWithAuthHOC = ({ logout }: WithAuthProps) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
-  const { changeLayout } = useThemeStore()
+  const { changeAlertDialogInformation } = useInformationStore()
   return (
     <aside
       className={`bg-white w-64 min-h-screen p-4 transition-all duration-300 ${
@@ -57,7 +58,7 @@ export const Sidebar = () => {
         <div>
           {menuItems.map((item, index) => (
             <Link
-              key={index+"-"+item.path}
+              key={index + '-' + item.path}
               to={`${rootPath}${item.path}`}
               className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               /* onClick={() => setSelectedLabel(item.label)} */
@@ -69,7 +70,7 @@ export const Sidebar = () => {
         </div>
       </nav>
       <div className="absolute bottom-4">
-        <Button
+        {/* <Button
           onClick={() => changeLayout('Dashboard')}
           variant="ghost"
           className="w-full justify-start text-red-500"
@@ -82,8 +83,25 @@ export const Sidebar = () => {
           className="w-full justify-start text-red-500"
         >
           <LogOut className="mr-2 h-4 w-4" /> Change Layout
+        </Button> */}
+        <Button
+          onClick={() => {
+            changeAlertDialogInformation({
+              title: 'Cerrar sesión',
+              subtitle: '¿Estás seguro de cerrar sesión?',
+              isOpen: true,
+              content: <></>,
+              onConfirm: () => logout(),
+            })
+          }}
+          variant="ghost"
+          className="w-full justify-start text-red-500"
+        >
+          <LogOut className="mr-2 h-4 w-4" /> Cerrar sesión
         </Button>
       </div>
     </aside>
   )
 }
+
+export const Sidebar = withAuth(SidebarWithAuthHOC)
