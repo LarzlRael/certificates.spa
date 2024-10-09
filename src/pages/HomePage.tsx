@@ -1,35 +1,46 @@
-import { z } from "zod";
-import { GlobalFormHook } from "@/custom_components/forms/react-form-hooks/GlobalFormHook";
+import { z } from 'zod'
+import { GlobalFormHook } from '@/custom_components/forms/react-form-hooks/GlobalFormHook'
 import {
   CheckboxInterface,
   InputJsonI,
-} from "@/custom_components/forms/react-form-hooks/interfaces/form-interface";
-import { SampleDatePicker } from "@/custom_components/forms/react-form-hooks/CalendarPickerYear";
-import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
-import { RolesInterface } from "@/interfaces/auth.interface";
-import { useEffect,useState  } from "react";
-import { isValidArray } from "@/utils/validation/validation";
-import { mapAsCheckboxArray, UserRolesInterface } from "./dashboard/interfaces/roles.interface";
+} from '@/custom_components/forms/react-form-hooks/interfaces/form-interface'
+import { SampleDatePicker } from '@/custom_components/forms/react-form-hooks/CalendarPickerYear'
+import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+import { RolesInterface } from '@/interfaces/auth.interface'
+import { useEffect, useState } from 'react'
+import { isValidArray } from '@/utils/validation/validation'
+import {
+  mapAsCheckboxArray,
+  UserRolesInterface,
+} from './dashboard/interfaces/roles.interface'
+import { CalendarDayPicker } from '@/custom_components/forms/react-form-hooks/CalendarDayPicker'
 
 function inputJsonIGenerate(
-  arrayCheckbox: CheckboxInterface[] = []
+  arrayCheckbox: CheckboxInterface[] = [],
 ): InputJsonI[] {
   return [
     {
-      fieldName: "items",
-      inputType: "arrayCheckbox",
-      placeholder: "checkText",
-      label: "Array de checks",
+      fieldName: 'items',
+      inputType: 'arrayCheckbox',
+      placeholder: 'checkText',
+      label: 'Array de checks',
       arrayCheckbox: arrayCheckbox,
     },
-  ];
+    {
+      fieldName: 'dateBirth',
+      inputType: 'datePicker',
+      placeholder: 'Fecha de nacimiento ',
+      label: 'Fecha de nacimiento',
+    },
+  ]
 }
 
 const formSchema = z.object({
   items: z.array(z.number()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+    message: 'You have to select at least one item.',
   }),
-});
+  dateBirth: z.date(),
+})
 
 /* const data = {
   username: "Carlos123", // Este valor será utilizado si se proporciona
@@ -52,24 +63,26 @@ export const HomePage = () => {
   ]; */
 
   const { data, isLoading } = useAxiosQueryAuth<UserRolesInterface[]>({
-    url: "roles/get-roles-by-user/5",
-    method: "GET",
-  });
-  const [arrayInput, setArrayInput] = useState<InputJsonI[]>(inputJsonIGenerate())
+    url: 'roles/get-roles-by-user/5',
+    method: 'GET',
+  })
+  const [arrayInput, setArrayInput] = useState<InputJsonI[]>(
+    inputJsonIGenerate(),
+  )
   useEffect(() => {
     if (isValidArray(data) && isLoading == false) {
       const mapped = mapAsCheckboxArray(data!)
       console.log(mapped)
       setArrayInput(inputJsonIGenerate(mapped))
     }
-  }, [data, isLoading]);
+  }, [data, isLoading])
 
   return (
     <div>
       <GlobalFormHook
         isLoading={false}
-        titleButton='Enviar'
-        formTitle='Formulario de prueba'
+        titleButton="Enviar"
+        formTitle="Formulario de prueba"
         onSubmit={(data) => console.log(data)}
         schema={formSchema}
         inputJson={arrayInput}
@@ -78,5 +91,5 @@ export const HomePage = () => {
 
       <SampleDatePicker />
     </div>
-  );
-};
+  )
+}

@@ -18,6 +18,8 @@ export interface UserStudent {
   email:           null | string;
   address:         null | string;
   phone:           null | string;
+  dateBirth:       null | string;
+  dni:             null | string;
   createdAt:       string;
 }
 
@@ -42,6 +44,7 @@ export interface UserStudentDetail {
   phone:           string;
   createdAt:       Date;
   profileImageUrl: string;
+  dni:             string;
   address:         null;
   roles:           Role[];
 }

@@ -1,15 +1,6 @@
 import { WithAuthProps, withAuth } from '@/HOC/withAuth'
 import {
-  LayoutDashboard,
-  Users,
-  Book,
-  GraduationCap,
-  FileText,
-  DollarSign,
-  Settings,
-  Bell,
   Menu,
-  LogOut,
 } from 'lucide-react'
 import { useState } from 'react'
 

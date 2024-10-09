@@ -10,6 +10,7 @@ import {
   CheckboxMultiple,
   CheckboxField,
   CalendarField,
+  CalendarDayPicker,
 } from "./";
 import { Button } from "@/components/ui/button";
 import { FormInterface } from "./interfaces/form-interface";
@@ -112,8 +113,20 @@ export const GlobalFormHook = ({
                       />
                     );
                   case "datePicker":
-                    return (
+                   /*  return (
                       <CalendarField
+                        inputType='text'
+                        key={item.fieldName}
+                        isLoading={isLoading}
+                        control={form.control}
+                        placeholder={item.placeholder}
+                        fieldName={item.fieldName}
+                        label={item.label!}
+                      />
+                    );
+                  case "datePicker": */
+                    return (
+                      <CalendarDayPicker
                         inputType='text'
                         key={item.fieldName}
                         isLoading={isLoading}

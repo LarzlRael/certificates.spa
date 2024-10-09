@@ -39,8 +39,8 @@ export const updateUserInformationForm: InputJsonI[] = [
     initialValue: '',
   },
   {
-    inputType: 'text',
-    fieldName: 'dni',
+    inputType: 'datePicker',
+    fieldName: 'dateBirth',
     placeholder: 'Fecha de nacimiento',
     label: 'Fecha de nacimiento',
     initialValue: '',
@@ -88,6 +88,44 @@ export const addOrEditProfessor: InputJsonI[] = [
     fieldName: 'description',
     placeholder: 'Description',
     label: 'Descripcion',
+    initialValue: '',
+  },
+]
+
+export const addNewUser: InputJsonI[] = [
+  {
+    inputType: 'text',
+    fieldName: 'firstName',
+    placeholder: 'Ingrese nombre de usuario',
+    label: 'Nombre de usuario',
+    initialValue: '',
+  },
+  {
+    inputType: 'text',
+    fieldName: 'lastName',
+    placeholder: 'Apellido de usuario',
+    label: 'Apellido de usuario',
+    initialValue: '',
+  },
+  {
+    inputType: 'text',
+    fieldName: 'phone',
+    placeholder: 'Numero de celular',
+    label: 'Celular',
+    initialValue: '',
+  },
+  {
+    inputType: 'text',
+    fieldName: 'dni',
+    placeholder: 'Carnet de identidad',
+    label: 'Carnet de identidad',
+    initialValue: '',
+  },
+  {
+    inputType: 'datePicker',
+    fieldName: 'dateBirth',
+    placeholder: 'Fecha de nacimiento',
+    label: 'Fecha de nacimiento',
     initialValue: '',
   },
 ]

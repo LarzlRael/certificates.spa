@@ -1,10 +1,27 @@
 import { Button } from '@/components/ui/button'
-import { UserStudent, UserStudentDetail } from '@/pages/dashboard/interfaces/students.interface'
-import { ColumnDef, SortDirection } from '@tanstack/react-table'
+import {
+  UserStudent,
+  UserStudentDetail,
+} from '@/pages/dashboard/interfaces/students.interface'
+import { ColumnDef, FilterFn, Row, SortDirection } from '@tanstack/react-table'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
 import { Checkbox } from '@/components/ui/checkbox'
 import { isValidString } from '@/utils/validation/validation'
 import { formatDate } from '@/utils/dates'
+
+const myCustomFilterFn: FilterFn<UserStudentDetail> = (
+  row: Row<UserStudentDetail>,
+  columnId: string,
+  filterValue: any,
+  addMeta: (meta: any) => void,
+) => {
+  filterValue = filterValue.toLowerCase()
+  console.log(filterValue);
+  const filterParts = filterValue.split(' ')
+  const rowValues = `${row.original.email} ${row.original.dni} ${row.original.phone}`.toLowerCase()
+
+  return filterParts.every((part) => rowValues.includes(part))
+}
 
 const SortedIcon = ({ isSorted }: { isSorted: SortDirection | false }) => {
   if (isSorted === 'asc') {
@@ -43,6 +60,7 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     accessorKey: 'id',
     header: 'ID',
   },
+
   {
     accessorKey: 'profileImageUrl',
     header: 'Imagen',
@@ -57,7 +75,13 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     },
   },
   {
+    accessorKey: 'phone',
+    header: 'Teléfono',
+    /* filterFn: myCustomFilterFn, */
+  },
+  {
     accessorKey: 'email',
+    filterFn: myCustomFilterFn,
     header: ({ column }) => {
       return (
         <Button
@@ -100,6 +124,11 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     },
   },
   {
+    /* filterFn: myCustomFilterFn, */
+    accessorKey: 'dni',
+    header: 'C.I.',
+  },
+  {
     accessorKey: 'lastName',
     header: ({ column }) => {
       return (
@@ -115,7 +144,7 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Creado en',
+    header: 'Fecha de registro',
     cell: (row) => {
       const getDate = row.getValue('createdAt')
 
@@ -125,14 +154,6 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
         <label>NN</label>
       )
     },
-  },
-  {
-    accessorKey: 'address',
-    header: 'Dirección',
-  },
-  {
-    accessorKey: 'phone',
-    header: 'Teléfono',
   },
 ]
 

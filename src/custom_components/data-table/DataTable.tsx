@@ -46,6 +46,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [currentFilter, setCurrentFilter] = useState<string>('Todos')
 
   const [rowSelection, setRowSelection] = useState({})
   const isRowSelected = Object.keys(rowSelection).length > 0
@@ -102,6 +103,23 @@ export function DataTable<TData, TValue>({
             Delete
           </Button>
         )}
+
+        <Select
+        value={currentFilter}
+        onValueChange={(value)=>{
+          console.log("tmre")
+        }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue>{currentFilter}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Cambialo we</SelectLabel>
+              <SelectItem value="Todos">todos</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div className="rounded-md border">
         <Table>
