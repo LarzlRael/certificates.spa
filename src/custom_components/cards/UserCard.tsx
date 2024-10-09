@@ -72,7 +72,7 @@ function InfoItem({
   ) : null
 }
 
-export const UserProfile = () => {
+/* export const UserProfile = () => {
   const user: UserAuth = {
     id: 1,
     username: 'johndoe',
@@ -159,3 +159,4 @@ export const UserProfile = () => {
     </Card>
   )
 }
+ */

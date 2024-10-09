@@ -116,9 +116,16 @@ export const UserDialogProfile = ({
       <CardFooter className="">
         <Button
           onClick={() =>
-            changeExtraInformation(
-              <EditUserProfile userInfo={studentDetail} onReload={onReload} />,
-            )
+            changeExtraInformation({
+              isOpen: true,
+              title: 'Editar Perfil',
+              content: (
+                <EditUserProfile
+                  studentDetail={studentDetail}
+                  onReload={onReload}
+                />
+              ),
+            })
           }
         >
           Editar Perfil

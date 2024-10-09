@@ -22,12 +22,10 @@ export const QuickActionSkeleton = () => {
               <Skeleton className="w-15 h-5" />
             </CardTitle>
           </CardHeader>
-          {/* <h2 className="text-2xl font-semibold mb-4">
-            Búsqueda Rápida de Estudiantes
-          </h2> */}
+
           <div className="flex space-x-4">
-          <Skeleton className="w-15 h-5" />
-          <Skeleton className="w-15 h-5" />
+            <Skeleton className="w-15 h-5" />
+            <Skeleton className="w-15 h-5" />
           </div>
         </section>
       </CardContent>

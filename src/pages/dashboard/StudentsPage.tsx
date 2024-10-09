@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 import { DataTable } from '@/custom_components/data-table/DataTable'
-import {
-  Student,
-  UserStudent,
-  UserStudentDetail,
-} from './interfaces/students.interface'
+import { UserStudentDetail } from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
 import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -21,12 +17,6 @@ export const StudentsPage = () => {
     method: 'GET',
   })
   const { changeExtraInformation } = useInformationStore()
-  /* const { changeDialogInformation } = useThemeStore() */
-  /*
-  const { changeDialogInformation } = useThemeStore() */
-  /* const { setProfileDialog } = useThemeStore() */
-
-  console.log('selectedStudent')
 
   return (
     <div>
@@ -43,26 +33,17 @@ export const StudentsPage = () => {
               data={data?.map((student) => student) || []}
               handleInfo={(rowData) => {
                 console.log(rowData)
+                console.log('first')
 
-                changeExtraInformation(
-                  <UserDialogProfile
-                    studentDetail={rowData}
-                    onReload={reload}
-                  />,
-                )
-                /* setProfileDialog(true) */
-                /* changeDialogInformation({
-                  subtitle: 'Información del estudiante',
-                  title: 'Perfil',
+                changeExtraInformation({
+                  isOpen: true,
                   content: (
-                    <>
-                      <h2>Información del estudiante</h2>
-                      <label>
-                        Nombre: {rowData?.firstName} {rowData?.lastName}
-                      </label>
-                    </>
+                    <UserDialogProfile
+                      studentDetail={rowData}
+                      onReload={reload}
+                    />
                   ),
-                }) */
+                })
               }}
             />
           </CardContent>

@@ -46,6 +46,7 @@ interface BecomeProfessorProps {
 export const BecomeProfessor = () => {
   const { changeDialogInformation } = useInformationStore()
   const { changeExtraInformation } = useInformationStore()
+  const { clearExtraInformation } = useInformationStore()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -90,7 +91,7 @@ export const BecomeProfessor = () => {
         subtitle: '',
         content: null,
       })
-      changeExtraInformation(null)
+      clearExtraInformation()
       toast.success('Se ha actualizado la información correctamente')
     } else {
       toast.error('Ha ocurrido un error al actualizar la información')

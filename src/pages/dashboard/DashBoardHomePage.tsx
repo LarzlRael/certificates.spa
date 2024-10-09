@@ -88,10 +88,10 @@ const datosInscripciones = [
   { mes: 'Jul', inscripciones: 40 },
 ]
 
-
 export const DashBoardHomePage = () => {
   const navigate = useNavigate()
   const { changeExtraInformation } = useInformationStore()
+  const { clearExtraInformation } = useInformationStore()
   const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
     UserStudentDetail[]
   >({
@@ -118,35 +118,36 @@ export const DashBoardHomePage = () => {
   const handOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value
     if (e.target.value === '') {
-      changeExtraInformation(<></>)
+      clearExtraInformation()
       return
     }
     const filteredData = data.filter((user) => {
-      return (
-        user.username.includes(search) ||
-        user.email.includes(search)
-      )
+      return user.username.includes(search) || user.email.includes(search)
     })
-    changeExtraInformation(
-      <div className="">
-        {isValidArray(filteredData) ? (
-          filteredData.map((user) => (
-            <div key={user.id}>
-              <UserCardMini
-                onClick={() => {
-                  navigate(
-                    `/panel-administrativo/perfil-estudiante/${user.idStudent}`,
-                  )
-                }}
-                student={user}
-              />
-            </div>
-          ))
-        ) : (
-          <div>No se encontraron resultados</div>
-        )}
-      </div>,
-    )
+    changeExtraInformation({
+      isOpen: true,
+      title: 'Resultados de la búsqueda',
+      content: (
+        <div className="">
+          {isValidArray(filteredData) ? (
+            filteredData.map((user) => (
+              <div key={user.id}>
+                <UserCardMini
+                  onClick={() => {
+                    navigate(
+                      `/panel-administrativo/perfil-estudiante/${user.idStudent}`,
+                    )
+                  }}
+                  student={user}
+                />
+              </div>
+            ))
+          ) : (
+            <div>No se encontraron resultados</div>
+          )}
+        </div>
+      ),
+    })
   }
   return (
     <div>
@@ -266,9 +267,7 @@ export const DashBoardHomePage = () => {
                 <CardHeader>
                   <CardTitle>Búsqueda Rápida de Estudiantes</CardTitle>
                 </CardHeader>
-                {/* <h2 className="text-2xl font-semibold mb-4">
-              Búsqueda Rápida de Estudiantes
-            </h2> */}
+
                 <div className="flex space-x-4">
                   <Input
                     placeholder="Buscar por nombre o ID..."

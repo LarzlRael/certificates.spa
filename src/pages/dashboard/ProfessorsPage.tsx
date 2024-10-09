@@ -31,7 +31,10 @@ const ProfessorsPageWithHandleInformation = (
           <ProfessorsListCard professorList={data!} onEdit={() => {}} />
           <Button
             onClick={() => {
-              changeExtraInformation(<BecomeProfessor />)
+              changeExtraInformation({
+                isOpen: true,
+                content: <BecomeProfessor />,
+              })
             }}
           >
             Agregar profesor

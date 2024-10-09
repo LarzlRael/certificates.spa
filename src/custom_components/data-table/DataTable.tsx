@@ -68,11 +68,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
-  useEffect(() => {
+  /* useEffect(() => {
     if (handleInfo) {
       handleInfo(selectedRowData) // Llamar a la función pasada como prop
     }
-  }, [selectedRowData])
+  }, [selectedRowData]) */
   const handleRowClick = (rowData: TData) => {
     setSelectedRowData(rowData)
   }
@@ -129,7 +129,9 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  onClick={() => handleRowClick(row.original)}
+                  onClick={() => {
+                    if (handleInfo) handleInfo(row.original)
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
