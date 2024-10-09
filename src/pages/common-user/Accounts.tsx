@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -6,29 +6,36 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { EditUserProfile } from "@/custom_components/cards/EditUserProfile";
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { EditUserProfile } from '@/custom_components/cards/EditUserProfile'
 
 import {
   ContentRawInformation,
   InfoLabelPresentationCard,
-} from "@/custom_components/cards/RawInfomation";
-import { UserEditUserProfile } from "@/custom_components/cards/UserEditUserProfile";
-import { CustomTabs } from "@/custom_components/tabs/CustomTab";
-import { UserAuth } from "@/interfaces/auth.interface";
-import { useAuthStore } from "@/store/authStore";
+} from '@/custom_components/cards/RawInfomation'
+import { UserEditUserProfile } from '@/custom_components/cards/UserEditUserProfile'
+import { CustomTabs } from '@/custom_components/tabs/CustomTab'
+import { UserAuth } from '@/interfaces/auth.interface'
+import { useAuthStore } from '@/store/authStore'
 
-import { SheetInformation, useInformationStore } from "@/store/useInformationStore";
+import {
+  SheetInformation,
+  useInformationStore,
+} from '@/store/useInformationStore'
+import { CoursesByUser } from './MyCourses'
+import { useCourseEnrollment } from '@/store/useCourseEnrollment'
 
 export const AccountPage = () => {
-  const { user } = useAuthStore();
-  const { refreshToken } = useAuthStore();
-  const { changeSheetInformation } = useInformationStore();
+  const { user } = useAuthStore()
+  const { refreshToken } = useAuthStore()
+  const { changeSheetInformation } = useInformationStore()
+  const { courseByUser } = useCourseEnrollment()
+
   const tabsData = [
     {
-      label: "Account",
+      label: 'Account',
       component: (
         <ProfileInformation
           user={user!}
@@ -37,17 +44,17 @@ export const AccountPage = () => {
         />
       ),
     },
-    { label: "Password", component: <UserCourses /> },
-  ];
+    { label: 'Password', component: <CoursesByUser courses={courseByUser} /> },
+  ]
   return (
     <div>
-      <CustomTabs tabs={tabsData} defaultTab={tabsData[0].label} />
+      <CustomTabs tabs={tabsData} defaultIndex={0} />
     </div>
-  );
-};
+  )
+}
 interface ProfileInformationProps {
-  user: UserAuth;
-  onReload?: () => void;
+  user: UserAuth
+  onReload?: () => void
   handleInformation: (sheetInformation: SheetInformation) => void
 }
 export const ProfileInformation = ({
@@ -55,7 +62,6 @@ export const ProfileInformation = ({
   onReload,
   handleInformation,
 }: ProfileInformationProps) => {
-  
   return (
     <Card>
       <CardHeader>
@@ -64,62 +70,40 @@ export const ProfileInformation = ({
           Make changes to your account here. Click save when you're done.
         </CardDescription>
       </CardHeader>
-      <CardContent className='space-y-2'>
+      <CardContent className="space-y-2">
         <InfoLabelPresentationCard
-          title='Nombre'
+          title="Nombre"
           value={`${user.firstName} ${user.lastName}`}
         />
-        <InfoLabelPresentationCard title='Telefono' value={user.phone} />
+        <InfoLabelPresentationCard title="Telefono" value={user.phone} />
         <InfoLabelPresentationCard
-          title='Fecha de nacimiento'
+          title="Fecha de nacimiento"
           value={user.dateBirth}
         />
         <InfoLabelPresentationCard
-          title='Carnet de identidad'
+          title="Carnet de identidad"
           value={user.dni}
         />
-        <InfoLabelPresentationCard title='Direccion' value={user.location} />
+        <InfoLabelPresentationCard title="Dirección" value={user.address} />
+        <InfoLabelPresentationCard title="Direccion" value={user.location} />
       </CardContent>
       <CardFooter>
         <Button
-          onClick={() => handleInformation({
-            isOpen: true,
-            title: "Editar perfil",
-            /* subtitle: "Make changes to your account here. Click save when you're done.", */
-            side: "right",
-            content: (
-              <UserEditUserProfile userInfo={user} onReload={onReload}/>
-            )
-          })}
+          onClick={() =>
+            handleInformation({
+              isOpen: true,
+              title: 'Editar perfil',
+              /* subtitle: "Make changes to your account here. Click save when you're done.", */
+              side: 'right',
+              content: (
+                <UserEditUserProfile userInfo={user} onReload={onReload} />
+              ),
+            })
+          }
         >
-          Editar perfi
+          Editar perfil
         </Button>
       </CardFooter>
     </Card>
-  );
-};
-export const UserCourses = () => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Password</CardTitle>
-        <CardDescription>
-          Change your password here. After saving, you'll be logged out.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className='space-y-2'>
-        <div className='space-y-1'>
-          <Label htmlFor='current'>Current password</Label>
-          <Input id='current' type='password' />
-        </div>
-        <div className='space-y-1'>
-          <Label htmlFor='new'>New password</Label>
-          <Input id='new' type='password' />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button>Save password</Button>
-      </CardFooter>
-    </Card>
-  );
-};
+  )
+}

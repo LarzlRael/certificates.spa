@@ -3,8 +3,8 @@ import {
   EnrollmentsByCourse,
   extractOnlyStudents,
 } from './interfaces/enrollment-by-course-interface'
-import useAxiosAuth from '@/hooks/useAxiosAuth'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+import useAxiosAuth from '@/hooks/useAxiosAuth'
 import { useNavigate } from 'react-router-dom'
 import { DataTable } from '@/custom_components/data-table/DataTable'
 import { columns } from '@/custom_components/data-table/Columns'

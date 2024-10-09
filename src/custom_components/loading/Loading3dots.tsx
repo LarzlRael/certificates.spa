@@ -49,10 +49,19 @@ const CircularLoader = styled.div`
     ${l20_2} 1.6s infinite linear;
 `
 
-export const Loading3dots = () => {
+interface Loading3dotsProps {
+  size?: string
+  color?: string
+  height?: string
+}
+export const Loading3dots = (props: Loading3dotsProps) => {
   return (
-    <div className="flex items-center justify-center h-32 bg-gray-100">
-      <DotLoader size="100px" />
+    <div
+      className={`flex items-center justify-center h-${
+        props.height ?? 25
+      } bg-gray-100`}
+    >
+      <DotLoader {...props} />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { convertToSlug } from '@/utils/text-utils'
@@ -7,10 +7,13 @@ import { CourseEnrollInterface } from './dashboard/interfaces/course-enroll.inte
 import { CourseCardPresentation } from '@/custom_components/cards/CourseCardPresentation'
 import { LoadingWithLogo } from '@/custom_components/loading/LoadingWithLogo'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useCourseEnrollment } from '@/store/useCourseEnrollment'
 
- export const CourseEnrollmentPage = () => {
+export const CourseEnrollmentPage = () => {
   const params = useParams<{ idCourse: string; courseName?: string }>()
   const navigate = useNavigate()
+  const { courseByUser, isLoading: isLoadingCourses } = useCourseEnrollment()
+  const [isUserEnrolled, setIsUserEnrolled] = useState(false)
 
   const { data, isLoading } = useAxiosQueryAuth<CourseEnrollInterface>({
     url: `/course/course-detail/${params.idCourse}`,
@@ -19,6 +22,14 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
   // Usamos useEffect para redirigir una vez que obtengamos el nombre del curso
   useEffect(() => {
+    if (!isLoading && courseByUser.length > 0) {
+      setIsUserEnrolled(
+        courseByUser.some((course) => course.id === Number(params.idCourse)),
+      )
+    }
+  }, [isLoading, courseByUser, params.idCourse])
+
+  useEffect(() => {
     if (data && data.courseName && !params.courseName) {
       // Redirige a la nueva URL que contiene el courseName y el idCourse
       const newUrl = `/inscripcion/${convertToSlug(data.courseName)}/${
@@ -26,8 +37,8 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
       }`
       navigate(newUrl, { replace: true }) // Reemplaza para no guardar la URL anterior en el historial
     }
-  }, [data, params, navigate])
-  
+  }, [data, params])
+
   useDocumentTitle(data?.courseName || '')
 
   return (
@@ -36,10 +47,13 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
         <LoadingWithLogo />
       ) : (
         <div>
-          <CourseCardPresentation courseInfo={data!} />
+          <CourseCardPresentation
+            courseInfo={data!}
+            isUserEnrolled={isUserEnrolled}
+            isLoading={isLoadingCourses}
+          />
         </div>
       )}
     </div>
   )
 }
-

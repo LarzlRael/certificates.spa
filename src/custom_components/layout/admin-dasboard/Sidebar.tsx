@@ -21,6 +21,7 @@ interface MenuItems {
   label: string
   path: string
 }
+const rootPath = "/panel-administrativo";
 const menuItems: MenuItems[] = [
   { icon: LayoutDashboard, label: 'Inicio', path: '/inicio' },
   { icon: Users, label: 'Estudiantes', path: '/estudiantes' },
@@ -56,8 +57,8 @@ export const Sidebar = () => {
         <div>
           {menuItems.map((item, index) => (
             <Link
-              key={index}
-              to={`${item.path}`}
+              key={index+"-"+item.path}
+              to={`${rootPath}${item.path}`}
               className="w-full flex items-center justify-start px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               /* onClick={() => setSelectedLabel(item.label)} */
             >

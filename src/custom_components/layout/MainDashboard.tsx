@@ -20,7 +20,7 @@ import { DialogInformation } from "./information-components/DialogInformation";
 import { AlertDialogInformation } from "./information-components/AlertDialogInformation";
 import { useInformationStore } from "@/store/useInformationStore";
 import { useDashboardStore } from "@/store/useDashBoardStore";
-import { SideBar } from "./admin-dasboard/SideBar";
+import { Sidebar } from "./admin-dasboard/Sidebar";
 import { SheetInformation } from "./information-components/SheetInformation";
 
 interface MenuItems {
@@ -52,7 +52,7 @@ const MainAdminDashboard = ({ logout }: WithAuthProps) => {
   return (
     <div className='flex h-screen bg-gray-100'>
       {/* Sidebar izquierdo */}
-      <SideBar />
+      <Sidebar />
 
       {/* Contenido principal */}
       <main

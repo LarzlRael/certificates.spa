@@ -42,11 +42,11 @@ export const SheetInformation = () => {
           )}
         </SheetHeader>
         {content}
-        <SheetFooter>
+        {/* <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
           </SheetClose>
-        </SheetFooter>
+        </SheetFooter> */}
       </SheetContent>
     </Sheet>
   );
