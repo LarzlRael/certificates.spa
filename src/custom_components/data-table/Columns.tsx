@@ -16,11 +16,11 @@ const myCustomFilterFn: FilterFn<UserStudentDetail> = (
   addMeta: (meta: any) => void,
 ) => {
   filterValue = filterValue.toLowerCase()
-  console.log(filterValue);
+  console.log(filterValue)
   const filterParts = filterValue.split(' ')
-  const rowValues = `${row.original.email} ${row.original.dni} ${row.original.phone}`.toLowerCase()
+  const rowValues = `${row.original.email} ${row.original.dni} ${row.original.phone} ${row.original.firstName} ${row.original.lastName}`.toLowerCase()
 
-  return filterParts.every((part) => rowValues.includes(part))
+  return filterParts.every((part: string) => rowValues.includes(part))
 }
 
 const SortedIcon = ({ isSorted }: { isSorted: SortDirection | false }) => {

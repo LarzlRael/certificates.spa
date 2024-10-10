@@ -29,6 +29,7 @@ interface UserProfileProps {
 }
 export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
   console.log(userInfo)
+  
   const handleUpdateProfile = async (values) => {
     const res = await putAction('users/update-profile-information-from-admin', {
       idUser: userInfo?.id,

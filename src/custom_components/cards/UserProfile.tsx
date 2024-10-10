@@ -121,7 +121,7 @@ export const UserDialogProfile = ({
               title: 'Editar Perfil',
               content: (
                 <EditUserProfile
-                  studentDetail={studentDetail}
+                  userInfo={studentDetail}
                   onReload={onReload}
                 />
               ),

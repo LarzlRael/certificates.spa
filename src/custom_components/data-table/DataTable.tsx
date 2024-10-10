@@ -46,7 +46,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [currentFilter, setCurrentFilter] = useState<string>('Todos')
+  /* const [currentFilter, setCurrentFilter] = useState<string>('Todos') */
 
   const [rowSelection, setRowSelection] = useState({})
   const isRowSelected = Object.keys(rowSelection).length > 0
@@ -82,10 +82,10 @@ export function DataTable<TData, TValue>({
     <div className="bg-white rounded-lg">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Buscar por email"
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder="Buscar por C.I., telefono, nombre, apellido"
+          value={(table.getColumn('dni')?.getFilterValue() as string) ?? ''}
           onChange={(event) => {
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn('dni')?.setFilterValue(event.target.value)
           }}
           className="max-w-sm"
         />
@@ -104,7 +104,7 @@ export function DataTable<TData, TValue>({
           </Button>
         )}
 
-        <Select
+       {/*  <Select
         value={currentFilter}
         onValueChange={(value)=>{
           console.log("tmre")
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
               <SelectItem value="Todos">todos</SelectItem>
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
       <div className="rounded-md border">
         <Table>
