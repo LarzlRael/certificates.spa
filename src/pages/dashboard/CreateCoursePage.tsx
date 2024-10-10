@@ -26,7 +26,7 @@ import { useParams } from 'react-router-dom'
 import { CourseEnrollInterface } from './interfaces/course-enroll.interface'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
-import { postAction, putAction } from '@/provider/action/ActionAuthorization'
+import { postAction, putAuthAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
 import { PreviewCourseCardPresentation } from '@/custom_components/cards/PreviewCourseCardPresentation'
 import {
@@ -87,7 +87,7 @@ const CreateCoursePageHoc = (
     /* reloadCourse() */
 
     if (values.imageCourse != undefined) {
-      const sendImageData = await putAction(
+      const sendImageData = await putAuthAction(
         `/course/update-course-image-info/${sendData.data.id}`,
         sendFileFormData('imageCourse', values.imageCourse),
       )

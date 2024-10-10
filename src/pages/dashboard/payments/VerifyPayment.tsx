@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { useInformationStore } from "@/store/useInformationStore";
 import { convertDate } from "@/utils/dates";
-import { putAction } from "@/provider/action/ActionAuthorization";
+import { putAuthAction } from "@/provider/action/ActionAuthorization";
 import { isValidStatus, isValidString } from "@/utils/validation/validation";
 import { toast } from "sonner";
 import { ContentRawInformation } from "@/custom_components/cards/RawInfomation";
@@ -84,7 +84,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
       /* TODO improve this view */
       content: <div>Cargando...</div>,
     });
-    const res = await putAction("/payment/verify-payment", {
+    const res = await putAuthAction("/payment/verify-payment", {
       ...values,
       amount: parseInt(values.amount),
     });

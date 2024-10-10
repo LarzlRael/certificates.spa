@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { CameraIcon } from "lucide-react";
 import { Button } from "@/components/ui/button"; // Asegúrate de que este componente esté bien implementado
 import { Card } from "@/components/ui/card";
-import { putAction } from "@/provider/action/ActionAuthorization";
+import { putAuthAction } from "@/provider/action/ActionAuthorization";
 import { sendFileFormData } from "@/pages/dashboard/utils/processDataCourse";
 import { isValidStatus } from "@/utils/validation/validation";
 import { toast } from "sonner";
@@ -28,7 +28,7 @@ export const AvatarEditable = ({
 
   const handleUploadToServer = async () => {
     setIsLoading(true);
-    const uploadFile = await putAction(
+    const uploadFile = await putAuthAction(
       "users/update-profile-image",
       sendFileFormData("profileImage", fileInputRef.current?.files?.[0])
     );

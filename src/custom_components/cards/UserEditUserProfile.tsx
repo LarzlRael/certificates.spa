@@ -3,7 +3,7 @@ import { isValidStatus } from "@/utils/validation/validation";
 import { updateUserInformationForm } from "../data/form-pattens";
 import { GlobalFormHook } from "../forms/react-form-hooks";
 
-import { putAction } from "@/provider/action/ActionAuthorization";
+import { putAuthAction } from "@/provider/action/ActionAuthorization";
 import { toast } from "sonner";
 import { ContentRawInformation } from "./RawInfomation";
 import { Mail } from "lucide-react";
@@ -33,7 +33,7 @@ export const UserEditUserProfile = ({
 }: UserProfileProps) => {
   console.log(userInfo);
   const handleUpdateProfile = async (values) => {
-    const res = await putAction("users/update-profile-information-from-admin", {
+    const res = await putAuthAction("users/update-profile-information-from-admin", {
       idUser: userInfo?.id,
       ...values,
     });

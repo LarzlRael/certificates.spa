@@ -38,7 +38,7 @@ export const postEmptyAction = (url: string, body: any) => {
       })
   })
 }
-export const putAction = async (
+export const putAuthAction = async (
   url: string,
   body: any,
 ): Promise<{ status: number; data?: any }> => {

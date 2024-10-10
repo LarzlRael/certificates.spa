@@ -27,7 +27,7 @@ import { useParams } from 'react-router-dom'
 import { CourseEnrollInterface } from './interfaces/course-enroll.interface'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { FormLabel } from '@/components/ui/form'
-import { putAction } from '@/provider/action/ActionAuthorization'
+import { putAuthAction } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
 import { PreviewCourseCardPresentation } from '@/custom_components/cards/PreviewCourseCardPresentation'
 import {
@@ -79,12 +79,12 @@ import { Loading3dots } from '@/custom_components/loading/Loading3dots'
   async function handleSubmit(values) {
     /* console.log(values) */
     const data = processAddCourseData(values)
-    const sendData = await putAction(
+    const sendData = await putAuthAction(
       `/course/update-course-info/${values.id}`,
       data,
     )
     if (values.imageCourse != undefined) {
-      const sendData = await putAction(
+      const sendData = await putAuthAction(
         `/course/update-course-image-info/${values.id}`,
         sendFileFormData('imageCourse', values.imageCourse),
       )
