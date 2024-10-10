@@ -16,7 +16,7 @@ import {
   professorRole,
 } from '@/custom_components/data/form-constants'
 import {
-  postAction,
+  postAuthAction,
   getAuthAction,
 } from '@/provider/action/ActionAuthorization'
 import { isValidStatus } from '@/utils/validation/validation'
@@ -52,7 +52,7 @@ export const CourseEnrollmentFormPage = ({
 
   const handleSubmit = async (data: z.infer<typeof formEnrollmentSchema>) => {
     try {
-      const enrollForm = await postAction<FormEnrollmentInterface>(
+      const enrollForm = await postAuthAction<FormEnrollmentInterface>(
         'form/create-new-form',
         {
           ...data,

@@ -1,6 +1,6 @@
 import HttpClient from '../HttpClient'
 
-export const postAction = async <T>(
+export const postAuthAction = async <T>(
   url: string,
   body: any,
 ): Promise<{ status: number; data?: T }> => {

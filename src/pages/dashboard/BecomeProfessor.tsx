@@ -16,7 +16,7 @@ import { isValidStatus, isValidString } from '@/utils/validation/validation'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
-import { postAction, putAuthAction } from '@/provider/action/ActionAuthorization'
+import { postAuthAction, putAuthAction } from '@/provider/action/ActionAuthorization'
 import { useInformationStore } from '@/store/useInformationStore'
 import { addOrEditProfessor } from '@/custom_components/data/form-pattens'
 
@@ -70,7 +70,7 @@ export const BecomeProfessor = () => {
   }
   const onCreateInformation = async (values): boolean => {
     setIsLoading(true)
-    const res = await postAction('/professor', {
+    const res = await postAuthAction('/professor', {
       ...values,
     })
     setIsLoading(false)

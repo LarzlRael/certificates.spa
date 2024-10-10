@@ -1,6 +1,6 @@
 import { addNewUser } from '@/custom_components/data/form-pattens'
 import { GlobalFormHook } from '@/custom_components/forms/react-form-hooks/GlobalFormHook'
-import { postAction } from '@/provider/action/ActionAuthorization'
+import { postAuthAction } from '@/provider/action/ActionAuthorization'
 import { useInformationStore } from '@/store/useInformationStore'
 import { isValidStatus } from '@/utils/validation/validation'
 import { useState } from 'react'
@@ -51,10 +51,13 @@ interface AddNewUserProps {
 }
 export const AddNewUser = ({ onReload }: AddNewUserProps) => {
   const { clearDialogInformation } = useInformationStore()
+  const [isLoading, setIsLoading] = useState(false)
+
+
   const handleSubmit = async (values: any) => {
     setIsLoading(true)
     try {
-      const res = await postAction('/auth/register-user-by-admin', values)
+      const res = await postAuthAction('/auth/register-user-by-admin', values)
 
       setIsLoading(false)
       if (!isValidStatus(res.status)) {
@@ -69,7 +72,7 @@ export const AddNewUser = ({ onReload }: AddNewUserProps) => {
       setIsLoading(false)
     }
   }
-  const [isLoading, setIsLoading] = useState(false)
+  
   return (
     <GlobalFormHook
       inputJson={addNewUser}

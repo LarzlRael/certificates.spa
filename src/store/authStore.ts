@@ -2,7 +2,7 @@ import { googleLogout } from '@react-oauth/google';
 import { UserAuth } from '@/interfaces/auth.interface'
 import {
   getAuthAction,
-  postAction,
+  postAuthAction,
 } from '@/provider/action/ActionAuthorization'
 import { validateStatus } from '@/utils/utils'
 import { create } from 'zustand'
@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   authStatus: AuthStatus.CHECKING,
   login: async (username, password) => {
     console.log('login')
-    const getUserLogging = await postAction<UserAuth>('auth/signin', {
+    const getUserLogging = await postAuthAction<UserAuth>('auth/signin', {
       username,
       password,
     })
