@@ -14,8 +14,8 @@ import {
   DollarSign,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { Student } from './interfaces/enrollment-by-course-interface'
 import { DashBoardInitialInterface } from './interfaces/course.interface'
+import { Student } from './interfaces/enrollment-by-course-interface'
 import { Skeleton } from '@/components/ui/skeleton'
 import { InfoCardsSkeleton } from '@/custom_components/cards/Dashboards'
 import { LatestUpdatesInterface } from './interfaces/dashboard.interfaces'
@@ -27,10 +27,7 @@ import { QuickActionSkeleton } from '@/custom_components/loading/QuickActionSkel
 import PieChart from '@/custom_components/charts/PieChart'
 import BarChart from '@/custom_components/charts/Bar'
 import { UserStudentDetail } from './interfaces/students.interface'
-import { GlobalFormHook } from '@/custom_components/forms/react-form-hooks'
-import { typeInput } from '../../custom_components/forms/react-form-hooks/interfaces/form-interface'
-import { addNewUser } from '@/custom_components/data/form-pattens'
-import { z } from 'zod'
+import { AddNewUser } from './components/AddNewUser'
 
 const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
   return [
@@ -96,6 +93,7 @@ export const DashBoardHomePage = () => {
   const navigate = useNavigate()
   const { changeExtraInformation } = useInformationStore()
   const { clearExtraInformation } = useInformationStore()
+  const { changeDialogInformation } = useInformationStore()
   const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
     UserStudentDetail[]
   >({
@@ -244,57 +242,16 @@ export const DashBoardHomePage = () => {
             <CardTitle>Acciones Rápidas</CardTitle>
           </CardHeader>
           <CardContent>
-            <GlobalFormHook
-              inputJson={addNewUser}
-              isLoading={false}
-              titleButton='Añadir usuario'
-              onSubmit={(data) => {
-                console.log(data)
-              }}
-              formTitle="Crear Estudiante"
-              schema={z.object({
-                dni: z
-                  .string()
-                  .min(6, {
-                    message: 'El DNI debe tener al menos 8 caracteres.',
-                  })
-                  .max(12, {
-                    message: 'El DNI no puede exceder los 12 caracteres.',
-                  })
-                  .regex(/^[0-9]+$/, {
-                    message: 'El DNI solo puede contener números.',
-                  }),
-
-                  dateBirth: z
-                  .date(),
-
-                phone: z
-                  .string()
-                  .min(8, {
-                    message: 'El teléfono debe tener al menos 8 dígitos.',
-                  })
-                  .regex(/^[0-9]+$/, {
-                    message: 'El teléfono solo puede contener números.',
-                  }),
-
-                firstName: z
-                  .string()
-                  .min(1, { message: 'El nombre no puede estar vacío.' })
-                  .max(50, {
-                    message: 'El nombre no puede exceder los 50 caracteres.',
-                  }),
-
-                lastName: z
-                  .string()
-                  .min(1, { message: 'El apellido no puede estar vacío.' })
-                  .max(50, {
-                    message: 'El apellido no puede exceder los 50 caracteres.',
-                  }),
-              })}
-            />
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button className="w-full">
+              <Button
+                className="w-full"
+                onClick={() => {
+                  changeDialogInformation({
+                    isOpen: true,
+                    content: <AddNewUser />,
+                  })
+                }}
+              >
                 <User className="mr-2 h-4 w-4" /> Añadir Estudiante
               </Button>
               <Button

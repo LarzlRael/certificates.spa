@@ -50,7 +50,7 @@ export const FormCustomInput = ({
                 }
                 onChange={(e) => {
                   const value = e.target.value
-                  onChangeField(inputType === 'number' ? +value : value)
+                  onChangeField(inputType === 'number' ? parseInt(value) : value)
                 }}
                 placeholder={placeholder}
                 {...rest}

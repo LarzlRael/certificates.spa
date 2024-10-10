@@ -14,6 +14,7 @@ export interface FormInterface {
 export type typeInput =
   | 'text'
   | 'number'
+  | 'text-number'
   | 'email'
   | 'area'
   | 'select'

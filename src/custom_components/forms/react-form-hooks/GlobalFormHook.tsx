@@ -74,6 +74,7 @@ export const GlobalFormHook = ({
                   case "password":
                   case "email":
                   case "number":
+                  case "text-number":
                   case "tel":
                   case "url":
                     return (
