@@ -13,7 +13,7 @@ import {
   CalendarDayPicker,
 } from "./";
 import { Button } from "@/components/ui/button";
-import { FormInterface } from "./interfaces/form-interface";
+import { FormInterface, InputJsonI } from "./interfaces/form-interface";
 import {
   Card,
   CardContent,
@@ -22,6 +22,21 @@ import {
 } from "@/components/ui/card";
 import { isValidString } from "@/utils/validation/validation";
 
+const generateZodSchemaFromJson = (inputJson: InputJsonI[]) => {
+  const schemaShape: { [key: string]: z.ZodTypeAny } = {}; // Definimos que las claves serán strings y los valores serán Zod schemas.
+
+  inputJson.forEach((item) => {
+    // Si el campo `validate` está presente, lo usamos; si no, lo hacemos opcional
+    if (item.validation) {
+      schemaShape[item.fieldName] = item.validation;
+    } else {
+      schemaShape[item.fieldName] = z.string().optional(); // Si no hay validación, opcional
+    }
+  });
+
+  return z.object(schemaShape);
+};
+
 export const GlobalFormHook = ({
   inputJson,
   onSubmit,
@@ -29,10 +44,12 @@ export const GlobalFormHook = ({
   formTitle,
   isLoading,
   titleButton,
-  schema,
+  /* schema, */
   ExtraComponent,
   extraComponentPosition = "top",
 }: FormInterface) => {
+  const schema = generateZodSchemaFromJson(inputJson);
+
   const defaultValues = inputJson.reduce((acc, item) => {
     // Si existe data y contiene el campo, usamos el valor de data; si no, usamos initialValue
     acc[item.fieldName] = data?.[item.fieldName] || item.initialValue || "";
@@ -51,13 +68,13 @@ export const GlobalFormHook = ({
       <Card>
         {/* <h2 margin="1rem 0" color="var(--color-text)" fontWeight="600"> */}
         {/* add tailwind classes */}
-        {
-          isValidString(formTitle) && <CardHeader>
-          <h2 className='text-2xl font-bold text-center mt-4 text-gray-700'>
-            {formTitle}
-          </h2>
-        </CardHeader>
-        }
+        {isValidString(formTitle) && (
+          <CardHeader>
+            <h2 className='text-2xl font-bold text-center mt-4 text-gray-700'>
+              {formTitle}
+            </h2>
+          </CardHeader>
+        )}
 
         <FormProvider {...form}>
           <form
@@ -114,7 +131,7 @@ export const GlobalFormHook = ({
                       />
                     );
                   case "datePicker":
-                   /*  return (
+                    /*  return (
                       <CalendarField
                         inputType='text'
                         key={item.fieldName}

@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { isValidStatus } from "@/utils/validation/validation";
 import { updateUserInformationForm } from "../data/form-pattens";
 import { GlobalFormHook } from "../forms/react-form-hooks";
@@ -11,19 +10,6 @@ import { Mail } from "lucide-react";
 import { AvatarEditable } from "../images/AvatarEditable";
 import { useState } from "react";
 
-export const updateUserProfileSchema = z.object({
-  firstName: z.string().min(3).max(50).optional(),
-  lastName: z.string().min(3).max(50).optional(),
-  address: z.string().max(100).optional(),
-  phone: z.string().max(8).optional(),
-  shippingAddress: z.string().max(100).optional(),
-  /* addressCoordinates: z
-    .object({
-      latitude: z.string(),
-      longitude: z.string(),
-    })
-    .optional(), // Hacemos que este campo sea opcional */
-});
 interface UserProfileProps {
   userInfo: UserStudentDetail | undefined;
   onReload?: () => void;
@@ -34,10 +20,13 @@ export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
   const handleUpdateProfile = async (values) => {
     try {
       setIsLoading(true);
-      const res = await putAuthAction('users/update-profile-information-from-admin', {
-        idUser: userInfo?.id,
-        ...values,
-      })
+      const res = await putAuthAction(
+        "users/update-profile-information-from-admin",
+        {
+          idUser: userInfo?.id,
+          ...values,
+        }
+      );
       setIsLoading(false);
       if (!isValidStatus(res.status)) {
         toast.error("Error al actualizar el perfil");
@@ -71,7 +60,6 @@ export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
       formTitle='Editar información de Perfil'
       isLoading={isLoading}
       data={userInfo}
-      schema={updateUserProfileSchema}
       titleButton='Editar información'
     />
   );

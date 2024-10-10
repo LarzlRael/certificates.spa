@@ -9,7 +9,7 @@ export interface FormInterface {
   ExtraComponent?: undefined | React.ReactNode
   titleButton?: string
   extraComponentPosition?: 'top' | 'bottom'
-  schema: z.ZodType<any>
+  /* schema: z.ZodType<any> */
 }
 export type typeInput =
   | 'text'
@@ -50,7 +50,7 @@ export interface InputJsonI {
   placeholder?: string
   label?: string
   initialValue?: string | boolean | any[]
-  validate?: any
+  validation?: z.ZodTypeAny; 
   options?: OptionsI[]
   arrayCheckbox?: CheckboxInterface[]
   reference?: string
