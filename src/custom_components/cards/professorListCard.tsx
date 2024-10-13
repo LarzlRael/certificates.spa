@@ -18,7 +18,7 @@ import {
   SearchIcon,
   Trash2,
 } from 'lucide-react'
-import { ProfessorInterface } from '@/pages/dashboard/interfaces/professors.interface'
+import { ProfessorI } from '@/pages/dashboard/interfaces/professors.interface'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -29,8 +29,8 @@ import {
 import { convertDate } from '@/utils/dates'
 
 interface ProfessorListCardProps {
-  professorList: ProfessorInterface[]
-  onEdit: (selectProfessor: ProfessorInterface) => void
+  professorList: ProfessorI[]
+  onEdit: (selectProfessor: ProfessorI) => void
 }
 
 export const ProfessorsListCard = ({
@@ -64,8 +64,8 @@ export const ProfessorsListCard = ({
 }
 
 interface OneProfessorCardProps {
-  user: ProfessorInterface
-  onEdit: (selectProfessor: ProfessorInterface) => void
+  user: ProfessorI
+  onEdit: (selectProfessor: ProfessorI) => void
 }
 
 export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
@@ -76,7 +76,7 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
           <Avatar className="w-12 h-12">
             <AvatarImage src={user.profileImageUrl} />
             <AvatarFallback>
-              {user.username
+              {user.fullName
                 .split(' ')
                 .map((n) => n[0])
                 .join('')}
@@ -84,9 +84,9 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
           </Avatar>
           <div>
             <CardTitle>
-              {user.professionalTitle} {user.firstName} {user.lastName}
+              {user.professionalTitle} {user.fullName}
             </CardTitle>
-            <CardDescription>{user.email}</CardDescription>
+            <CardDescription>{user.phone}</CardDescription>
           </div>
         </div>
         {/* Dropdown start */}
@@ -121,7 +121,7 @@ export const OneProfessorCard = ({ user, onEdit }: OneProfessorCardProps) => {
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-500 mt-2">
           <BookOpenIcon className="w-4 h-4" />
-          <span>{user.expertise}</span>
+          <span>{user.description}</span>
         </div>
       </CardContent>
       <CardFooter>

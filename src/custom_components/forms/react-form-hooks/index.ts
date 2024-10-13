@@ -12,4 +12,5 @@ export { CustomRadioGroup } from './CustomRadioGroup'
 export { ReactSelect } from './ReactSelect'
 
 export { CalendarDayPicker } from './CalendarDayPicker'
+export { ReactSelectFetch } from './ReactSelectFetch'
 

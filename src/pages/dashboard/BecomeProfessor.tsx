@@ -15,20 +15,23 @@ import {
 } from "@/provider/action/ActionAuthorization";
 import { useInformationStore } from "@/store/useInformationStore";
 import { addOrEditProfessor } from "@/custom_components/data/form-pattens";
+import { ProfessorI } from "./interfaces/professors.interface";
 
 interface BecomeProfessorProps {
-  userStudent: UserStudentDetail | undefined;
-  professionalTitle?: string | undefined;
-  expertise?: string | undefined;
+  professorInfo?: ProfessorI;
+  handleReload?: () => void;
 }
-export const BecomeProfessor = () => {
+export const BecomeProfessor = ({
+  professorInfo,
+  handleReload,
+}: BecomeProfessorProps) => {
   const { changeDialogInformation } = useInformationStore();
-  const { changeExtraInformation } = useInformationStore();
+  /* const { changeExtraInformation } = useInformationStore(); */
   const { clearExtraInformation } = useInformationStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onUpdateInformation = async (values): boolean => {
+  const onUpdateInformation = async (values): Promise<boolean> => {
     setIsLoading(true);
     const res = await putAuthAction("/professor", {
       ...values,
@@ -36,7 +39,7 @@ export const BecomeProfessor = () => {
     setIsLoading(false);
     return isValidStatus(res.status);
   };
-  const onCreateInformation = async (values): boolean => {
+  const onCreateInformation = async (values): Promise<boolean> => {
     setIsLoading(true);
     const res = await postAuthAction("/professor", {
       ...values,
@@ -47,8 +50,8 @@ export const BecomeProfessor = () => {
 
   const handleSubmit = async (values) => {
     console.log(values);
-    const isCreating = professionalTitle != null || expertise != null;
-    const res = isCreating
+
+    const res = professorInfo
       ? await onUpdateInformation(values)
       : await onCreateInformation(values);
 
@@ -60,6 +63,7 @@ export const BecomeProfessor = () => {
         content: null,
       });
       clearExtraInformation();
+      if (handleReload) handleReload();
       toast.success("Se ha actualizado la información correctamente");
     } else {
       toast.error("Ha ocurrido un error al actualizar la información");
@@ -72,9 +76,10 @@ export const BecomeProfessor = () => {
       <GlobalFormHook
         inputJson={addOrEditProfessor}
         onSubmit={handleSubmit}
-        formTitle='Editar información de Perfil'
+        formTitle='Editar información de profesor'
         isLoading={isLoading}
         titleButton='Guardar cambios'
+        data={professorInfo}
       />
     </>
   );

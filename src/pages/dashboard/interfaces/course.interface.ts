@@ -58,13 +58,9 @@ export interface CourseInfoInterface {
 export interface ProfessorCourseInfo {
   id:                number;
   professionalTitle: string;
-  expertise:         string;
-  user:              UserProf;
-}
-
-export interface UserProf {
-  id:              number;
-  firstName:       string;
-  lastName:        string;
+  description:       string;
+  fullName:          string;
   profileImageUrl: null | string;
 }
+
+

@@ -24,6 +24,7 @@ export type typeInput =
   | 'url'
   | 'password'
   | 'datePicker'
+  | 'selectFetch'
 
 
 export interface CheckboxInterface {
@@ -33,7 +34,7 @@ export interface CheckboxInterface {
 }
 
 export interface CommonInputI {
-  inputType: typeInput
+  inputType?: typeInput 
   fieldName: string
   control: any
   description?: string
@@ -49,6 +50,7 @@ export interface InputJsonI {
   fieldName: string
   placeholder?: string
   label?: string
+  url?: string
   initialValue?: string | boolean | any[]
   validation?: z.ZodTypeAny; 
   options?: OptionsI[]

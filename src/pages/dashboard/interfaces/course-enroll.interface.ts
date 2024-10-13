@@ -20,12 +20,8 @@ export interface CourseEnrollInterface {
 interface Professor {
   id:                number;
   professionalTitle: string;
-  expertise:         string;
-  user:              User;
+  fullName:          string;
+  description:       string;
+  profileImageUrl:   null | string;
 }
 
-interface User {
-  firstName:       string;
-  lastName:        string;
-  profileImageUrl: null | string;
-}

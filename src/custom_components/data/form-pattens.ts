@@ -61,19 +61,16 @@ export const updateUserInformationForm: InputJsonI[] = [
   },
 ];
 
-/* 
-fullName
-expertise
-phone
-academicRecord
-description*/
 export const addOrEditProfessor: InputJsonI[] = [
   {
     inputType: "text",
     fieldName: "fullName",
     placeholder: "Nombre de profesor",
-    label: "Profesor",
-    validation: z.string().min(8, { message: 'Debe tener al menos 8 caracteres.' }).optional(), // Validación para nombre completo
+    label: "Nombre completo",
+    validation: z
+      .string()
+      .min(8, { message: "Debe tener al menos 8 caracteres." })
+      .optional(), // Validación para nombre completo
   },
   {
     inputType: "text",
@@ -81,7 +78,10 @@ export const addOrEditProfessor: InputJsonI[] = [
     placeholder: "Teléfono",
     label: "Teléfono",
     initialValue: "",
-    validation: z.string().min(8, { message: 'Debe tener al menos 8 caracteres.' }).optional(), // Validación para teléfono
+    validation: z
+      .string()
+      .min(8, { message: "Debe tener al menos 8 caracteres." })
+      .optional(), // Validación para teléfono
   },
   {
     inputType: "text",
@@ -92,12 +92,23 @@ export const addOrEditProfessor: InputJsonI[] = [
     validation: z.string().optional(), // Si no se especifica una validación, puede ser opcional
   },
   {
+    inputType: "text",
+    fieldName: "professionalTitle",
+    placeholder: "Titulo profesional",
+    label: "Titulo profesional",
+    initialValue: "",
+    validation: z.string().optional(), // Si no se especifica una validación, puede ser opcional
+  },
+  {
     inputType: "area",
     fieldName: "description",
     placeholder: "Descripción",
     label: "Descripción",
     initialValue: "",
-    validation: z.string().min(3, { message: 'La descripción debe tener al menos 3 caracteres.' }).optional(), // Validación para descripción
+    validation: z
+      .string()
+      .min(3, { message: "La descripción debe tener al menos 3 caracteres." })
+      .optional(), // Validación para descripción
   },
 ];
 
@@ -169,4 +180,45 @@ export const addNewUser: InputJsonI[] = [
     initialValue: "",
     validation: z.date(),
   },
+];
+
+export const sendNotificationForm: InputJsonI[] = [
+  {
+    inputType: "text",
+    fieldName: "title",
+    placeholder: "Título de la notificación",
+    label: "Título de la notificación",
+    validation: z
+      .string()
+      .min(3, { message: "Debe tener al menos 8 caracteres." }),
+  },
+  {
+    inputType: "area",
+    fieldName: "body",
+    placeholder: "Escribe el mensaje de la notificación aquí...",
+    label: "Contenido de la notificación",
+    initialValue: "",
+    validation: z
+      .string()
+      .min(5, { message: "Debe tener al menos 5 caracteres." })
+      .optional(),
+  },
+  {
+    inputType: "selectFetch",
+    fieldName: "idCourse",
+    placeholder: "Seleccionar curso",
+    label: "Curso",
+    initialValue: "",
+    validation: z.number(), // Si no se especifica una validación, puede ser opcional
+    url: "course/find-all-courses-names",
+  },
+  /* 
+  {
+    inputType: "text",
+    fieldName: "professionalTitle",
+    placeholder: "Titulo profesional",
+    label: "Titulo profesional",
+    initialValue: "",
+    validation: z.string().optional(), // Si no se especifica una validación, puede ser opcional
+  }, */
 ];

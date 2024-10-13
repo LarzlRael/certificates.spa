@@ -6,11 +6,12 @@ import {
   FormCustomInput,
   CustomSelect,
   FormCustomArea,
-  FileUploadInput,
   CheckboxMultiple,
   CheckboxField,
-  CalendarField,
   CalendarDayPicker,
+  ReactSelectFetch,
+  FileUploadInput,
+  CalendarField,
 } from "./";
 import { Button } from "@/components/ui/button";
 import { FormInterface, InputJsonI } from "./interfaces/form-interface";
@@ -116,6 +117,19 @@ export const GlobalFormHook = ({
                         fieldName={item.fieldName}
                         label={item.label!}
                         options={item.options!}
+                      />
+                    );
+                  case "selectFetch":
+                    return (
+                      <ReactSelectFetch
+                        inputType={item.inputType}
+                        key={item.fieldName}
+                        isLoading={isLoading}
+                        control={form.control}
+                        placeholder={item.placeholder}
+                        fieldName={item.fieldName}
+                        label={item.label!}
+                        url={item.url!}
                       />
                     );
                   case "area":
