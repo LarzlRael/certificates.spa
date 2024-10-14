@@ -3,6 +3,7 @@ import { z } from 'zod'
 export interface FormInterface {
   inputJson: InputJsonI[]
   onSubmit: (data: any) => void
+  onWatchChange?: (data: any) => void
   data?: any
   formTitle?: string
   isLoading: boolean

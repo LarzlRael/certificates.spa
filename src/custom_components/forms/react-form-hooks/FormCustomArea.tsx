@@ -5,16 +5,16 @@ import {
   FormMessage,
   FormField,
   FormDescription,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
 
-import { Textarea } from '@/components/ui/textarea'
-import { CommonInputI } from './interfaces/form-interface'
+import { Textarea } from "@/components/ui/textarea";
+import { CommonInputI } from "./interfaces/form-interface";
 
 interface TextAreaProps extends CommonInputI {
-  size?: string // Nuevo prop para tamaño
-  rows?: number // Controla el número de filas
-  cols?: number // Controla el número de columnas
-  isLoading: boolean
+  size?: string; // Nuevo prop para tamaño
+  rows?: number; // Controla el número de filas
+  cols?: number; // Controla el número de columnas
+  isLoading: boolean;
 }
 
 export const FormCustomArea = ({
@@ -24,7 +24,7 @@ export const FormCustomArea = ({
   label,
   fieldName,
   placeholder,
-  size = '100%',
+  size = "100%",
   rows = 4,
   cols,
 }: TextAreaProps) => {
@@ -34,12 +34,14 @@ export const FormCustomArea = ({
       disabled={isLoading}
       name={fieldName}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
+        <FormItem className='py-2'>
+          <FormLabel className='block text-sm font-medium leading-5 text-gray-900 text-left -mb-1'>
+            {label}
+          </FormLabel>
           <FormControl>
             <Textarea
               placeholder={placeholder}
-              className="resize-none"
+              className='resize-none'
               style={{ width: size }} // Establece el tamaño con el nuevo prop
               rows={rows} // Controla el número de filas
               cols={cols} // Controla el número de columnas (opcional)
@@ -51,5 +53,5 @@ export const FormCustomArea = ({
         </FormItem>
       )}
     />
-  )
-}
+  );
+};

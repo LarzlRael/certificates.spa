@@ -1,0 +1,129 @@
+.PhoneCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 2px solid #000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 1rem;
+  padding: 16px;
+  
+}
+
+.notification__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.notification__logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.notification__title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.notification__time {
+  font-size: 12px;
+  color: #666;
+}
+
+.notification__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notification__body-expanded {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.notification__body-expanded .notification__image {
+  width: 120px;
+  height: 120px;
+  margin-right: 16px;
+  margin: 0.5rem auto;
+  border-radius: 8px;
+}
+.notification__image {
+  width: 80px;
+  height: 80px;
+  margin-right: 16px;
+  border-radius: 8px;
+}
+
+.notification__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification__content-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.notification__content-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.Form__select {
+  width: 50%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #666;
+  background-color: #fff;
+  margin-top: 8px;
+}
+
+.selected {
+  font-size: 15px;
+  color: #666;
+  cursor: pointer;
+}
+.Notifications__selected {
+  /* material blue color hex color */
+  color: #2196f3;
+  font-size: 15px;
+  /* font-weight: 400; */
+}
+
+.Notification__preview {
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+@media (max-width: 420px) {
+  .PhoneCard {
+    grid-template-columns: 1fr;
+  }
+  .notification {
+    width: 100%;
+    height: 150px;
+  }
+  .Form__select {
+    width: 100%;
+  }
+  .Notification__preview {
+    padding: 1rem 0;
+  }
+}

@@ -16,7 +16,20 @@ import { sendNotificationForm } from "@/custom_components/data/form-pattens";
 import { postAuthAction } from "@/provider/action/ActionAuthorization";
 import { toast } from "sonner";
 import { isValidStatus } from "@/utils/validation/validation";
+import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
+import { TableMain } from "@/table";
+import { PhonePreview } from "@/custom_components/cards/PhonePreview";
+import { CourseNameI } from "@/custom_components/forms/react-form-hooks/ReactSelectFetch";
+import { ShortCoursesInfoI } from "@/interfaces/courses.interface";
 /* import { toast } from '@/components/ui/use-toast' */
+
+export interface NotificationI {
+  id: number;
+  title: string;
+  body: string;
+  imageUrl: null | string;
+  createdAt: Date;
+}
 
 export const NotificationsPage = () => {
   return (
@@ -60,10 +73,39 @@ const recentNotifications = [
 
 export const NotificationContent = () => {
   const [isLoading, isSetLoading] = useState(false);
+  const [formValuesWatch, setFormValuesWatch] = useState<any>();
+
+  const {
+    data,
+    isLoading: isLoadingGetNotification,
+    error,
+    reload,
+  } = useAxiosQueryAuth<NotificationI[]>({
+    url: "notifications/get-last-notification",
+    method: "GET",
+  });
+
+  const { data: dataCourses, isLoading: isLoadingCourses } = useAxiosQueryAuth<
+    ShortCoursesInfoI[]
+  >({
+    url: "course/find-all-courses-names",
+    method: "GET",
+  });
+
+  const handleWatchChange = (values: any) => {
+    if (!isLoadingCourses) {
+      const findImage = dataCourses!.find(
+        (value) => value.id === values.idCourse
+      );
+      setFormValuesWatch({
+        ...values,
+        imageUrl: findImage?.imageUrl,
+      });
+    }
+  };
 
   const handleSubmit = async (values) => {
     try {
-      console.log(values);
       isSetLoading(true); // Mostrar loading
 
       const res = await postAuthAction(
@@ -81,7 +123,7 @@ export const NotificationContent = () => {
 
       toast.error("Ocurrió un error al enviar la notificación");
     } finally {
-      isSetLoading(false); 
+      isSetLoading(false);
     }
   };
 
@@ -94,6 +136,7 @@ export const NotificationContent = () => {
           </CardHeader>
           <CardContent>
             <GlobalFormHook
+              onWatchChange={handleWatchChange}
               inputJson={sendNotificationForm}
               onSubmit={handleSubmit}
               isLoading={isLoading}
@@ -107,29 +150,11 @@ export const NotificationContent = () => {
             <CardTitle>Estadísticas de Notificaciones</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-              <div className='flex items-center p-4 bg-muted rounded-lg'>
-                <Bell className='h-6 w-6 mr-4 text-primary' />
-                <div>
-                  <p className='text-sm font-medium'>Total Enviadas</p>
-                  <p className='text-2xl font-bold'>1,234</p>
-                </div>
-              </div>
-              <div className='flex items-center p-4 bg-muted rounded-lg'>
-                <Users className='h-6 w-6 mr-4 text-primary' />
-                <div>
-                  <p className='text-sm font-medium'>Alcance</p>
-                  <p className='text-2xl font-bold'>5,678</p>
-                </div>
-              </div>
-              <div className='flex items-center p-4 bg-muted rounded-lg'>
-                <AlertTriangle className='h-6 w-6 mr-4 text-primary' />
-                <div>
-                  <p className='text-sm font-medium'>Tasa de Fallo</p>
-                  <p className='text-2xl font-bold'>0.5%</p>
-                </div>
-              </div>
-            </div>
+            <PhonePreview
+              imageUrl={formValuesWatch?.imageUrl || undefined}
+              title={formValuesWatch?.title || undefined}
+              body={formValuesWatch?.body || undefined}
+            />
           </CardContent>
         </Card>
       </div>
@@ -139,7 +164,7 @@ export const NotificationContent = () => {
           <CardTitle>Notificaciones Recientes</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
+          {/* <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Título</TableHead>
@@ -170,7 +195,41 @@ export const NotificationContent = () => {
                 </TableRow>
               ))}
             </TableBody>
-          </Table>
+          </Table> */}
+          <Card className='mt-6'>
+            <CardHeader>
+              <CardTitle>Notificaciones Recientes</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <>cargando</>
+              ) : (
+                <TableMain
+                  tableHeaders={[
+                    { key: "title", name: "Titulo" },
+                    { key: "title", name: "Destinatarios" },
+
+                    {
+                      name: "Creado en ",
+                      key: "createdAt",
+                      type: "date",
+                      dateFormatter: "DD/MM/yyyy",
+                    },
+                  ]}
+                  data={data!}
+                  /* handleInfo={(element) => {
+            changeSheetInformation({
+              isOpen: true,
+              content: <VerifyPayment payment={element} onRefresh={reload}/>,
+              title: "Verificar Pago",
+              subtitle: `Pago de ${element.fullName} por el curso ${element.courseName}`,
+              
+            });
+          }} */
+                />
+              )}
+            </CardContent>
+          </Card>
         </CardContent>
       </Card>
     </div>

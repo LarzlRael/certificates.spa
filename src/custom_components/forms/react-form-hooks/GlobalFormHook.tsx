@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useEffect } from 'react'
 import { useForm, FormProvider } from "react-hook-form";
+import { useWatch } from "react-hook-form";
+
 import { z } from "zod";
 import {
   FormCustomInput,
@@ -47,6 +49,7 @@ export const GlobalFormHook = ({
   titleButton,
   /* schema, */
   ExtraComponent,
+  onWatchChange,
   extraComponentPosition = "top",
 }: FormInterface) => {
   const schema = generateZodSchemaFromJson(inputJson);
@@ -64,6 +67,15 @@ export const GlobalFormHook = ({
   const enError = (err) => {
     console.log(err);
   };
+  const watchedValues = useWatch({ control: form.control });
+
+  useEffect(() => {
+    if (onWatchChange) {
+      onWatchChange(watchedValues);
+    }
+  }, [watchedValues]);
+
+
   return (
     <div className='mt-10 sm:w-full sm:max-w-lg w-full'>
       <Card>

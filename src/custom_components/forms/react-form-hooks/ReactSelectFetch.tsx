@@ -13,17 +13,14 @@ import { CommonInputI } from "./interfaces/form-interface";
 /* import { Select } from "@/components/ui/select"; */
 import { FormCustomInput } from "./FormCustomInput";
 import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
+import { ShortCoursesInfoI } from "@/interfaces/courses.interface";
 
-export interface CourseNameI {
-  id: number;
-  courseName: string;
-}
 interface SelectProps extends CommonInputI {
   url: string;
   isLoading: boolean;
 }
 
-const generateOptions = (data: CourseNameI[]) =>
+const generateOptions = (data: ShortCoursesInfoI[]) =>
   data.map(({ id, courseName }) => ({ value: id, label: courseName }));
 
 export const ReactSelectFetch = ({
@@ -35,11 +32,13 @@ export const ReactSelectFetch = ({
   placeholder,
   isLoading,
 }: SelectProps) => {
-  const { data, isLoading: isLoadingFetch } = useAxiosQueryAuth<CourseNameI[]>({
+  const { data, isLoading: isLoadingFetch } = useAxiosQueryAuth<
+    ShortCoursesInfoI[]
+  >({
     url: url,
     method: "GET",
   });
-  
+
   return (
     <>
       {isLoadingFetch ? (
@@ -50,8 +49,10 @@ export const ReactSelectFetch = ({
           name={fieldName}
           disabled={isLoading}
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>{label}</FormLabel>
+            <FormItem className='py-2'>
+              <FormLabel className='block text-sm font-medium leading-5 text-gray-900 text-left -mb-1'>
+                {label}
+              </FormLabel>
               <Select
                 placeholder={placeholder || "Selecciona una opción"}
                 styles={{}}
