@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -22,8 +22,7 @@ import {
   processAddCourseData,
   sendFileFormData,
 } from "./utils/processDataCourse";
-import { useParams } from "react-router-dom";
-import { CourseEnrollInterface } from "./interfaces/course-enroll.interface";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import {
@@ -36,7 +35,7 @@ import {
   WithSidebarAndInfoProps,
   withHandleInformation,
 } from "@/HOC/withHandleInformation";
-import { Loading3dots } from "@/custom_components/loading/Loading3dots";
+
 import { toast } from "sonner";
 
 const CreateCoursePageHoc = (
@@ -44,7 +43,7 @@ const CreateCoursePageHoc = (
 ) => {
   const [isPending, setisPending] = useState(false);
 
-  const { data, isLoading, reload } = useAxiosQueryAuth<ProfessorI[]>({
+  const { data, isLoading } = useAxiosQueryAuth<ProfessorI[]>({
     url: "/professor",
   });
   const [selectProfessor, setSelectProfessors] = useState<ProfessorI[]>([]);
@@ -58,7 +57,6 @@ const CreateCoursePageHoc = (
       coursePrice: 0,
       modality: "",
       notes: "",
-      imageCourseUrl: "",
       informationContact: "",
       dateRange: {
         from: undefined,
@@ -74,8 +72,12 @@ const CreateCoursePageHoc = (
   }
   async function handleSubmit(values) {
     /* console.log(values) */
+    setisPending(true);
     const data = processAddCourseData(values);
-    const sendData = await postAuthAction(`/course`, data);
+    const sendData = await postAuthAction<{
+      id: number;
+    }>(`/course`, data);
+    setisPending(false);
 
     if (!isValidStatus(sendData.status)) {
       toast.error("Error al enviar la información");
@@ -86,7 +88,7 @@ const CreateCoursePageHoc = (
 
     if (values.imageCourse != undefined) {
       const sendImageData = await putAuthAction(
-        `/course/update-course-image-info/${sendData.data.id}`,
+        `/course/update-course-image-info/${sendData.data!.id}`,
         sendFileFormData("imageCourse", values.imageCourse)
       );
       if (!isValidStatus(sendImageData.status)) {
@@ -100,9 +102,7 @@ const CreateCoursePageHoc = (
   function selectProfessors(ids: number[]) {
     console.log(ids);
 
-    setSelectProfessors(
-      data.filter((professor) => ids.includes(professor.idProfessor))
-    );
+    setSelectProfessors(data.filter((professor) => ids.includes(professor.id)));
   }
 
   return (
@@ -155,7 +155,7 @@ const CreateCoursePageHoc = (
                   )}
                   <ProfessorCardMini
                     professorsList={selectProfessor}
-                    selectProfessors={(professor) => {}}
+                    selectProfessors={(_) => {}}
                   />
 
                   <FileUploadInput
@@ -239,7 +239,7 @@ const CreateCoursePageHoc = (
 
             {/* La previsualización ocupará 3/4 en pantallas grandes */}
             <div className='w-full lg:w-3/4'>
-              <PreviewCourseCardPresentation
+              {/* <PreviewCourseCardPresentation
                 imageBlog={
                   watchedFormValues.imageCourse == undefined
                     ? ""
@@ -248,18 +248,29 @@ const CreateCoursePageHoc = (
                 courseInfo={{
                   ...watchedFormValues,
 
+                  courseDescription: "desc",
+                  coursePrice: 0,
+                  modality: watchedFormValues.modality,
+
+                  id: 0,
+                  duration: 0,
+                  durationUnit: "",
+                  imageUrl: "",
+                  virtualPlatform: "",
+                  material: "",
+
+                  courseName: "",
+                  startDate: watchedFormValues.dateRange.from,
+                  endDate: watchedFormValues.dateRange.to,
                   professors: selectProfessor.map((prof) => ({
                     id: prof.id,
                     professionalTitle: prof.professionalTitle,
-                    expertise: prof.expertise,
-                    user: {
-                      firstName: prof.firstName,
-                      lastName: prof.lastName,
-                      profileImageUrl: prof.profileImageUrl,
-                    },
+                    fullName: prof.fullName,
+                    description: prof.description,
+                    profileImageUrl: prof.profileImageUrl,
                   })),
                 }}
-              />
+              /> */}
             </div>
           </div>
         </CardContent>

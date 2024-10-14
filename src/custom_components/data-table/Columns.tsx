@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  UserStudent,
-  UserStudentDetail,
-} from "@/pages/dashboard/interfaces/students.interface";
+import { UserStudentDetail } from "@/pages/dashboard/interfaces/students.interface";
 import { ColumnDef, FilterFn, Row, SortDirection } from "@tanstack/react-table";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -48,8 +45,11 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          table.getIsAllPageRowsSelected()
+            ? true
+            : table.getIsSomePageRowsSelected()
+            ? "indeterminate"
+            : false
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
@@ -74,7 +74,7 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     accessorKey: "profileImageUrl",
     header: "Imagen",
     cell: (row) => {
-      const imageUrl = row.getValue("profileImageUrl");
+      const imageUrl = row.getValue() as string;
 
       return isValidString(imageUrl) ? (
         <img src={imageUrl} alt='profile' className='h-10 w-10 rounded-full' />
@@ -154,7 +154,7 @@ export const columns: ColumnDef<UserStudentDetail>[] = [
     accessorKey: "createdAt",
     header: "Fecha de registro",
     cell: (row) => {
-      const getDate = row.getValue("createdAt");
+      const getDate = row.getValue() as string;
 
       return isValidString(getDate) ? (
         <label>{formatDate(getDate)}</label>

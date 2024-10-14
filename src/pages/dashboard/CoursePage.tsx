@@ -1,23 +1,17 @@
-import useAxios from '@/hooks/useAxios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
-import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
+import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
 
-import {
-  CourseInfoInterface,
-  CoursesDetailModel,
-} from './interfaces/course.interface'
-import { CourseCard, CourseList } from '@/custom_components/cards/CourseCard'
-import { Button } from '@/components/ui/button'
+import { CourseInfoInterface } from "./interfaces/course.interface";
+import { CourseList } from "@/custom_components/cards/CourseCard";
+import { Button } from "@/components/ui/button";
 
 export const CoursePage = () => {
-  const navigate = useNavigate()
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<
-    CourseInfoInterface[]
-  >({
+  const navigate = useNavigate();
+  const { data, isLoading } = useAxiosQueryAuth<CourseInfoInterface[]>({
     url: `/course/course-info`,
-    method: 'GET',
-  })
+    method: "GET",
+  });
   return (
     <div
     /* className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" */
@@ -27,7 +21,7 @@ export const CoursePage = () => {
       ) : (
         <div>
           <Button
-            onClick={() => navigate('/panel-administrativo/cursos/crear-curso')}
+            onClick={() => navigate("/panel-administrativo/cursos/crear-curso")}
           >
             Añadir Nuevo Curso
           </Button>
@@ -35,7 +29,7 @@ export const CoursePage = () => {
             courseInfo={data!}
             onEdit={(idCourse) =>
               navigate(
-                `/panel-administrativo/cursos/modificar-curso/${idCourse}`,
+                `/panel-administrativo/cursos/modificar-curso/${idCourse}`
               )
             }
             onClick={(idCourse) =>
@@ -45,5 +39,5 @@ export const CoursePage = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};

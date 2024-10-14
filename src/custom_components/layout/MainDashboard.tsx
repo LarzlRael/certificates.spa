@@ -1,32 +1,25 @@
-import { WithAuthProps, withAuth } from '@/HOC/withAuth'
+import { /* WithAuthProps, */ withAuth } from '@/HOC/withAuth'
 import {
   Menu,
 } from 'lucide-react'
 import { useState } from 'react'
 
-import { useNavigate, Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { ExtraInformation } from './information-components/ExtraInformation'
 import { Button } from '@/components/ui/button'
-import { DialogInformation } from './information-components/DialogInformation'
-import { AlertDialogInformation } from './information-components/AlertDialogInformation'
-import { useInformationStore } from '@/store/useInformationStore'
+
+import { Sidebar } from './admin-dashboard/Sidebar'
 import { useDashboardStore } from '@/store/useDashBoardStore'
-import { Sidebar } from './admin-dasboard/Sidebar'
-import { SheetInformation } from './information-components/SheetInformation'
 
-interface MenuItems {
-  icon: any
-  label: string
-  path: string
-}
-const rootPath = '/panel-administrativo'
 
-const MainAdminDashboard = ({ logout }: WithAuthProps) => {
-  const { clearExtraInformation } = useInformationStore()
+
+
+const MainAdminDashboard = () => {
+  
 
   const { isLeftSidebarOpen, isRightSidebarOpen } = useDashboardStore()
   const { toggleLeftSidebar } = useDashboardStore()
-  const { toggleRightSidebar } = useDashboardStore()
+  
 
   const [selectedLabel, setSelectedLabel] = useState('Panel de Administración')
 

@@ -9,6 +9,9 @@
     }
   ],
   "compilerOptions": {
+
+    "noUnusedLocals": true, // Desactiva advertencias sobre variables locales no utilizadas
+    "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

@@ -25,7 +25,7 @@ import {
 import { useParams } from "react-router-dom";
 import { CourseEnrollInterface } from "./interfaces/course-enroll.interface";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { FormLabel } from "@/components/ui/form";
+
 import { putAuthAction } from "@/provider/action/ActionAuthorization";
 import { isValidStatus } from "@/utils/validation/validation";
 import { PreviewCourseCardPresentation } from "@/custom_components/cards/PreviewCourseCardPresentation";
@@ -41,11 +41,11 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
   const {
     data: courseData,
     isLoading: isLoadingCourse,
-    reload: reloadCourse,
+    /* reload: reloadCourse, */
   } = useAxiosQueryAuth<CourseEnrollInterface>({
     url: `/course/course-detail/${params.idCourse}`,
   });
-  const { data, isLoading, reload } = useAxiosQueryAuth<ProfessorI[]>({
+  const { data, isLoading } = useAxiosQueryAuth<ProfessorI[]>({
     url: "/professor",
   });
   const [selectProfessor, setSelectProfessor] = useState<ProfessorI[]>([]);
@@ -62,6 +62,7 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
       notes: "",
       imageCourseUrl: "",
       informationContact: "",
+      virtualPlatform:"",
       dateRange: {
         from: undefined,
         to: undefined,
@@ -74,22 +75,19 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
   async function handleSubmit(values) {
     setIsPending(true);
     const data = processAddCourseData(values);
-    const sendData = await putAuthAction(
-      `/course/update-course-info/${values.id}`,
-      data
-    );
+    await putAuthAction(`/course/update-course-info/${values.id}`, data);
     setIsPending(false);
     if (values.imageCourse != undefined) {
       setIsPending(true);
-      const sendData = await putAuthAction(
+      const sendDataWithImage = await putAuthAction(
         `/course/update-course-image-info/${values.id}`,
         sendFileFormData("imageCourse", values.imageCourse)
       );
       setIsPending(false);
-    }
-    if (isValidStatus(sendData.status)) {
-      // Si se envió correctamente, recarga la página
-      /* reloadCourse() */
+      if (isValidStatus(sendDataWithImage.status)) {
+        // Si se envió correctamente, recarga la página
+        /* reloadCourse() */
+      }
     }
   }
 
@@ -107,8 +105,8 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
         coursePrice: courseData.coursePrice || 0,
         duration: courseData.duration || 0,
         durationUnit: courseData.durationUnit || "",
-        startDate: courseData.startDate || new Date(),
-        endDate: courseData.endDate || new Date(),
+        /* startDate: courseData.startDate || new Date(),
+        endDate: courseData.endDate || new Date(), */
         modality: courseData.modality || "",
         notes: courseData.notes || "",
         informationContact: courseData.informationContact || "",
@@ -258,14 +256,17 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
 
               {/* La previsualización ocupará 3/4 en pantallas grandes */}
               <div className='w-full lg:w-3/4'>
-                <PreviewCourseCardPresentation
+                {/* <PreviewCourseCardPresentation
                   imageBlog={
                     watchedFormValues.imageCourse == undefined
                       ? ""
                       : URL.createObjectURL(watchedFormValues.imageCourse)
                   }
+                 
                   courseInfo={{
                     ...watchedFormValues,
+                    imageUrl: watchedFormValues.imageCourseUrl,
+                    
                     startDate: watchedFormValues.dateRange?.from,
                     endDate: watchedFormValues.dateRange?.to,
 
@@ -277,7 +278,7 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
                       profileImageUrl: prof.profileImageUrl,
                     })),
                   }}
-                />
+                /> */}
               </div>
             </div>
           </CardContent>
@@ -288,3 +289,20 @@ const EditCoursePageHoc = (informationHandleProps: WithSidebarAndInfoProps) => {
 };
 
 export const EditCoursePage = withHandleInformation(EditCoursePageHoc);
+
+ /* id
+courseName
+courseDescription
+coursePrice
+startDate
+endDate
+duration
+durationUnit
+modality
+imageUrl
+material
+requirements
+informationContact
+notes
+virtualPlatform
+professors */

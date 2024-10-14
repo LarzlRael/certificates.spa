@@ -1,5 +1,5 @@
-import React from 'react'
-import { FormLabel } from '@/components/ui/form'
+
+import { FormLabel, FormDescription} from '@/components/ui/form'
 import { Controller } from 'react-hook-form'
 interface FileUploadInputProps {
   control: any
@@ -49,6 +49,7 @@ export const FileUploadInput = ({
               </p>
             </div>
           )}
+          {description && <FormDescription>{description}</FormDescription>}
         </div>
       )}
     />

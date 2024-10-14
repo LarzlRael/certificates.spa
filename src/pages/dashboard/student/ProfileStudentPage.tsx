@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 export const ProfileStudentPage = () => {
   const params = useParams()
   const { idStudent } = params
-  const { data, isLoading } = useAxiosQueryAuth({
+  const { data, isLoading } = useAxiosQueryAuth<any>({
     
     url: `/students/student-info/${idStudent}`,
     method: 'GET',
@@ -13,6 +13,6 @@ export const ProfileStudentPage = () => {
 
     {isLoading ? (
       <div>Cargando...</div>
-    ) : <div>{data.user.username}</div>}
+    ) : <div>{data?.user.username}</div>}
   </div>
 }

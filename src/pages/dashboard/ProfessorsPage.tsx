@@ -15,7 +15,7 @@ const ProfessorsPageWithHandleInformation = (
   withSidebarAndInfoProps: WithSidebarAndInfoProps
 ) => {
   const { changeExtraInformation } = withSidebarAndInfoProps;
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<ProfessorI[]>({
+  const { data, isLoading, reload } = useAxiosQueryAuth<ProfessorI[]>({
     url: `/professor`,
     method: "GET",
   });

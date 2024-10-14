@@ -1,4 +1,4 @@
-import { z } from 'zod'
+
 import { GlobalFormHook } from '@/custom_components/forms/react-form-hooks/GlobalFormHook'
 import {
   CheckboxInterface,
@@ -6,14 +6,14 @@ import {
 } from '@/custom_components/forms/react-form-hooks/interfaces/form-interface'
 import { SampleDatePicker } from '@/custom_components/forms/react-form-hooks/CalendarPickerYear'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
-import { RolesInterface } from '@/interfaces/auth.interface'
+/* import { RolesInterface } from '@/interfaces/auth.interface' */
 import { useEffect, useState } from 'react'
 import { isValidArray } from '@/utils/validation/validation'
 import {
   mapAsCheckboxArray,
   UserRolesInterface,
 } from './dashboard/interfaces/roles.interface'
-import { CalendarDayPicker } from '@/custom_components/forms/react-form-hooks/CalendarDayPicker'
+/* import { CalendarDayPicker } from '@/custom_components/forms/react-form-hooks/CalendarDayPicker' */
 
 function inputJsonIGenerate(
   arrayCheckbox: CheckboxInterface[] = [],
@@ -35,12 +35,12 @@ function inputJsonIGenerate(
   ]
 }
 
-const formSchema = z.object({
+/* const formSchema = z.object({
   items: z.array(z.number()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one item.',
   }),
   dateBirth: z.date(),
-})
+}) */
 
 /* const data = {
   username: "Carlos123", // Este valor será utilizado si se proporciona
@@ -84,7 +84,7 @@ export const HomePage = () => {
         titleButton="Enviar"
         formTitle="Formulario de prueba"
         onSubmit={(data) => console.log(data)}
-        schema={formSchema}
+        
         inputJson={arrayInput}
         /* data={data} // Aquí pasamos el objeto `data` */
       />

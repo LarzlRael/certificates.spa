@@ -25,3 +25,15 @@ interface Professor {
   profileImageUrl:   null | string;
 }
 
+
+/* courseName
+courseDescription
+requirements
+coursePrice
+modality
+notes
+informationContact
+from
+to
+imageCourse
+professorsIds */

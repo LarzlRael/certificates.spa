@@ -42,7 +42,7 @@ const useAxiosQueryAuth = <T = unknown,>(axiosParams: AxiosRequestConfig) => {
   }
 }
 
-export const useAxiosMultiQueryAuth = <T extends unknown[]>(
+/* export const useAxiosMultiQueryAuth = <T extends unknown[]>(
   axiosParamsArray: AxiosRequestConfig[],
 ) => {
   const queries = axiosParamsArray.map((axiosParams) => {
@@ -81,6 +81,6 @@ export const useAxiosMultiQueryAuth = <T extends unknown[]>(
     error,
     reload: refetch, // Recargar todas las peticiones
   }))
-}
+} */
 
 export default useAxiosQueryAuth

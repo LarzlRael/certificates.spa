@@ -3,13 +3,12 @@ import {
   CoursesDetailModel,
 } from "@/pages/dashboard/interfaces/course.interface";
 import { isValidArray } from "@/utils/validation/validation";
-import { toCapitalize, toTitleCase } from "@/utils/text-utils";
+import { toCapitalize } from "@/utils/text-utils";
 
 import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -17,13 +16,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+
 import {
   MoreVertical,
   Search,
   BookOpen,
   Users,
-  Clock,
   Edit,
   Trash2,
 } from "lucide-react";
@@ -32,7 +30,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 

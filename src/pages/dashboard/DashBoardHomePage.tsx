@@ -15,8 +15,8 @@ import {
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { DashBoardInitialInterface } from './interfaces/course.interface'
-import { Student } from './interfaces/enrollment-by-course-interface'
-import { Skeleton } from '@/components/ui/skeleton'
+/* import { Student } from './interfaces/enrollment-by-course-interface'
+import { Skeleton } from '@/components/ui/skeleton' */
 import { InfoCardsSkeleton } from '@/custom_components/cards/Dashboards'
 import { LatestUpdatesInterface } from './interfaces/dashboard.interfaces'
 import {
@@ -24,7 +24,7 @@ import {
   LatestUpdateListSkeleton,
 } from '@/custom_components/cards/LatestUpdateCard'
 import { QuickActionSkeleton } from '@/custom_components/loading/QuickActionSkeleton'
-import PieChart from '@/custom_components/charts/PieChart'
+/* import PieChart from '@/custom_components/charts/PieChart' */
 import BarChart from '@/custom_components/charts/Bar'
 import { UserStudentDetail } from './interfaces/students.interface'
 import { AddNewUser } from './components/AddNewUser'
@@ -58,7 +58,7 @@ const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
   ]
 }
 
-const actividadReciente = [
+/* const actividadReciente = [
   {
     id: 1,
     accion: 'Nuevo estudiante registrado',
@@ -87,14 +87,14 @@ const datosInscripciones = [
   { mes: 'May', inscripciones: 56 },
   { mes: 'Jun', inscripciones: 55 },
   { mes: 'Jul', inscripciones: 40 },
-]
+] */
 
 export const DashBoardHomePage = () => {
   const navigate = useNavigate()
   const { changeExtraInformation } = useInformationStore()
   const { clearExtraInformation } = useInformationStore()
   const { changeDialogInformation } = useInformationStore()
-  const { data, isLoading, error, reload, queryKey } = useAxiosQueryAuth<
+  const { data, isLoading } = useAxiosQueryAuth<
     UserStudentDetail[]
   >({
     url: `/students/find-students`,
@@ -157,7 +157,7 @@ export const DashBoardHomePage = () => {
         <InfoCardsSkeleton />
       ) : (
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {generalStatistics(dataInitialInfo).map((stat, index) => (
+          {generalStatistics(dataInitialInfo!).map((stat, index) => (
             <Card key={index}>
               <CardContent className="flex items-center p-6">
                 <stat.icono className={`h-8 w-8 ${stat.color} mr-4`} />

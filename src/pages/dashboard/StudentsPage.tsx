@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+
 import { DataTable } from '@/custom_components/data-table/DataTable'
 import { UserStudentDetail } from './interfaces/students.interface'
 import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
@@ -6,11 +6,11 @@ import { columns } from '@/custom_components/data-table/Columns'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useInformationStore } from '@/store/useInformationStore'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { UserProfile } from '@/custom_components/cards/UserCard'
+
 import { UserDialogProfile } from '@/custom_components/cards/UserProfile'
 
 export const StudentsPage = () => {
-  const { data, isLoading, error, reload } = useAxiosQueryAuth<
+  const { data, isLoading, reload } = useAxiosQueryAuth<
     UserStudentDetail[]
   >({
     url: `/students/find-students`,
@@ -33,7 +33,7 @@ export const StudentsPage = () => {
               data={data?.map((student) => student) || []}
               handleInfo={(rowData) => {
                 console.log(rowData)
-                console.log('first')
+                
 
                 changeExtraInformation({
                   isOpen: true,

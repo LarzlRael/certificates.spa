@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 // Definimos la interfaz para los datos del gráfico
 interface PieSlice {

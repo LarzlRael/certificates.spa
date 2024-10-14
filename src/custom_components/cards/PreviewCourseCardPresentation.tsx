@@ -8,7 +8,7 @@ import {
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Clock, Star, ChevronRight } from "lucide-react";
+import { Clock, ChevronRight } from "lucide-react";
 import { CourseEnrollInterface } from "@/pages/dashboard/interfaces/course-enroll.interface";
 import { isValidString } from "@/utils/validation/validation";
 import { capitalizeString } from "@/utils/utils";
@@ -17,7 +17,7 @@ import { translate } from "@/constants/web-constants";
 import { InfoLabelPresentationCard } from "./RawInfomation";
 
 interface CourseCardPresentationProps {
-  courseInfo: CourseEnrollInterface;
+  courseInfo?: CourseEnrollInterface;
   imageBlog?: string;
 }
 
@@ -37,8 +37,8 @@ export const PreviewCourseCardPresentation = ({
           src={
             isValidString(imageBlog)
               ? imageBlog
-              : isValidString(courseInfo.imageCourseUrl)
-              ? courseInfo.imageCourseUrl
+              : isValidString(courseInfo.imageUrl)
+              ? courseInfo.imageUrl
               : "https://res.cloudinary.com/heyset/image/upload/v1689582418/buukmenow-folder/no-image-icon-0.jpg"
           }
           alt='Imagen del curso'

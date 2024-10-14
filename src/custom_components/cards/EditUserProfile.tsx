@@ -7,7 +7,7 @@ import { putAuthAction } from "@/provider/action/ActionAuthorization";
 import { toast } from "sonner";
 import { ContentRawInformation } from "./RawInfomation";
 import { Mail } from "lucide-react";
-import { AvatarEditable } from "../images/AvatarEditable";
+/* import { AvatarEditable } from "../images/AvatarEditable"; */
 import { useState } from "react";
 
 interface UserProfileProps {
@@ -17,7 +17,7 @@ interface UserProfileProps {
 export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUpdateProfile = async (values) => {
+  const handleUpdateProfile = async (values:any) => {
     try {
       setIsLoading(true);
       const res = await putAuthAction(
@@ -34,7 +34,7 @@ export const EditUserProfile = ({ userInfo, onReload }: UserProfileProps) => {
       }
       toast.success("Perfil actualizado correctamente");
       if (onReload) onReload();
-    } catch (error) {
+    } catch (error: any) {
       setIsLoading(false);
       toast.error("Error al actualizar el perfil");
     }

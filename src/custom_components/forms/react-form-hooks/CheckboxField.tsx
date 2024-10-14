@@ -17,7 +17,7 @@ interface CheckboxProps extends CommonInputI {
 
 export const CheckboxField = ({
   control,
-  checked,
+  /* checked, */
   label,
   fieldName,
   description,

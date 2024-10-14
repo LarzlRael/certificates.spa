@@ -25,19 +25,19 @@ interface TableMainProps<T> {
   data: T[]
 }
 
-const TableMain = <T extends {}>({
+const TableMain = <T extends object>({
   tableHeaders: header,
   data: main,
   handleInfo,
   reload,
   keyOrder = '',
-  borderBottom = false,
+  /* borderBottom = false, */
 }: TableMainProps<T>) => {
   const { target, currentSize } = useSize()
 
-  const gridTable = {
+  /* const gridTable = {
     gridTemplate: `auto / repeat(${header.length}, 1fr)`,
-  }
+  } */
   const [activate, setactivate] = useState<number | null>(null)
   const limitSize = 425
   function HandleActivate(index: number, us: any) {

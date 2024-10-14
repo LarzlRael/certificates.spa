@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
-  Calendar,
+  /* Calendar, */
   CalendarIcon,
   ChevronLeft,
   ChevronRight,
@@ -73,7 +73,7 @@ export const CalendarPickerYear = ({
         ...classNames,
       }}
       components={{
-        Dropdown: ({ value, onChange, children, ...props }: DropdownProps) => {
+        Dropdown: ({ value, onChange, children}: DropdownProps) => {
           const options = React.Children.toArray(
             children
           ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[];
@@ -109,8 +109,8 @@ export const CalendarPickerYear = ({
             </Select>
           );
         },
-        IconLeft: ({ ...props }) => <ChevronLeft className='h-4 w-4' />,
-        IconRight: ({ ...props }) => <ChevronRight className='h-4 w-4' />,
+        IconLeft: () => <ChevronLeft className='h-4 w-4' />,
+        IconRight: () => <ChevronRight className='h-4 w-4' />,
       }}
       {...props}
     />

@@ -12,8 +12,8 @@ import {
   CheckboxField,
   CalendarDayPicker,
   ReactSelectFetch,
-  FileUploadInput,
-  CalendarField,
+  /* FileUploadInput,
+  CalendarField, */
 } from "./";
 import { Button } from "@/components/ui/button";
 import { FormInterface, InputJsonI } from "./interfaces/form-interface";
@@ -64,7 +64,7 @@ export const GlobalFormHook = ({
     resolver: zodResolver(schema),
     defaultValues, // Usamos los valores predeterminados, basados en data o inputJson
   });
-  const enError = (err) => {
+  const enError = (err:any) => {
     console.log(err);
   };
   const watchedValues = useWatch({ control: form.control });

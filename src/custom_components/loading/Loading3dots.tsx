@@ -40,7 +40,11 @@ const l20_2 = keyframes`
   100%  {transform: scaleY(-1) rotate(-135deg)}
 `
 
-const CircularLoader = styled.div`
+const CircularLoader = styled.div<{
+  size?: string
+  color?: string
+  height?: string
+}>`
   width: ${(props) => props.size || '50px'};
   aspect-ratio: 1;
   border-radius: 50%;

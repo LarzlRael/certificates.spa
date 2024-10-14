@@ -1,9 +1,9 @@
-import { getDifferenceBetweenDates } from '@/utils/dates'
-import { z } from 'zod'
+import { getDifferenceBetweenDates } from "@/utils/dates";
+import { z } from "zod";
 
 export const formAddCourseSchema = z.object({
   courseName: z.string().min(2, {
-    message: 'El nombre del curso debe tener al menos 2 caracteres.',
+    message: "El nombre del curso debe tener al menos 2 caracteres.",
   }),
   courseDescription: z.string().min(3),
   requirements: z.string().min(3).optional(),
@@ -25,11 +25,11 @@ export const formAddCourseSchema = z.object({
   imageCourse: z.instanceof(File).optional(),
 
   professorsIds: z.array(z.number().positive()).optional(),
-})
+});
 export const formEditCourseSchema = z.object({
   id: z.number().positive(),
   courseName: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: "Username must be at least 2 characters.",
   }),
   courseDescription: z.string().min(3),
   requirements: z.string().optional(),
@@ -40,8 +40,9 @@ export const formEditCourseSchema = z.object({
   durationUnit: z.string().optional(),
   start: z.date().optional(),
   end: z.date().optional(),
-
+  virtualPlatform: z.string().optional(),
   modality: z.string(),
+  material: z.string(),
   notes: z.string().optional(),
   informationContact: z.string().optional(),
 
@@ -55,38 +56,38 @@ export const formEditCourseSchema = z.object({
   imageCourse: z.instanceof(File).optional(),
   professorsIds: z.array(z.number().positive()).optional(),
   imageCourseUrl: z.string().optional(),
-})
+});
 
 interface partialFormAddCourseSchema
   extends z.infer<typeof formAddCourseSchema> {
-  startDate: Date
-  endDate: Date
+  startDate: Date;
+  endDate: Date;
 }
 
 export const processAddCourseData = (
-  data: z.infer<typeof formAddCourseSchema>,
+  data: z.infer<typeof formAddCourseSchema>
 ) => {
-  const { dateRange } = data
-  const { startDate, endDate, days, months } = getDifferenceBetweenDates(
+  const { dateRange } = data;
+  const { startDate, endDate } = getDifferenceBetweenDates(
     dateRange?.from,
-    dateRange?.to,
-  )
+    dateRange?.to
+  );
   const courseData: partialFormAddCourseSchema = {
     ...data,
     startDate,
     endDate,
     /* duration: days,
     durationUnit: 'DAYS', */
-  }
-  delete courseData.dateRange
-  delete courseData.imageCourseUrl
-  console.log(courseData)
+  };
+  delete courseData.dateRange;
+  delete courseData.imageCourse;
+  console.log(courseData);
 
-  return courseData
-}
+  return courseData;
+};
 
 export const sendFileFormData = (fieldName: string, file: any) => {
-  const formData = new FormData()
-  formData.append(fieldName, file)
-  return formData
-}
+  const formData = new FormData();
+  formData.append(fieldName, file);
+  return formData;
+};

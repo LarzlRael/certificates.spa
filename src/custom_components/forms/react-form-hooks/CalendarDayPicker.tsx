@@ -1,11 +1,8 @@
 import DatePicker, { registerLocale } from "react-datepicker";
-import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-
 import { cn } from "@/lib/utils";
+import { es } from "date-fns/locale/es";
 registerLocale("es", es);
 
 import { FormField, FormItem, FormLabel } from "@/components/ui/form";

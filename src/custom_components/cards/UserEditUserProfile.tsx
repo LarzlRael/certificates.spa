@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { isValidStatus } from "@/utils/validation/validation";
 import { updateUserInformationForm } from "../data/form-pattens";
 import { GlobalFormHook } from "../forms/react-form-hooks";
@@ -10,19 +9,7 @@ import { Mail } from "lucide-react";
 import { UserAuth } from "@/interfaces/auth.interface";
 import { AvatarEditable } from "../images/AvatarEditable";
 
-export const updateUserProfileSchema = z.object({
-  firstName: z.string().min(3).max(50).optional(),
-  lastName: z.string().min(3).max(50).optional(),
-  address: z.string().min(3).max(100).optional(),
-  phone: z.string().max(8).optional(),
-  shippingAddress: z.string().min(3).max(100).optional(),
-  /* addressCoordinates: z
-    .object({
-      latitude: z.string(),
-      longitude: z.string(),
-    })
-    .optional(), // Hacemos que este campo sea opcional */
-});
+
 interface UserProfileProps {
   userInfo: UserAuth | undefined;
   onReload?: () => void;
@@ -32,7 +19,7 @@ export const UserEditUserProfile = ({
   onReload,
 }: UserProfileProps) => {
   console.log(userInfo);
-  const handleUpdateProfile = async (values) => {
+  const handleUpdateProfile = async (values:any) => {
     const res = await putAuthAction("users/update-profile-information-from-admin", {
       idUser: userInfo?.id,
       ...values,
@@ -68,7 +55,6 @@ export const UserEditUserProfile = ({
       /* formTitle="" */
       isLoading={false}
       data={userInfo}
-      schema={updateUserProfileSchema}
       titleButton='Actualizar perfil'
     />
   );

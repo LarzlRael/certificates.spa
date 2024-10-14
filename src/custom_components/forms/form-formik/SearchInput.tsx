@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+/* import { useState, useEffect } from 'react'
 import { useDebounceValue } from '../../hooks/useDebounceValue'
 import { FaSearch, FaTimesCircle } from 'react-icons/fa'
 import ToolTip from '../boxex/ToolTip'
@@ -54,3 +54,4 @@ export const SearchInput = ({ onDebounce, placeholder, callback }: Props) => {
     </div>
   )
 }
+ */

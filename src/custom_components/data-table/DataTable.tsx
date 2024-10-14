@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({})
   const isRowSelected = Object.keys(rowSelection).length > 0
 
-  const [selectedRowData, setSelectedRowData] = useState<TData | null>(null)
+  
 
   const table = useReactTable({
     data,
@@ -74,9 +74,7 @@ export function DataTable<TData, TValue>({
       handleInfo(selectedRowData) // Llamar a la función pasada como prop
     }
   }, [selectedRowData]) */
-  const handleRowClick = (rowData: TData) => {
-    setSelectedRowData(rowData)
-  }
+
 
   return (
     <div className="bg-white rounded-lg">
@@ -95,7 +93,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             onClick={() => {
               const ids = table.getSelectedRowModel().rows.map((row) => {
-                return row.original.username as string
+                return row.original
               })
               console.log(ids)
             }}
@@ -207,7 +205,7 @@ export function DataTable<TData, TValue>({
                 <SelectLabel>Filas por página</SelectLabel>
 
                 {[10, 20, 30, 50].map((value) => (
-                  <SelectItem key={value} value={value}>
+                  <SelectItem key={value} value={value.toString()}>
                     {value}
                   </SelectItem>
                 ))}

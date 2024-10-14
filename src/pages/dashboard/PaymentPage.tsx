@@ -3,14 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import {
   Select,
   SelectContent,
@@ -28,9 +21,6 @@ import {
 import { format } from "date-fns";
 import { PaymentTableInterface } from "./interfaces/payments.interface";
 import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
-import { convertDate } from "@/utils/dates";
-import { capitalizeString } from "@/utils/utils";
-import { useNavigate } from "react-router-dom";
 import { TableMain } from "@/table";
 import { useInformationStore } from "@/store/useInformationStore";
 import { VerifyPayment } from "./payments/VerifyPayment";
@@ -56,7 +46,7 @@ export const PaymentView = () => {
 
   const { changeSheetInformation } = useInformationStore();
 
-  const navigate = useNavigate();
+  
   const filteredPayments = data
     ? data.filter((flatPayment) => {
         return (
@@ -75,7 +65,7 @@ export const PaymentView = () => {
     : [];
 
   const totalAmount = filteredPayments.reduce(
-    (sum, payment) => sum + parseFloat(payment.amount),
+    (sum, payment) => sum + payment.amount,
     0
   );
   const completedPayments = filteredPayments.filter(
@@ -99,7 +89,7 @@ export const PaymentView = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>${totalAmount.toFixed(2)}</div>
+            <div className='text-2xl font-bold'>${totalAmount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -227,10 +217,12 @@ interface BadgeStatusProps {
 }
 
 export const BadgeStatus = ({ status }: BadgeStatusProps) => {
-  const badgeMap: Record<string, string> = {
+  type Status =  "default" | "secondary" | "destructive" | "outline";
+  const badgeMap: Record<string, Status> = {
     PENDING: "secondary",
     CONFIRMED: "default",
     REJECT: "destructive",
+    
   };
   const translationMap: Record<string, string> = {
     PENDING: "pendiente",

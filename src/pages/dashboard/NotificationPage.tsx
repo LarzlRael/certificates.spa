@@ -1,16 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Bell, Send, Users, AlertTriangle } from "lucide-react";
 import { GlobalFormHook } from "@/custom_components/forms/react-form-hooks";
 import { sendNotificationForm } from "@/custom_components/data/form-pattens";
 import { postAuthAction } from "@/provider/action/ActionAuthorization";
@@ -19,7 +9,6 @@ import { isValidStatus } from "@/utils/validation/validation";
 import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
 import { TableMain } from "@/table";
 import { PhonePreview } from "@/custom_components/cards/PhonePreview";
-import { CourseNameI } from "@/custom_components/forms/react-form-hooks/ReactSelectFetch";
 import { ShortCoursesInfoI } from "@/interfaces/courses.interface";
 /* import { toast } from '@/components/ui/use-toast' */
 
@@ -40,7 +29,7 @@ export const NotificationsPage = () => {
 };
 
 // Simulated notification data
-const recentNotifications = [
+/* const recentNotifications = [
   {
     id: 1,
     title: "Nuevo curso disponible",
@@ -69,7 +58,7 @@ const recentNotifications = [
     status: "Enviado",
     date: "2023-09-17",
   },
-];
+]; */
 
 export const NotificationContent = () => {
   const [isLoading, isSetLoading] = useState(false);
@@ -78,8 +67,8 @@ export const NotificationContent = () => {
   const {
     data,
     isLoading: isLoadingGetNotification,
-    error,
-    reload,
+    /* error,
+    reload, */
   } = useAxiosQueryAuth<NotificationI[]>({
     url: "notifications/get-last-notification",
     method: "GET",

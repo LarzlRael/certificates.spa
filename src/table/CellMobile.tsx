@@ -10,7 +10,7 @@ interface CellMobileProps<T> {
   handleActivate: (index: number, us: any) => void
   activate: number | null
 }
-const CellMobile = <T extends {}>({
+const CellMobile = <T extends object>({
   cell,
   id,
   handleActivate,

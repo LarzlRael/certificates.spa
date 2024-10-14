@@ -2,7 +2,7 @@
 
 import { isValidArray } from '@/utils/validation/validation'
 
-import { processUrlImage } from '../../utils/processData'
+
 /* import { DefaultBtn, RenderButton } from '../Buttons/' */
 
 import { TableHeaderI } from './interfaces/table-interfaces'
@@ -13,7 +13,7 @@ interface DataTypeProps<T> {
   columnData: TableHeaderI<T>
 }
 
-const DataType = <T extends {}>({ columnData, head, reload }: DataTypeProps<T>) => {
+const DataType = <T extends object>({ columnData, head }: DataTypeProps<T>) => {
   /* console.log('DataType', a)
   console.log('Header', head) */
 
@@ -76,6 +76,7 @@ const DataType = <T extends {}>({ columnData, head, reload }: DataTypeProps<T>) 
           {isValidArray(columnData.actions!) &&
             columnData.actions!.map((item, i) => (
               <Button
+                key={i}
                 /* background="var(--secondary-color)" */
                 onClick={() => item.action(head)}
               >

@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 import { Field, FieldArray, useField } from 'formik'
 import { socialNetworks } from '../../data/infoData'
 
@@ -29,9 +29,9 @@ export const SelectAdd = ({ ...props }: Props) => {
                       value={field.value[index].nombre}
                       name={`${props.name}.${index}.nombre`}
                       className="Form__input--pyme"
-                      /* disabled={loadingForm} */
+                      // disabled={loadingForm} 
                     >
-                      {socialNetworks.map((social) => {
+                      {socialNetworks.map((social: any) => {
                         return (
                           <option value={social} key={social}>
                             {social}
@@ -67,7 +67,7 @@ export const SelectAdd = ({ ...props }: Props) => {
               ))}
             <Button
               type="button"
-              /* margin="10px 0" */
+              
               onClick={() => {
                 push({
                   nombre: socialNetworks[0],
@@ -84,3 +84,4 @@ export const SelectAdd = ({ ...props }: Props) => {
     </>
   )
 }
+ */
