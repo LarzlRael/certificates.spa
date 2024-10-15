@@ -34,8 +34,8 @@ export const DialogInformation = () => {
       <DialogTrigger asChild>
         {/* <Button variant="outline">Ver Perfil de Usuario</Button> */}
       </DialogTrigger>
-      {/* fix size bug */}
-      <DialogContent className={`sm:max-w-[${maxWidth}px]`}>
+      {/* Usar min-width */}
+      <DialogContent className="max-w-fit">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{subtitle}</DialogDescription>

@@ -27,10 +27,10 @@ const menuItems: MenuItems[] = [
   { icon: Users, label: "Estudiantes", path: "/estudiantes" },
   { icon: Book, label: "Cursos", path: "/cursos" },
   { icon: GraduationCap, label: "Profesores", path: "/profesores" },
-  { icon: FileText, label: "Informes", path: "/informes" },
+  { icon: FileText, label: "Certificados", path: "/informes" },
   { icon: DollarSign, label: "Pagos", path: "/pagos" },
-  { icon: Settings, label: "Configuración", path: "/configuraciones" },
   { icon: Bell, label: "Notificaciones", path: "/notificaciones" },
+  { icon: Settings, label: "Configuración", path: "/configuraciones" },
 ];
 
 const SidebarWithAuthHOC = ({ logout }: WithAuthProps) => {

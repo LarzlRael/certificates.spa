@@ -117,7 +117,7 @@ export const CourseList = ({
   ) */
 
   return (
-    <div className='container mx-auto p-4'>
+    <div className='container'>
       <div className='flex justify-between items-center mb-6'>
         <div className='relative w-64'>
           <Input

@@ -24,6 +24,7 @@ import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
 import { TableMain } from "@/table";
 import { useInformationStore } from "@/store/useInformationStore";
 import { VerifyPayment } from "./payments/VerifyPayment";
+import { SkeletonLoadingTable } from "@/custom_components/loading/QuickActionSkeleton";
 
 export const PaymentsPage = () => {
   return (
@@ -46,7 +47,6 @@ export const PaymentView = () => {
 
   const { changeSheetInformation } = useInformationStore();
 
-  
   const filteredPayments = data
     ? data.filter((flatPayment) => {
         return (
@@ -69,17 +69,17 @@ export const PaymentView = () => {
     0
   );
   const completedPayments = filteredPayments.filter(
-    (payment) => payment.status === "Completado"
+    (payment) => payment.status === "CONFIRMED"
   ).length;
   const pendingPayments = filteredPayments.filter(
-    (payment) => payment.status === "Pendiente"
+    (payment) => payment.status === "PENDING"
   ).length;
 
   return (
-    <div className='container mx-auto p-4'>
-      <h1 className='text-3xl font-bold mb-6'>
+    <div className='container'>
+     {/*  <h1 className='text-3xl font-bold mb-6'>
         Panel de Administración de Pagos
-      </h1>
+      </h1> */}
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
         <Card>
@@ -165,7 +165,9 @@ export const PaymentView = () => {
       </div>
 
       {isLoading ? (
-        <>cargando</>
+        <div>
+          <SkeletonLoadingTable rows={5} columns={5} />
+        </div>
       ) : (
         <TableMain
           tableHeaders={[
@@ -193,10 +195,9 @@ export const PaymentView = () => {
           handleInfo={(element) => {
             changeSheetInformation({
               isOpen: true,
-              content: <VerifyPayment payment={element} onRefresh={reload}/>,
+              content: <VerifyPayment payment={element} onRefresh={reload} />,
               title: "Verificar Pago",
               subtitle: `Pago de ${element.fullName} por el curso ${element.courseName}`,
-              
             });
           }}
         />
@@ -217,12 +218,11 @@ interface BadgeStatusProps {
 }
 
 export const BadgeStatus = ({ status }: BadgeStatusProps) => {
-  type Status =  "default" | "secondary" | "destructive" | "outline";
+  type Status = "default" | "secondary" | "destructive" | "outline";
   const badgeMap: Record<string, Status> = {
     PENDING: "secondary",
     CONFIRMED: "default",
     REJECT: "destructive",
-    
   };
   const translationMap: Record<string, string> = {
     PENDING: "pendiente",

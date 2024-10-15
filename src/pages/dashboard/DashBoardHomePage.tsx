@@ -160,7 +160,11 @@ export const DashBoardHomePage = () => {
       ) : (
         <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8'>
           {generalStatistics(dataInitialInfo!).map((stat, index) => (
-            <Card
+            <Card 
+                className= {
+                  stat.destination ? 'cursor-pointer' : ''
+                }
+
               onClick={() => {
                 if (stat.destination !== undefined) {
                   navigate(stat.destination);

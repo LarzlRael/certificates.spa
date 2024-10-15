@@ -10,6 +10,7 @@ import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
 import { TableMain } from "@/table";
 import { PhonePreview } from "@/custom_components/cards/PhonePreview";
 import { ShortCoursesInfoI } from "@/interfaces/courses.interface";
+import { SkeletonLoadingTable } from "@/custom_components/loading/QuickActionSkeleton";
 /* import { toast } from '@/components/ui/use-toast' */
 
 export interface NotificationI {
@@ -117,26 +118,30 @@ export const NotificationContent = () => {
   };
 
   return (
-    <div className='container mx-auto p-4'>
+    <div className='container'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <Card>
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle>Enviar Nueva Notificación</CardTitle>
-          </CardHeader>
+          </CardHeader> */}
           <CardContent>
-            <GlobalFormHook
+           <div className="mx-auto">
+           <GlobalFormHook
+              formTitle='Enviar Nueva Notificación'
               onWatchChange={handleWatchChange}
               inputJson={sendNotificationForm}
               onSubmit={handleSubmit}
               isLoading={isLoading}
               titleButton='Enviar Notificación'
             />
+           </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Estadísticas de Notificaciones</CardTitle>
+            {/* <CardTitle>Estadísticas de Notificaciones</CardTitle> */}
+            <CardTitle>Vista previea</CardTitle>
           </CardHeader>
           <CardContent>
             <PhonePreview
@@ -185,18 +190,21 @@ export const NotificationContent = () => {
               ))}
             </TableBody>
           </Table> */}
-          <Card className='mt-6'>
-            <CardHeader>
+          <div className='mt-0'>
+            {/* <CardHeader>
               <CardTitle>Notificaciones Recientes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <>cargando</>
+            </CardHeader> */}
+            
+              {isLoadingGetNotification ? (
+                <div>
+                <SkeletonLoadingTable columns={4} rows={3} />
+                </div>
               ) : (
                 <TableMain
                   tableHeaders={[
                     { key: "title", name: "Titulo" },
                     { key: "title", name: "Destinatarios" },
+                    { key: "body", name: "Contenido" },
 
                     {
                       name: "Creado en ",
@@ -217,8 +225,8 @@ export const NotificationContent = () => {
           }} */
                 />
               )}
-            </CardContent>
-          </Card>
+            
+          </div>
         </CardContent>
       </Card>
     </div>

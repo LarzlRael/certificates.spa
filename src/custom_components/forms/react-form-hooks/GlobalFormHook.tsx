@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
@@ -22,6 +22,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { isValidString } from "@/utils/validation/validation";
 
@@ -64,7 +65,7 @@ export const GlobalFormHook = ({
     resolver: zodResolver(schema),
     defaultValues, // Usamos los valores predeterminados, basados en data o inputJson
   });
-  const enError = (err:any) => {
+  const enError = (err: any) => {
     console.log(err);
   };
   const watchedValues = useWatch({ control: form.control });
@@ -75,7 +76,6 @@ export const GlobalFormHook = ({
     }
   }, [watchedValues]);
 
-
   return (
     <div className='mt-10 sm:w-full sm:max-w-lg w-full'>
       <Card>
@@ -83,9 +83,11 @@ export const GlobalFormHook = ({
         {/* add tailwind classes */}
         {isValidString(formTitle) && (
           <CardHeader>
-            <h2 className='text-2xl font-bold text-center mt-4 text-gray-700'>
-              {formTitle}
-            </h2>
+            <CardTitle>
+                {formTitle}
+              {/* <h3 className='text-1xl font-bold my-2 text-gray-900'>
+              </h3> */}
+            </CardTitle>
           </CardHeader>
         )}
 
