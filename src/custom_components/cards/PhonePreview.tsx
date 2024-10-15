@@ -1,7 +1,7 @@
 import { getTimeNow } from "@/utils/utils";
 import "./PhoneCard.css";
 import { useState } from "react";
-import { webIcon, webName } from "@/constants/web-constants";
+import { webIconOnlyLogo, webName } from "@/constants/web-constants";
 
 interface PhonePreviewProps {
   title?: string;
@@ -49,7 +49,7 @@ export const PhonePreview = ({ title, body, imageUrl }: PhonePreviewProps) => {
         }}
       >
         <div className='notification__header'>
-          <img className='notification__logo' src={webIcon} alt={webName} />
+          <img className='notification__logo' src={webIconOnlyLogo} alt={webName} />
           <span className='notification__title'>{webName}</span>
           <span className='notification__time'>{getTimeNow()}</span>
         </div>

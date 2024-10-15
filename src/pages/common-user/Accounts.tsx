@@ -20,6 +20,7 @@ import {
 } from "@/store/useInformationStore";
 import { CoursesByUser } from "./MyCourses";
 import { useCourseEnrollment } from "@/store/useCourseEnrollment";
+import { CommonUserTemplate } from "@/custom_components/layout/common-user/CommonUserTemplate";
 
 export const AccountPage = () => {
   const { user } = useAuthStore();
@@ -41,7 +42,7 @@ export const AccountPage = () => {
     { label: "Password", component: <CoursesByUser courses={courseByUser} /> },
   ];
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className='max-w-screen-lg mx-auto'>
       <CustomTabs tabs={tabsData} defaultIndex={0} />
     </div>
   );
@@ -57,47 +58,49 @@ export const ProfileInformation = ({
   handleInformation,
 }: ProfileInformationProps) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Account</CardTitle>
-        <CardDescription>
-          Make changes to your account here. Click save when you're done.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className='space-y-2'>
-        <InfoLabelPresentationCard
-          title='Nombre'
-          value={`${user.firstName} ${user.lastName}`}
-        />
-        <InfoLabelPresentationCard title='Telefono' value={user.phone} />
-        <InfoLabelPresentationCard
-          title='Fecha de nacimiento'
-          value={user.dateBirth}
-        />
-        <InfoLabelPresentationCard
-          title='Carnet de identidad'
-          value={user.dni}
-        />
-        <InfoLabelPresentationCard title='Dirección' value={user.address} />
-        <InfoLabelPresentationCard title='Direccion' value={user.location} />
-      </CardContent>
-      <CardFooter>
-        <Button
-          onClick={() =>
-            handleInformation({
-              isOpen: true,
-              title: "Editar perfil",
-              /* subtitle: "Make changes to your account here. Click save when you're done.", */
-              side: "right",
-              content: (
-                <UserEditUserProfile userInfo={user} onReload={onReload} />
-              ),
-            })
-          }
-        >
-          Editar perfil
-        </Button>
-      </CardFooter>
-    </Card>
+    <CommonUserTemplate>
+      <Card>
+        <CardHeader>
+          <CardTitle>Account</CardTitle>
+          <CardDescription>
+            Make changes to your account here. Click save when you're done.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className='space-y-2'>
+          <InfoLabelPresentationCard
+            title='Nombre'
+            value={`${user.firstName} ${user.lastName}`}
+          />
+          <InfoLabelPresentationCard title='Telefono' value={user.phone} />
+          <InfoLabelPresentationCard
+            title='Fecha de nacimiento'
+            value={user.dateBirth}
+          />
+          <InfoLabelPresentationCard
+            title='Carnet de identidad'
+            value={user.dni}
+          />
+          <InfoLabelPresentationCard title='Dirección' value={user.address} />
+          <InfoLabelPresentationCard title='Direccion' value={user.location} />
+        </CardContent>
+        <CardFooter>
+          <Button
+            onClick={() =>
+              handleInformation({
+                isOpen: true,
+                title: "Editar perfil",
+                /* subtitle: "Make changes to your account here. Click save when you're done.", */
+                side: "right",
+                content: (
+                  <UserEditUserProfile userInfo={user} onReload={onReload} />
+                ),
+              })
+            }
+          >
+            Editar perfil
+          </Button>
+        </CardFooter>
+      </Card>
+    </CommonUserTemplate>
   );
 };

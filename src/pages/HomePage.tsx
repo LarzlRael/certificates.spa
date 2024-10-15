@@ -13,6 +13,7 @@ import {
   mapAsCheckboxArray,
   UserRolesInterface,
 } from './dashboard/interfaces/roles.interface'
+import { CommonUserTemplate } from '@/custom_components/layout/common-user/CommonUserTemplate'
 /* import { CalendarDayPicker } from '@/custom_components/forms/react-form-hooks/CalendarDayPicker' */
 
 function inputJsonIGenerate(
@@ -78,7 +79,7 @@ export const HomePage = () => {
   }, [data, isLoading])
 
   return (
-    <div>
+    <CommonUserTemplate>
       <GlobalFormHook
         isLoading={false}
         titleButton="Enviar"
@@ -90,6 +91,6 @@ export const HomePage = () => {
       />
 
       <SampleDatePicker />
-    </div>
+    </CommonUserTemplate>
   )
 }
