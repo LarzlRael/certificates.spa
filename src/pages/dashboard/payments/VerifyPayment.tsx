@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardFooter,
+  /* CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle, */
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ import {
   HashIcon,
   DollarSignIcon,
   FileTextIcon,
-  Receipt,
+  /* Receipt, */
 } from "lucide-react";
 import { useInformationStore } from "@/store/useInformationStore";
 import { convertDate } from "@/utils/dates";
@@ -50,6 +50,8 @@ interface VerifyPaymentProps {
 export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   const { changeDialogInformation } = useInformationStore();
   const { clearDialogInformation } = useInformationStore();
+
+  const [isFetching, setIsFetching] = useState(false);
 
   const form = useForm<z.infer<typeof formVerifySchema>>({
     resolver: zodResolver(formVerifySchema),
@@ -78,6 +80,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
   }, [payment, reset]);
 
   const handleSubmit = async (values) => {
+    setIsFetching(true);
     changeDialogInformation({
       isOpen: true,
 
@@ -88,6 +91,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
       ...values,
       amount: parseInt(values.amount),
     });
+    setIsFetching(false);
 
     clearDialogInformation();
 
@@ -105,9 +109,9 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
 
   return (
     <Card>
-      <CardHeader>
+      {/* <CardHeader>
         <CardTitle>Verificación de Pago del Curso</CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent className='space-y-4'>
         <div className='grid grid-cols-1 md:grid-cols-1 gap-4'>
           <ContentRawInformation
@@ -123,7 +127,9 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
 
           <ContentRawInformation
             label='Monto Pagado'
-            value={isValidString(payment.amount) ? payment.amount.toString(): null}
+            value={
+              isValidString(payment.amount) ? payment.amount.toString() : null
+            }
             icon={<CreditCardIcon className='h-5 w-5 text-primary' />}
           />
           <ContentRawInformation
@@ -153,7 +159,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
             <CustomSelect
               inputType='select'
               fieldName='paymentMethod'
-              isLoading={false}
+              isLoading={isFetching}
               control={form.control}
               label='Metodo de pago '
               placeholder='Selecciona una opcion'
@@ -166,7 +172,7 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
             <FormCustomInput
               inputType='text'
               fieldName='description'
-              isLoading={false}
+              isLoading={isFetching}
               control={form.control}
               label='Description'
               placeholder='Descripcion'
@@ -174,14 +180,14 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
             <FormCustomInput
               fieldName='amount'
               inputType='number'
-              isLoading={false}
+              isLoading={isFetching}
               control={form.control}
               label='Monto'
               placeholder='Monto'
             />
             <CustomSelect
               fieldName='status'
-              isLoading={false}
+              isLoading={isFetching}
               control={form.control}
               label='Estado '
               placeholder='Selecciona una opción'
@@ -198,72 +204,62 @@ export const VerifyPayment = ({ payment, onRefresh }: VerifyPaymentProps) => {
               <br />
               {isValidString(payment.voucherImageUrl) && (
                 <div className='mt-2 rounded-md overflow-hidden'>
-                  {payment.voucherImageUrl?.includes(".pdf") ? (
-                    <div>
-                      <br />
-
-                      <Button
-                        type='button'
-                        className='bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 flex items-center space-x-2'
-                        onClick={() => {
-                          if (isValidString(payment.voucherImageUrl)) {
-                            return;
-                          }
-                          changeDialogInformation({
-                            isOpen: true,
-                            isClosable: true,
-                            maxWidth: "800",
-                            title: "Comprobante de pago",
-                            content: (
-                              <div className='w-full h-full'>
-                                {payment.voucherImageUrl.includes(".pdf") ? (
-                                  <iframe
-                                    src='https://www.orimi.com/pdf-test.pdf'
-                                    className='w-full h-96'
-                                    title='Comprobante de pago PDF'
-                                  ></iframe>
-                                ) : (
-                                  <img
-                                    src='payment.voucherImageUrl'
-                                    alt='Comprobante de pago'
-                                    className='max-w-full h-auto'
-                                  />
-                                )}
-                              </div>
-                            ),
-                          });
-                        }}
-                      >
-                        <Receipt className='w-5 h-5' />
-                        Ver Comprobante
-                      </Button>
-                      <br />
-                      <iframe
-                        src='https://www.orimi.com/pdf-test.pdf'
-                        className='w-full h-96'
-                        title='Comprobante de pago PDF'
-                        onClick={() =>
-                          window.open(
-                            "https://www.orimi.com/pdf-test.pdf",
-                            "_blank"
-                          )
-                        }
-                      ></iframe>
-                    </div>
-                  ) : (
-                    <img
-                      src={payment.voucherImageUrl}
-                      alt='Comprobante de pago'
-                      className='max-w-full h-auto'
-                    />
-                  )}
+                  <VoucherViewer
+                    onClick={() => {
+                      if (!isValidString(payment.voucherImageUrl)) {
+                        return;
+                      }
+                      changeDialogInformation({
+                        isOpen: true,
+                        isClosable: true,
+                        maxWidth: "800",
+                        title: "Comprobante de pago",
+                        content: (
+                          <VoucherViewer voucherUrl={payment.voucherImageUrl} />
+                        ),
+                      });
+                    }}
+                    voucherUrl={payment.voucherImageUrl}
+                  />
                 </div>
               )}
             </div>
-            <Button className='w-full'>Guardar Cambios</Button>
+            <Button disabled={isFetching} className='w-full my-5'>
+              Guardar Cambios
+            </Button>
           </form>
         </FormProvider>
       </CardContent>
     </Card>
+  );
+};
+
+interface VoucherViewerProps {
+  voucherUrl: string;
+  onClick?: () => void;
+}
+
+export const VoucherViewer = ({ onClick, voucherUrl }: VoucherViewerProps) => {
+  const isPdf = voucherUrl.includes(".pdf");
+
+  return (
+    <div
+      onClick={onClick}
+      className='w-full h-full cursor-pointer border border-transparent transition duration-300 ease-in-out hover:border-primary rounded-md'
+    >
+      {isPdf ? (
+        <iframe
+          src={voucherUrl}
+          className='w-full h-96'
+          title='Comprobante de pago PDF'
+        ></iframe>
+      ) : (
+        <img
+          src={voucherUrl}
+          alt='Comprobante de pago'
+          className='max-w-full h-auto'
+        />
+      )}
+    </div>
   );
 };

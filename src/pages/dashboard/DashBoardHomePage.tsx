@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import UserCardMini from '@/custom_components/cards/UserCard'
-import useAxiosQueryAuth from '@/hooks/useAuthAxiosQuery'
-import { useInformationStore } from '@/store/useInformationStore'
-import { isValidArray } from '@/utils/validation/validation'
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import UserCardMini from "@/custom_components/cards/UserCard";
+import useAxiosQueryAuth from "@/hooks/useAuthAxiosQuery";
+import { useInformationStore } from "@/store/useInformationStore";
+import { isValidArray } from "@/utils/validation/validation";
 import {
   User,
   Book,
@@ -12,51 +12,59 @@ import {
   Users,
   GraduationCap,
   DollarSign,
-} from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { DashBoardInitialInterface } from './interfaces/course.interface'
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  CardInfoInterface,
+  DashBoardInitialInterface,
+} from "./interfaces/course.interface";
 /* import { Student } from './interfaces/enrollment-by-course-interface'
 import { Skeleton } from '@/components/ui/skeleton' */
-import { InfoCardsSkeleton } from '@/custom_components/cards/Dashboards'
-import { LatestUpdatesInterface } from './interfaces/dashboard.interfaces'
+import { InfoCardsSkeleton } from "@/custom_components/cards/Dashboards";
+import { LatestUpdatesInterface } from "./interfaces/dashboard.interfaces";
 import {
   LatestUpdateCards,
   LatestUpdateListSkeleton,
-} from '@/custom_components/cards/LatestUpdateCard'
-import { QuickActionSkeleton } from '@/custom_components/loading/QuickActionSkeleton'
+} from "@/custom_components/cards/LatestUpdateCard";
+import { QuickActionSkeleton } from "@/custom_components/loading/QuickActionSkeleton";
 /* import PieChart from '@/custom_components/charts/PieChart' */
-import BarChart from '@/custom_components/charts/Bar'
-import { UserStudentDetail } from './interfaces/students.interface'
-import { AddNewUser } from './components/AddNewUser'
+import BarChart from "@/custom_components/charts/Bar";
+import { UserStudentDetail } from "./interfaces/students.interface";
+import { AddNewUser } from "./components/AddNewUser";
 
-const generalStatistics = (dashBoarData: DashBoardInitialInterface) => {
+const generalStatistics = (
+  dashBoarData: DashBoardInitialInterface
+): CardInfoInterface[] => {
   return [
     {
-      titulo: 'Total Estudiantes',
-      icono: Users,
-      color: 'text-blue-500',
-      valor: dashBoarData.users,
+      title: "Total Estudiantes",
+      icon: Users,
+      color: "text-blue-500",
+      value: dashBoarData.users,
+      destination: "/panel-administrativo/estudiantes",
     },
     {
-      titulo: 'Cursos Activos',
-      icono: Book,
-      color: 'text-green-500',
-      valor: dashBoarData.courses,
+      title: "Cursos Activos",
+      icon: Book,
+      color: "text-green-500",
+      value: dashBoarData.courses,
+      destination: "/panel-administrativo/cursos",
     },
     {
-      titulo: 'Profesores',
-      icono: GraduationCap,
-      color: 'text-purple-500',
-      valor: dashBoarData.professors,
+      title: "Profesores",
+      icon: GraduationCap,
+      color: "text-purple-500",
+      value: dashBoarData.professors,
+      destination: "/panel-administrativo/profesores",
     },
     {
-      titulo: 'Ingresos Mensuales',
-      icono: DollarSign,
-      color: 'text-yellow-500',
-      valor: '$52,489',
+      title: "Ingresos Mensuales",
+      icon: DollarSign,
+      color: "text-yellow-500",
+      value: "$52,489",
     },
-  ]
-}
+  ];
+};
 
 /* const actividadReciente = [
   {
@@ -90,55 +98,49 @@ const datosInscripciones = [
 ] */
 
 export const DashBoardHomePage = () => {
-  const navigate = useNavigate()
-  const { changeExtraInformation } = useInformationStore()
-  const { clearExtraInformation } = useInformationStore()
-  const { changeDialogInformation } = useInformationStore()
-  const { data, isLoading } = useAxiosQueryAuth<
-    UserStudentDetail[]
-  >({
+  const navigate = useNavigate();
+  const { changeExtraInformation } = useInformationStore();
+  const { clearExtraInformation } = useInformationStore();
+  const { changeDialogInformation } = useInformationStore();
+  const { data, isLoading } = useAxiosQueryAuth<UserStudentDetail[]>({
     url: `/students/find-students`,
-    method: 'GET',
-  })
+    method: "GET",
+  });
 
-  const {
-    data: dataInitialInfo,
-    isLoading: isLoadingInitialInfo,
-  } = useAxiosQueryAuth<DashBoardInitialInterface>({
-    url: `/users/get-dash-board-initial-info`,
-    method: 'GET',
-  })
+  const { data: dataInitialInfo, isLoading: isLoadingInitialInfo } =
+    useAxiosQueryAuth<DashBoardInitialInterface>({
+      url: `/users/get-dash-board-initial-info`,
+      method: "GET",
+    });
 
-  const {
-    data: lastUpdated,
-    isLoading: isLoadinglastUpdated,
-  } = useAxiosQueryAuth<LatestUpdatesInterface[]>({
-    url: `/users/get-latest-updates`,
-    method: 'GET',
-  })
+  const { data: lastUpdated, isLoading: isLoadinglastUpdated } =
+    useAxiosQueryAuth<LatestUpdatesInterface[]>({
+      url: `/users/get-latest-updates`,
+      method: "GET",
+    });
 
   const handOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const search = e.target.value
-    if (e.target.value === '') {
-      clearExtraInformation()
-      return
+    const search = e.target.value;
+    if (e.target.value === "") {
+      clearExtraInformation();
+      return;
     }
     const filteredData = data.filter((user) => {
-      return user.username.includes(search) || user.email.includes(search)
-    })
+      return user.username.includes(search) || user.email.includes(search);
+    });
     changeExtraInformation({
       isOpen: true,
-      title: 'Resultados de la búsqueda',
+      title: "Resultados de la búsqueda",
       content: (
-        <div className="">
+        <div className=''>
           {isValidArray(filteredData) ? (
             filteredData.map((user) => (
               <div key={user.id}>
                 <UserCardMini
                   onClick={() => {
                     navigate(
-                      `/panel-administrativo/perfil-estudiante/${user.idStudent}`,
-                    )
+                      `/panel-administrativo/perfil-estudiante/${user.idStudent}`
+                    );
                   }}
                   student={user}
                 />
@@ -149,23 +151,30 @@ export const DashBoardHomePage = () => {
           )}
         </div>
       ),
-    })
-  }
+    });
+  };
   return (
     <div>
       {isLoadingInitialInfo ? (
         <InfoCardsSkeleton />
       ) : (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8'>
           {generalStatistics(dataInitialInfo!).map((stat, index) => (
-            <Card key={index}>
-              <CardContent className="flex items-center p-6">
-                <stat.icono className={`h-8 w-8 ${stat.color} mr-4`} />
+            <Card
+              onClick={() => {
+                if (stat.destination !== undefined) {
+                  navigate(stat.destination);
+                }
+              }}
+              key={index}
+            >
+              <CardContent className='flex items-center p-6'>
+                <stat.icon className={`h-8 w-8 ${stat.color} mr-4`} />
                 <div>
-                  <p className="text-sm font-medium text-gray-500">
-                    {stat.titulo}
+                  <p className='text-sm font-medium text-gray-500'>
+                    {stat.title}
                   </p>
-                  <h3 className="text-2xl font-bold">{stat.valor}</h3>
+                  <h3 className='text-2xl font-bold'>{stat.value}</h3>
                 </div>
               </CardContent>
             </Card>
@@ -174,13 +183,13 @@ export const DashBoardHomePage = () => {
       )}
 
       {/* Gráfico de inscripciones y actividad reciente */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8'>
         {/* Gráfico de inscripciones */}
         <Card>
           <CardHeader>
             <CardTitle>Inscripciones Mensuales</CardTitle>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className='h-[300px]'>
             {/* <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={datosInscripciones}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -200,12 +209,12 @@ export const DashBoardHomePage = () => {
               /> */}
             <BarChart
               data={[
-                { label: 'Enero', value: 40, color: '#ff6384' }, // Color rojo
-                { label: 'Febrero', value: 30, color: '#36a2eb' }, // Color azul
-                { label: 'Marzo', value: 20, color: '#ffce56' }, // Color amarillo
-                { label: 'Abril', value: 10, color: '#4bc0c0' }, // Color verde
-                { label: 'Abril', value: 10, color: '#4bc0c0' }, // Color verde
-                { label: 'Abril', value: 100, color: '#4bc0c0' }, // Color verde
+                { label: "Enero", value: 40, color: "#ff6384" }, // Color rojo
+                { label: "Febrero", value: 30, color: "#36a2eb" }, // Color azul
+                { label: "Marzo", value: 20, color: "#ffce56" }, // Color amarillo
+                { label: "Abril", value: 10, color: "#4bc0c0" }, // Color verde
+                { label: "Abril", value: 10, color: "#4bc0c0" }, // Color verde
+                { label: "Abril", value: 100, color: "#4bc0c0" }, // Color verde
               ]}
             />
           </CardContent>
@@ -242,28 +251,28 @@ export const DashBoardHomePage = () => {
             <CardTitle>Acciones Rápidas</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
               <Button
-                className="w-full"
+                className='w-full'
                 onClick={() => {
                   changeDialogInformation({
                     isOpen: true,
                     content: <AddNewUser />,
-                  })
+                  });
                 }}
               >
-                <User className="mr-2 h-4 w-4" /> Añadir Estudiante
+                <User className='mr-2 h-4 w-4' /> Añadir Estudiante
               </Button>
               <Button
                 onClick={() =>
-                  navigate('/panel-administrativo/cursos/crear-curso')
+                  navigate("/panel-administrativo/cursos/crear-curso")
                 }
-                className="w-full"
+                className='w-full'
               >
-                <Book className="mr-2 h-4 w-4" /> Crear Nuevo Curso
+                <Book className='mr-2 h-4 w-4' /> Crear Nuevo Curso
               </Button>
-              <Button className="w-full">
-                <FileText className="mr-2 h-4 w-4" /> Generar Informe
+              <Button className='w-full'>
+                <FileText className='mr-2 h-4 w-4' /> Generar Informe
               </Button>
             </div>
 
@@ -278,10 +287,10 @@ export const DashBoardHomePage = () => {
                   <CardTitle>Búsqueda Rápida de Estudiantes</CardTitle>
                 </CardHeader>
 
-                <div className="flex space-x-4">
+                <div className='flex space-x-4'>
                   <Input
-                    placeholder="Buscar por nombre o ID..."
-                    className="flex-grow"
+                    placeholder='Buscar por nombre o ID...'
+                    className='flex-grow'
                     onChange={handOnChangeSearch}
                   />
                   <Button>Buscar</Button>
@@ -292,5 +301,5 @@ export const DashBoardHomePage = () => {
         </Card>
       )}
     </div>
-  )
-}
+  );
+};

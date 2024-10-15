@@ -43,6 +43,14 @@ export interface DashBoardInitialInterface {
   professors: string;
   courses:    string;
 }
+export interface CardInfoInterface {
+  title: string;
+  icon: any;
+  color: string;
+  value: string;
+  destination?: string;
+  onClick?: () => void;
+}
 
 
 export interface CourseInfoInterface {

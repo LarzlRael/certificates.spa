@@ -1,7 +1,7 @@
 import moment from "moment";
 import "moment/dist/locale/es";
 moment.locale("es");
-console.log(moment.locale()); // en
+
 /**
  * Convierte una fecha en distintos formatos.
  * @param {FormatDateType} formatDate - El formato deseado para la fecha.

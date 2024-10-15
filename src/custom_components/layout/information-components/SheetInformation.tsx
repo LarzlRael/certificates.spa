@@ -4,7 +4,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetClose,
@@ -32,7 +31,11 @@ export const SheetInformation = () => {
         }
       }}
     >
-      <SheetContent side={side}>
+      {/* Asegura que el contenido tiene un límite de altura y puede hacer scroll */}
+      <SheetContent
+        side={side}
+        className="h-[100vh] overflow-y-auto" // Limita la altura y habilita el scroll vertical
+      >
         <SheetHeader>
           {title && <SheetTitle>{title}</SheetTitle>}
           {subtitle && (
@@ -41,7 +44,13 @@ export const SheetInformation = () => {
             </SheetDescription>
           )}
         </SheetHeader>
-        {content}
+
+        {/* Habilita el scroll en el contenido */}
+        <div className="overflow-y-auto max-h-[95vh]">
+          {content}
+        </div>
+        
+        {/* Descomenta esto si necesitas el Footer */}
         {/* <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
